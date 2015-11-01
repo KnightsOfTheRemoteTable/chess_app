@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: chess_app_development
+  pool: 5
+  username: postgres
+  password: password
+  host: localhost
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: chess_app_test
+  pool: 5
+  username: postgres
+  password: password
+  host: localhost
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: chess_app_production
+  pool: 5
+  username: postgres
+  password: password
+  host: localhost
