@@ -8,16 +8,6 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.new(game_params)
-
-    respond_to do |format|
-      if @game.save
-        format.html { redirect_to @game, notice: 'Game was successfully created.'}
-        format.json { render :show, :status: :created, location: @game }
-      else
-        format.html { render :new }
-        format.json { render json: @game.erros, status: :unprocessable_entity }
-      end
   end
 
   def show
