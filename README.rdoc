@@ -1,28 +1,5 @@
-== README
+==CHESS
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+This application is for the Knights of the Remote Table Firehose Project team.
+We are building a full-stack web application using Ruby on Rails through Agile
+and other best-of-breed technologies and workflows.
