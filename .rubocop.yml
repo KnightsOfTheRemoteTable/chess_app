@@ -1,0 +1,10 @@
+inherit_from: .rubocop_todo.yml
+AllCops:
+  RunRailsCops: true
+Style/Encoding:
+  Enabled: true
+  Include:
+    - Rakefile
+    - config.ru
+  Exclude:
+    - db/schema.rb
