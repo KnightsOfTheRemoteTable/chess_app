@@ -32,3 +32,6 @@ end
 
 # Use Simple Form for easier form generation
 gem 'simple_form', '~> 3.2'
+
+# Use Devise for user authentication
+gem 'devise'
