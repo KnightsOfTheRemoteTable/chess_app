@@ -35,3 +35,12 @@ gem 'simple_form', '~> 3.2'
 
 # Use Devise for user authentication
 gem 'devise'
+
+# Use RSpec/Capybara for testing
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+end
+
+group :test do
+  gem 'capybara', '~> 2.5'
+end
