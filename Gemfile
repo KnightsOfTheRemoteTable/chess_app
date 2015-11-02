@@ -35,3 +35,6 @@ gem 'simple_form', '~> 3.2'
 
 # Use Devise for user authentication
 gem 'devise'
+
+# Use RuboCop for clean code
+gem 'rubocop', '~> 0.34.2'
