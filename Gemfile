@@ -39,6 +39,7 @@ gem 'devise'
 # Use RSpec/Capybara for testing
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
+  gem 'rubocop', require: false
 end
 
 group :test do
