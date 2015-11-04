@@ -8,9 +8,11 @@ feature 'user signs up' do
     fill_in 'Password', with: 'supersecret', match: :prefer_exact
     fill_in 'Password confirmation', with: 'supersecret'
     click_button 'Sign up'
+
     expect(page).to_not have_link 'Sign Up'
     expect(page).to have_link 'Sign Out'
   end
+
   scenario 'with invalid info' do
     visit root_path
     click_link 'Sign Up'
@@ -18,6 +20,7 @@ feature 'user signs up' do
     fill_in 'Password', with: 'supersecret', match: :prefer_exact
     fill_in 'Password confirmation', with: 'differentpassword'
     click_button 'Sign up'
+
     expect(page).to have_link 'Sign Up'
     expect(page).to_not have_link 'Sign Out'
   end
