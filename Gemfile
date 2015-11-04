@@ -40,6 +40,7 @@ gem 'devise'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'rubocop', require: false
+  gem 'factory_girl_rails'
 end
 
 group :test do

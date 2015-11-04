@@ -11,16 +11,16 @@
 
 </head>
 <body>
+  <%= render 'layouts/header' %>
+  <!-- Required by Devise for notification purposes -->
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
 
-<!-- Required by Devise for notification purposes -->
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
-<!-- Begin outer BS3 fluid container -->
-<div class="container-fluid">
-  <%= yield %>
-</div>
-<!-- End outer BS3 fluid container -->
+  <!-- Begin outer BS3 fluid container -->
+  <div class="container-fluid">
+    <%= yield %>
+  </div>
+  <!-- End outer BS3 fluid container -->
 
 </body>
 </html>
