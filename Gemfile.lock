@@ -61,11 +61,16 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.6.0)
+<<<<<<< HEAD
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
+=======
+    faker (1.5.0)
+      i18n (~> 0.5)
+>>>>>>> Fixed layout for more readable test. Added faker gem for future testing
     hike (1.2.3)
     i18n (0.7.0)
     jbuilder (1.5.3)
@@ -183,7 +188,11 @@ DEPENDENCIES
   capybara (~> 2.5)
   coffee-rails (~> 4.0.0)
   devise
+<<<<<<< HEAD
   factory_girl_rails
+=======
+  faker
+>>>>>>> Fixed layout for more readable test. Added faker gem for future testing
   jbuilder (~> 1.2)
   jquery-rails
   pg

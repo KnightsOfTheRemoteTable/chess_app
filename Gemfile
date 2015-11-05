@@ -6,8 +6,11 @@ gem 'rails', '4.0.1'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
-#awesome_print gem for more readable output in terminal
+# awesome_print gem for more readable output in terminal
 gem 'awesome_print'
+
+# Use faker with factory girl to generate fake data for testing
+gem 'faker'
 
 # Use Bootstrap/SCSS for stylesheets
 gem 'bootstrap-sass', '~> 3.3.5'
