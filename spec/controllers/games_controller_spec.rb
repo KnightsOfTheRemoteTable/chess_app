@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GamesController, type: :controller do
-
   describe "GET games#new" do
     it 'responds successfully with an HTTP 200 status code' do
       get :new
@@ -19,5 +18,4 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to have_http_status(200)
     end
   end
-  
 end
