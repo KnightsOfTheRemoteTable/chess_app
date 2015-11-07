@@ -1,3 +1,4 @@
+# Adds Omniauth support to existing user models
 class AddOmniauthToUsers < ActiveRecord::Migration
   def change
     add_column :users, :provider, :string
