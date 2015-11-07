@@ -36,6 +36,9 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# Use dotenv to load sensitive information from local storage
+gem 'dotenv-rails'
+
 # Use Simple Form for easier form generation
 gem 'simple_form', '~> 3.2'
 
