@@ -4,6 +4,6 @@ FactoryGirl.define do
     position_x 1
     position_y 1
     color 1
-    chess_game
+    game
   end
 end
