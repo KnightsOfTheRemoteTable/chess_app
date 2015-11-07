@@ -36,11 +36,15 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# Use dotenv to load sensitive information from local storage
+gem 'dotenv-rails'
+
 # Use Simple Form for easier form generation
 gem 'simple_form', '~> 3.2'
 
-# Use Devise for user authentication
+# Use Devise/Omniauth for user authentication
 gem 'devise'
+gem 'omniauth-facebook'
 
 # Use RSpec/Capybara for testing
 group :development, :test do
