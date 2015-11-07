@@ -12,6 +12,9 @@ gem 'awesome_print'
 # Use faker with factory girl to generate fake data for testing
 gem 'faker'
 
+# Use shoulda-matchers for common model tests.
+gem 'shoulda-matchers'
+
 # Use Bootstrap/SCSS for stylesheets
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'sass-rails',     '~> 5.0'
