@@ -5,6 +5,7 @@ feature 'user signs up' do
     visit root_path
     click_link 'Sign Up'
     fill_in 'Email', with: 'user@example.com'
+    fill_in 'Username', with: 'myuser'
     fill_in 'Password', with: 'supersecret', match: :prefer_exact
     fill_in 'Password confirmation', with: 'supersecret'
     click_button 'Sign up'
