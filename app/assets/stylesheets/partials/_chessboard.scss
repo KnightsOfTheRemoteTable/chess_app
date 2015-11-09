@@ -1,0 +1,39 @@
+// This variable controls both the the height and width
+// of an individual chess square on the board.
+$chessboard-space-size-std: 70px;
+
+// The board colors. Defaults are black and white, respectively.
+$chessboard-space-dark: black;
+$chessboard-space-lite: white;
+
+// Utility function to return width of one row on the board,
+// based on the fact that there are eight (8) squares to a row.
+@function total-chessboard-width($chessboard-square-width) {
+  @return $chessboard-square-width * 8 + 2
+}
+
+.chessboard {
+  width:  total-chessboard-width($chessboard-space-size-std);
+  margin: auto;
+  border: 1px solid $chessboard-space-dark;
+}
+
+.chessboard__row {
+  clear:   both;
+  display: table;
+  content: "";
+}
+
+.chessboard__row__space {
+  height: $chessboard-space-size-std;
+  width:  $chessboard-space-size-std;
+  float:  left;
+}
+
+.chessboard__row__space--dark {
+  background-color: $chessboard-space-dark;
+}
+
+.chessboard__row__space--lite {
+  background-color: $chessboard-space-lite;
+}

@@ -1,9 +1,36 @@
 <!-- Each view is contained with the outer layout and should begin with a row-->
 <div class="row">
   <div class="col-xs-12 col-md-8 col-md-offset-2">
-    <h1 class="text-primary">Show</h1>
-  </div>
-  <div class="col-xs-12 col-md-8 col-md-offset-2">
-    <a href="https://github.com/KnightsOfTheRemoteTable/chess_app">Github</a>
+
+    <!--Begin chessboard view -->
+    <div class="chessboard">
+
+      <!-- A chessboard consists of eight (8) rows, starting (from the top)
+      with a lite-colored row. We can create eight (8) rows by creating
+      four (4) sets of lite-dark alternating rows -->
+      <% 4.times do %>
+
+      <!-- Create a row starting with the lite color, which we can do by
+      creating four (4) pairs of alternating squares, starting with lite-->
+        <div class="chessboard__row">
+          <% 4.times do %>
+            <div class="chessboard__row__space chessboard__row__space--lite"></div>
+            <div class="chessboard__row__space chessboard__row__space--dark"></div>
+          <% end %>
+        </div>
+
+        <!-- Create a row starting with the dark color, which we can do by
+        creating four (4) pairs of alternating squares, starting with dark-->
+        <div class="chessboard__row">
+          <% 4.times do %>
+            <div class="chessboard__row__space chessboard__row__space--dark"></div>
+            <div class="chessboard__row__space chessboard__row__space--lite"></div>
+          <% end %>
+        </div>
+
+      <% end %>
+    </div>
+    <!--End chessboard view -->
+
   </div>
 </div>
