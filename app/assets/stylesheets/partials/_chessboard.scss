@@ -1,39 +1,39 @@
 // This variable controls both the the height and width
 // of an individual chess square on the board.
-$board-space-size-std: 70px;
+$chessboard-space-size-std: 70px;
 
 // The board colors. Defaults are black and white, respectively.
-$board-space-dark: black;
-$board-space-lite: white;
+$chessboard-space-dark: black;
+$chessboard-space-lite: white;
 
 // Utility function to return width of one row on the board,
 // based on the fact that there are eight (8) squares to a row.
-@function total-board-width($board-square-width) {
-  @return $board-square-width * 8 + 2
+@function total-chessboard-width($chessboard-square-width) {
+  @return $chessboard-square-width * 8 + 2
 }
 
-.board {
-  width: total-board-width($board-space-size-std);
+.chessboard {
+  width:  total-chessboard-width($chessboard-space-size-std);
   margin: auto;
-  border: 1px solid $board-space-dark;
+  border: 1px solid $chessboard-space-dark;
 }
 
-.board_row {
-  clear: both;
+.chessboard__row {
+  clear:   both;
   display: table;
   content: "";
 }
 
-.board_space {
-  height: $board-space-size-std;
-  width: $board-space-size-std;
-  float: left;
+.chessboard__row__space {
+  height: $chessboard-space-size-std;
+  width:  $chessboard-space-size-std;
+  float:  left;
 }
 
-.dark {
-  background-color: $board-space-dark;
+.chessboard__row__space--dark {
+  background-color: $chessboard-space-dark;
 }
 
-.lite {
-  background-color: $board-space-lite;
+.chessboard__row__space--lite {
+  background-color: $chessboard-space-lite;
 }
