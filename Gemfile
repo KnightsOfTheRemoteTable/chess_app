@@ -6,15 +6,6 @@ gem 'rails', '~> 4.2.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
-# awesome_print gem for more readable output in terminal
-gem 'awesome_print'
-
-# Use faker with factory girl to generate fake data for testing
-gem 'faker'
-
-# Use shoulda-matchers for common model tests.
-gem 'shoulda-matchers'
-
 # Use Bootstrap/SCSS for stylesheets
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'sass-rails',     '~> 5.0'
@@ -45,13 +36,24 @@ gem 'simple_form', '~> 3.2'
 # Use Devise for user authentication
 gem 'devise'
 
+group :development do
+  # awesome_print gem for more readable output in terminal
+  gem 'awesome_print'
+end
+
 # Use RSpec/Capybara for testing
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'rubocop', require: false
   gem 'factory_girl_rails'
+
+  # Use faker with factory girl to generate fake data for testing
+  gem 'faker'
 end
 
 group :test do
   gem 'capybara', '~> 2.5'
+
+  # Use shoulda-matchers for easy one-line tests
+  gem 'shoulda-matchers'
 end
