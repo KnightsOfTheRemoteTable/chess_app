@@ -55,3 +55,7 @@ end
 group :test do
   gem 'capybara', '~> 2.5'
 end
+
+group :production do
+  gem 'rails_12factor'
+end
