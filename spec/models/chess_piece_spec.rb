@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ChessPiece, type: :model do
   %w(
-    piece_name
+    type
     position_x
     position_y
     color

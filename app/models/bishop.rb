@@ -1,0 +1,2 @@
+class Bishop < ChessPiece
+end
