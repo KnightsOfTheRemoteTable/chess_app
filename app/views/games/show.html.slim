@@ -1,0 +1,20 @@
+/ Each view is contained with the outer layout and should begin with a row-->
+div class="row"
+  div class="col-xs-12 col-md-8 col-md-offset-2"
+
+    / Begin chessboard view
+    div class="chessboard"
+      
+      / Create 8 rows by creating 4 lite row/dark row pairs
+      - 4.times do |row_pair|
+        div class="chessboard__row"
+          
+          / Start a lite row by creating alternating lite and dark squares
+          - 4.times do |square_pair|
+            div class="chessboard__row__space chessboard__row__space--lite"
+            div class="chessboard__row__space chessboard__row__space--dark"
+
+            / Start a lite row by creating alternating dark and lite squares
+          - 4.times do |square_pair|
+            div class="chessboard__row__space chessboard__row__space--dark"
+            div class="chessboard__row__space chessboard__row__space--lite"
