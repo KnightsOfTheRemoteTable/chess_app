@@ -3,7 +3,7 @@ class ChessPiece < ActiveRecord::Base
   belongs_to :player, class_name: 'User'
   belongs_to :game
 
-  validates :piece_name,
+  validates :type,
             :position_x,
             :position_y,
             :color,
