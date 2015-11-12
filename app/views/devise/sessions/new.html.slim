@@ -7,4 +7,5 @@ div class="row"
       = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
       div class="form-actions"
       = f.button :submit, "Log in"
+    br
     = render "devise/shared/links"
