@@ -22,5 +22,16 @@ RSpec.describe Game do
       expect(black_king.type).to eq 'King'
       expect(black_king.color).to eq 'black'
     end
+
+    it 'initializes a Black Queen in correct starting position' do
+      game = create(:game)
+      white_queen = game.chess_pieces.where(position_x: 5, position_y: 1).first
+      black_queen = game.chess_pieces.where(position_x: 5, position_y: 8).last
+
+      expect(white_queen.type).to eq 'Queen'
+      expect(white_queen.color).to eq 'white'
+      expect(black_queen.type).to eq 'Queen'
+      expect(black_queen.color).to eq 'black'
+    end
   end
 end
