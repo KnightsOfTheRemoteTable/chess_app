@@ -6,21 +6,10 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/DeprecatedClassMethods:
-  Exclude:
-    - 'config/boot.rb'
-
 # Offense count: 77
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
   Max: 177
-
-# Offense count: 1
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 15
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -47,19 +36,6 @@ Style/Documentation:
     - 'db/migrate/20151101231819_create_games.rb'
     - 'db/migrate/20151102020729_devise_create_users.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/EmptyLines:
-  Exclude:
-    - 'db/migrate/20151102020729_devise_create_users.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/EmptyLinesAroundBlockBody:
-  Exclude:
-    - 'db/schema.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.
@@ -74,15 +50,3 @@ Style/ExtraSpacing:
 # Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues.
 Style/HashSyntax:
   Enabled: false
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/NumericLiterals:
-  MinDigits: 15
-
-# Offense count: 11
-# Cop supports --auto-correct.
-Style/SingleSpaceBeforeFirstArg:
-  Exclude:
-    - 'db/migrate/20151102020729_devise_create_users.rb'
-    - 'db/schema.rb'
