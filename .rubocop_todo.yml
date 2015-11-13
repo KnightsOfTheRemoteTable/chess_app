@@ -44,9 +44,3 @@ Style/ExtraSpacing:
     - 'bin/rails'
     - 'config.ru'
     - 'db/schema.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues.
-Style/HashSyntax:
-  Enabled: false
