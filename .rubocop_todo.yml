@@ -18,12 +18,6 @@ Style/AlignHash:
   Exclude:
     - 'config/initializers/simple_form.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/BlockComments:
-  Exclude:
-    - 'spec/spec_helper.rb'
-
 # Offense count: 7
 # Configuration parameters: Exclude.
 Style/Documentation:
