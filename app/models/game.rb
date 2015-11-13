@@ -21,33 +21,30 @@ class Game < ActiveRecord::Base
 
     # Create White & Black Bishop
     chess_pieces.create(type: 'Bishop', position_x: 3, position_y: 1, color: :white)
-    chess_pieces.create(type: 'Bishop', position_x: 3, position_y: 1, color: :white)
-    chess_pieces.create(type: 'Bishop', position_x: 6, position_y: 8, color: :black)
+    chess_pieces.create(type: 'Bishop', position_x: 6, position_y: 1, color: :white)
+    chess_pieces.create(type: 'Bishop', position_x: 3, position_y: 8, color: :black)
     chess_pieces.create(type: 'Bishop', position_x: 6, position_y: 8, color: :black)
 
 
     # Create white & Black Knight
     chess_pieces.create( type: 'Knight', :position_x: 2, position_y: 1, color: :white)
-    chess_pieces.create( type: 'Knight', :position_x: 2, position_y: 1, color: :white)
-    chess_pieces.create( type: 'Knight', :position_x: 7, position_y: 8, color: :black)
+    chess_pieces.create( type: 'Knight', :position_x: 7, position_y: 1, color: :white)
+    chess_pieces.create( type: 'Knight', :position_x: 2, position_y: 8, color: :black)
     chess_pieces.create( type: 'Knight', :position_x: 7, position_y: 8, color: :black)
 
     # Create white & Black Rook
     chess_pieces.create( type:  Rook', :position_x: 1, position_y: 8, color: :white)
-    chess_pieces.create( type:  Rook', :position_x: 1, position_y: 8, color: :white)
-    chess_pieces.create( type:  Rook', :position_x: 8, position_y: 1, color: :black)
+    chess_pieces.create( type:  Rook', :position_x: 8, position_y: 8, color: :white)
+    chess_pieces.create( type:  Rook', :position_x: 1, position_y: 1, color: :black)
     chess_pieces.create( type:  Rook', :position_x: 8, position_y: 1, color: :black)
 
-    y = 1
-    y2 = 2
-    y8 = 8
     # Create White & Black Pawn
     1.upto(8) do |x|
-      chess_pieces.create(type: 'Pawn', position_x: x, position_y: y2, color: :white)
+      chess_pieces.create(type: 'Pawn', position_x: x, position_y: 2, color: :white)
     end
 
     1.upto(8) do |x|
-      chess_pieces.create(type: 'Pawn', position_x: x, position_y: y7, color: :black)
+      chess_pieces.create(type: 'Pawn', position_x: x, position_y: 7, color: :black)
     end
   end
 end
