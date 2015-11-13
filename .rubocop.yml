@@ -3,3 +3,6 @@ AllCops:
   RunRailsCops: true
   Exclude:
     - 'db/**/*'
+Metrics/LineLength:
+  Include:
+    - 'app/**/*'

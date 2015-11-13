@@ -8,8 +8,6 @@
 
 # Offense count: 77
 # Configuration parameters: AllowURI, URISchemes.
-Metrics/LineLength:
-  Max: 177
 
 # Offense count: 7
 # Configuration parameters: Exclude.
