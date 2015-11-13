@@ -33,10 +33,10 @@ class Game < ActiveRecord::Base
     chess_pieces.create( type: 'Knight', :position_x: 7, position_y: 8, color: :black)
 
     # Create white & Black Rook
-    chess_pieces.create( type:  Rook', :position_x: 1, position_y: 8, color: :white)
-    chess_pieces.create( type:  Rook', :position_x: 8, position_y: 8, color: :white)
-    chess_pieces.create( type:  Rook', :position_x: 1, position_y: 1, color: :black)
-    chess_pieces.create( type:  Rook', :position_x: 8, position_y: 1, color: :black)
+    chess_pieces.create( type:  'Rook', :position_x: 1, position_y: 8, color: :white)
+    chess_pieces.create( type:  'Rook', :position_x: 8, position_y: 8, color: :white)
+    chess_pieces.create( type:  'Rook', :position_x: 1, position_y: 1, color: :black)
+    chess_pieces.create( type:  'Rook', :position_x: 8, position_y: 1, color: :black)
 
     # Create White & Black Pawn
     1.upto(8) do |x|
