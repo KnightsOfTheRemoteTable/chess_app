@@ -6,6 +6,9 @@ class User < ActiveRecord::Base
   validates :username, presence: true
 
   def games
-    Game.where('white_player_id = :player_id OR black_player_id = :player_id', player_id: id)
+    Game.where(
+      'white_player_id = :player_id OR black_player_id = :player_id',
+      player_id: id
+    )
   end
 end
