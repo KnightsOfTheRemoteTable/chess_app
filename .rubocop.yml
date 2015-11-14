@@ -5,6 +5,7 @@ AllCops:
 Metrics/LineLength:
   Include:
     - 'app/**/*'
+  Max: 120
 
 Style/Documentation:
   Enabled: False
