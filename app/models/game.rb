@@ -9,11 +9,11 @@ class Game < ActiveRecord::Base
   after_create :populate_board!
 
   def populate_board!
-    create_knight
+    create_knights
     create_queens
-    create_bishop
-    create_rook
-    create_pawn
+    create_bishops
+    create_rooks
+    create_pawns
   end
 
   def create_knights
