@@ -54,9 +54,6 @@ class Game < ActiveRecord::Base
     # Create White & Black Pawn
     1.upto(8) do |x|
       chess_pieces.create(type: 'Pawn', position_x: x, position_y: 2, color: :white)
-    end
-
-    1.upto(8) do |x|
       chess_pieces.create(type: 'Pawn', position_x: x, position_y: 7, color: :black)
     end
   end
