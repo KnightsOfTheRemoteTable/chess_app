@@ -32,22 +32,20 @@ RSpec.describe Game do
 
     it 'initializes a Black & White Bishop in correct starting position' do
       game = create(:game)
-      white_bishop = game.chess_pieces.where(type: 'Bishop', position_x: 3, position_y: 1).first && game.chess_pieces.where(type: 'Bishop', position_x: 6, position_y: 1).first
-      black_bishop = game.chess_pieces.where(type: 'Bishop', position_x: 3, position_y: 8).last && game.chess_pieces.where(type: 'Bishop', position_x: 6, position_y: 8).last
 
-      expect(white_bishop.type).to eq 'Bishop'
-      expect(white_bishop.type).to eq 'Bishop'
-      expect(black_bishop.type).to eq 'Bishop'
-      expect(black_bishop.type).to eq 'Bishop'
+      expect(game.chess_pieces.find_by(type: 'Bishop', position_x: 3, position_y: 1).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'Bishop', position_x: 6, position_y: 1).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'Bishop', position_x: 3, position_y: 8).color).to eq 'black'
+      expect(game.chess_pieces.find_by(type: 'Bishop', position_x: 6, position_y: 8).color).to eq 'black'
     end
 
     it 'initializes a Black & White Rook in correct starting position' do
       game = create(:game)
-      white_rook = game.chess_pieces.where(type:  'Rook', position_x: 1, position_y: 8).first && game.chess_pieces.where(type:  'Rook', position_x: 8, position_y: 8).first
-      black_rook = game.chess_pieces.where(type:  'Rook', position_x: 1, position_y: 1).last && game.chess_pieces.where(type:  'Rook', position_x: 8, position_y: 1).last
 
-      expect(white_rook.type).to eq 'Rook'
-      expect(black_rook.type).to eq 'Rook'
+      expect(game.chess_pieces.find_by(type: 'Rook', position_x: 1, position_y: 8).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'Rook', position_x: 8, position_y: 8).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'Rook', position_x: 1, position_y: 1).color).to eq 'black'
+      expect(game.chess_pieces.find_by(type: 'Rook', position_x: 8, position_y: 1).color).to eq 'black'
     end
 
     it 'initializes a Black & White Pawn in correct starting position' do
