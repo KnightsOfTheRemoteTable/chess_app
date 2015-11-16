@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20151110190843) do
   enable_extension "plpgsql"
 
   create_table "chess_pieces", force: :cascade do |t|
-    t.string   "type",       limit: 255
+    t.string   "type"
     t.integer  "position_x"
     t.integer  "position_y"
     t.integer  "color"
