@@ -14,20 +14,16 @@ RSpec.describe Game do
   describe 'games#populate_board!' do
     it 'initializes a Black & White King in correct starting position' do
       game = create(:game)
-      white_king = game.chess_pieces.where(type: 'King', position_x: 4, position_y: 1).first
-      black_king = game.chess_pieces.where(type: 'King', position_x: 4, position_y: 8).last
 
-      expect(white_king.type).to eq 'King'
-      expect(black_king.type).to eq 'King'
+      expect(game.chess_pieces.find_by(type: 'King', position_x: 4, position_y: 1).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'King', position_x: 4, position_y: 8).color).to eq 'black'
     end
 
     it 'initializes a Black & White Queen in correct starting position' do
       game = create(:game)
-      white_queen = game.chess_pieces.where(type: 'Queen', position_x: 5, position_y: 1).first
-      black_queen = game.chess_pieces.where(type: 'Queen', position_x: 5, position_y: 8).last
 
-      expect(white_queen.type).to eq 'Queen'
-      expect(black_queen.type).to eq 'Queen'
+      expect(game.chess_pieces.find_by(type: 'Queen', position_x: 5, position_y: 1).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'Queen', position_x: 5, position_y: 8).color).to eq 'black'
     end
 
     it 'initializes a Black & White Bishop in correct starting position' do
