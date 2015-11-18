@@ -49,5 +49,17 @@ RSpec.describe ChessPiece, type: :model do
         expect(king.obstructed?(6, 1)).to eq false
       end
     end
+
+    describe 'diagonal moves' do
+      it 'is true when a piece is in the way' do
+        create(:pawn, position_x: 5, position_y: 2, game: game)
+
+        expect(king.obstructed?(6, 3)).to eq true
+      end
+
+      it 'is false when unobstructed' do
+        expect(king.obstructed?(6, 3)).to eq false
+      end
+    end
   end
 end
