@@ -17,6 +17,16 @@ class ChessPiece < ActiveRecord::Base
     fail ArgumentError, 'Invalid move'
   end
 
+  def move_to!(destination_x, destination_y)
+    destination_piece = game.chess_pieces.find_by(position_x: destination_x, position_y: destination_y)
+
+    if destination_piece
+      fail ArgumentError, 'Invalid Move' if destination_piece.color == color
+      destination_piece.destroy
+    end
+    update(position_x: destination_x, position_y: destination_y)
+  end
+
   private
 
   def diagonal_obstruction?(destination_x, destination_y)

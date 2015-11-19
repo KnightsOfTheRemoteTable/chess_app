@@ -62,4 +62,34 @@ RSpec.describe ChessPiece, type: :model do
       end
     end
   end
+
+  describe '#move_to!' do
+    it 'updates piece coordinates' do
+      piece = create(:pawn)
+      piece.move_to!(5, 5)
+
+      expect(piece.position_x).to eq 5
+      expect(piece.position_y).to eq 5
+    end
+
+    it 'raises an error if there is a piece of the same color there' do
+      piece = create(:pawn, color: :white)
+      create(:pawn, color: :white, position_x: 5, position_y: 5, game: piece.game)
+
+      expect { piece.move_to!(5, 5) }.to raise_error(ArgumentError)
+      expect(piece.position_x).to eq 1
+      expect(piece.position_y).to eq 1
+    end
+
+    it 'deletes piece and moves there if destination piece is the opposite color' do
+      piece = create(:pawn, color: :white)
+      opposing_piece = create(:pawn, color: :black, position_x: 5, position_y: 5, game: piece.game)
+
+      piece.move_to!(5, 5)
+
+      expect(piece.position_x).to eq 5
+      expect(piece.position_y).to eq 5
+      expect(ChessPiece.find_by(id: opposing_piece.id)).to be_nil
+    end
+  end
 end
