@@ -47,8 +47,8 @@ RSpec.describe Game do
     it 'initializes a Black & White Pawn in correct starting position' do
       game = create(:game)
       1.upto(8) do |x|
-        white_pawn = game.chess_pieces.where(type: 'Pawn', position_x: x, position_y: 2).first
-        expect(white_pawn.type).to eq 'Pawn'
+        expect(game.chess_pieces.find_by(type: 'Pawn', position_x: x, position_y: 2).color).to eq 'white'
+        expect(game.chess_pieces.find_by(type: 'Pawn', position_x: x, position_y: 7).color).to eq 'black'
       end
     end
   end
