@@ -58,7 +58,7 @@ group :development, :test do
 end
 
 group :test do
-  # Use Caoybara for acceotance testing
+  # Use Capybara for acceotance testing
   gem 'capybara', '~> 2.5'
 
   # Use simplecov for code coverage analysis
