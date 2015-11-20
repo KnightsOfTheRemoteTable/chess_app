@@ -1,3 +1,5 @@
+https://codeship.com/projects/b5902db0-6304-0133-32b6-62dbb5275a9f/status?branch=master
+
 ==CHESS
 
 This application is for the Knights of the Remote Table Firehose Project team.
