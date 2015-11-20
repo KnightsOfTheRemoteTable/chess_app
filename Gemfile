@@ -63,6 +63,7 @@ group :test do
 
   # Use simplecov for code coverage analysis
   gem 'simplecov', require: false
+  gem 'coveralls', require: false
 
   # Use shoulda-matchers for easy one-line tests
   gem 'shoulda-matchers'
