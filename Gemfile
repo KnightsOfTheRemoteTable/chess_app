@@ -44,10 +44,13 @@ group :development do
   gem 'awesome_print'
 end
 
-# Use RSpec/Capybara for testing
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
+
+  # Use rubocop for linting
   gem 'rubocop', require: false
+
+  # Use Factory Girl for factory support
   gem 'factory_girl_rails'
 
   # Use faker with factory girl to generate fake data for testing
@@ -55,12 +58,17 @@ group :development, :test do
 end
 
 group :test do
+  # Use Caoybara for acceotance testing
   gem 'capybara', '~> 2.5'
+
+  # Use simplecov for code coverage analysis
+  gem 'simplecov', require: false
 
   # Use shoulda-matchers for easy one-line tests
   gem 'shoulda-matchers'
 end
 
 group :production do
+  # Use rails_12factor to serve static assets in production
   gem 'rails_12factor'
 end
