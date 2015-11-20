@@ -4,7 +4,8 @@ class King < ChessPiece
 
   def valid_move?(destination_x, destination_y)
     fail ArgumentError, 'Invalid Move' if obstructed?(destination_x, destination_y)
-    exceeds_x_movement?(destination_x) || exceeds_y_movement?(destination_y) ? false : true
+    return false if exceeds_x_movement?(destination_x)
+    !exceeds_y_movement?(destination_y)
   end
 
   private
