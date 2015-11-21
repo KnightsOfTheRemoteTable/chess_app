@@ -62,11 +62,12 @@ group :development, :test do
 end
 
 group :test do
-  # Use Caoybara for acceotance testing
+  # Use Capybara for acceptance testing
   gem 'capybara', '~> 2.5'
 
   # Use simplecov for code coverage analysis
   gem 'simplecov', require: false
+  gem 'coveralls', require: false
 
   # Use shoulda-matchers for easy one-line tests
   gem 'shoulda-matchers'
