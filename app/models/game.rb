@@ -26,12 +26,12 @@ class Game < ActiveRecord::Base
 
   def create_queens
     # Create White & Black Queen
-    chess_pieces.create(type: 'King', position_x: 4, position_y: 1, color: :white)
-    chess_pieces.create(type: 'King', position_x: 4, position_y: 8, color: :black)
+    chess_pieces.create(type: 'King', position_x: 5, position_y: 1, color: :white)
+    chess_pieces.create(type: 'King', position_x: 5, position_y: 8, color: :black)
 
     # Create white & Black Queen
-    chess_pieces.create(type: 'Queen', position_x: 5, position_y: 1, color: :white)
-    chess_pieces.create(type: 'Queen', position_x: 5, position_y: 8, color: :black)
+    chess_pieces.create(type: 'Queen', position_x: 4, position_y: 1, color: :white)
+    chess_pieces.create(type: 'Queen', position_x: 4, position_y: 8, color: :black)
   end
 
   def create_bishops
@@ -44,10 +44,10 @@ class Game < ActiveRecord::Base
 
   def create_rooks
     # Create white & Black Rook
-    chess_pieces.create(type: 'Rook', position_x: 1, position_y: 8, color: :white)
-    chess_pieces.create(type: 'Rook', position_x: 8, position_y: 8, color: :white)
-    chess_pieces.create(type: 'Rook', position_x: 1, position_y: 1, color: :black)
-    chess_pieces.create(type: 'Rook', position_x: 8, position_y: 1, color: :black)
+    chess_pieces.create(type: 'Rook', position_x: 1, position_y: 8, color: :black)
+    chess_pieces.create(type: 'Rook', position_x: 8, position_y: 8, color: :black)
+    chess_pieces.create(type: 'Rook', position_x: 1, position_y: 1, color: :white)
+    chess_pieces.create(type: 'Rook', position_x: 8, position_y: 1, color: :white)
   end
 
   def create_pawns

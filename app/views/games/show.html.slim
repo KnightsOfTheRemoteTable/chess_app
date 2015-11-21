@@ -7,17 +7,9 @@
       / A chessboard consists of eight (8) rows, starting (from the top)
       / with a lite-colored row. We can create eight (8) rows by creating
       / four (4) sets of lite-dark alternating rows
-      - 4.times do |row_pair|
+      - 1.upto(8) do |y_axis|
         / Create a row starting with the lite color, which we can do by
         / creating four (4) pairs of alternating squares, starting with lite
         .chessboard__row
-          - 4.times do |square_pair|
-            .chessboard__row__space.chessboard__row__space--lite
-            .chessboard__row__space.chessboard__row__space--dark
-
-        / Create a row starting with the dark color, which we can do by
-        / creating four (4) pairs of alternating squares, starting with dark
-        .chessboard__row
-          - 4.times do |square_pair|
-            .chessboard__row__space.chessboard__row__space--dark
-            .chessboard__row__space.chessboard__row__space--lite
+          - 1.upto(8) do |x_axis|
+            = draw_square(x_axis, y_axis)
