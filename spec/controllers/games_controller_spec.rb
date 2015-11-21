@@ -12,7 +12,8 @@ RSpec.describe GamesController, type: :controller do
 
   describe 'GET games#show' do
     it 'responds successfully with an HTTP 200 status code' do
-      get :show
+      game = create(:game)
+      get :show, id: game
 
       expect(response).to be_success
       expect(response).to have_http_status(200)
