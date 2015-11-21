@@ -8,31 +8,7 @@ module GamesHelper
     end
     content_tag :div, class: "chessboard__row__space chessboard__row__space--#{color}" do
       if current_piece.present?
-        if current_piece.type == 'Rook' && current_piece.color == 'white'
-          image_tag 'light_rook.png'
-        elsif current_piece.type == 'Rook' && current_piece.color == 'black'
-          image_tag 'dark_rook.png'
-        elsif current_piece.type == 'Bishop' && current_piece.color == 'white'
-          image_tag 'light_bishop.png'
-        elsif current_piece.type == 'Bishop' && current_piece.color == 'black'
-          image_tag 'dark_bishop.png'
-        elsif current_piece.type == 'Knight' && current_piece.color == 'white'
-          image_tag 'light_knight.png'
-        elsif current_piece.type == 'Knight' && current_piece.color == 'black'
-          image_tag 'dark_knight.png'
-        elsif current_piece.type == 'King' && current_piece.color == 'white'
-          image_tag 'light_king.png'
-        elsif current_piece.type == 'King' && current_piece.color == 'black'
-          image_tag 'dark_king.png'
-        elsif current_piece.type == 'Queen' && current_piece.color == 'white'
-          image_tag 'light_queen.png'
-        elsif current_piece.type == 'Queen' && current_piece.color == 'black'
-          image_tag 'dark_queen.png'
-        elsif current_piece.type == 'Pawn' && current_piece.color == 'white'
-          image_tag 'light_pawn.png'
-        elsif current_piece.type == 'Pawn' && current_piece.color == 'black'
-          image_tag 'dark_pawn.png'
-        end
+        image_tag "#{current_piece.color.downcase}_#{current_piece.type.downcase}.png"
       end
     end
   end
