@@ -10,6 +10,6 @@ class GamesController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
-    @chess_pieces = @game.chess_pieces.order(:position_y).order(:position_x)
+    @chess_pieces = @game.chess_pieces.order(:position_y).order(:position_x).to_a
   end
 end
