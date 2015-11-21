@@ -42,6 +42,10 @@ gem 'devise'
 group :development do
   # awesome_print gem for more readable output in terminal
   gem 'awesome_print'
+  # Use spring to preload the environent for faster tests
+  gem 'spring'
+  # Adds spring compatibility to rspec
+  gem 'spring-commands-rspec'
 end
 
 group :development, :test do
