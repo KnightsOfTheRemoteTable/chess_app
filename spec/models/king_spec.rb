@@ -15,5 +15,9 @@ RSpec.describe King do
     it 'returns false when a proposed move is not within the movement abilities of the piece' do
       expect(king.valid_move?(6, 6)).to be false
     end
+
+    it 'returns false when a proposed move is not a straight line' do
+      expect(king.valid_move?(6, 7)).to eq false
+    end
   end
 end
