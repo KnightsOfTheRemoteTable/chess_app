@@ -19,5 +19,10 @@ RSpec.describe King do
     it 'returns false when a proposed move is not a straight line' do
       expect(king.valid_move?(6, 7)).to eq false
     end
+
+    it 'returns false if out of bounds' do
+      king = create(:king, position_x: 1, position_y: 4)
+      expect(king.valid_move?(0, 4)).to eq false
+    end
   end
 end

@@ -1,5 +1,8 @@
 # Chess piece model
 class ChessPiece < ActiveRecord::Base
+  BOARD_START_INDEX = 1
+  BOARD_END_INDEX = 8
+
   belongs_to :player, class_name: 'User'
   belongs_to :game
 
@@ -80,5 +83,12 @@ class ChessPiece < ActiveRecord::Base
     y_diff = position_y - destination_y
 
     x_diff.abs == y_diff.abs
+  end
+
+  def out_of_bounds?(destination_x, destination_y)
+    destination_x < BOARD_START_INDEX ||
+      destination_x > BOARD_END_INDEX ||
+      destination_y < BOARD_START_INDEX ||
+      destination_y > BOARD_END_INDEX
   end
 end
