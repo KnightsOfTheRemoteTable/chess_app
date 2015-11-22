@@ -6,7 +6,7 @@ RSpec.describe Queen do
   end
 
   describe '#valid_move?' do
-    let(:queen) { FactoryGirl.create(:queen, position_x: 3, position_y: 3) }
+    let(:queen) { create(:queen, position_x: 3, position_y: 3) }
 
     it 'returns true for vertical moves' do
       expect(queen.valid_move?(3, 6)).to eq true
@@ -25,9 +25,13 @@ RSpec.describe Queen do
     end
 
     it 'returns false if obstructed' do
-      FactoryGirl.create(:pawn, position_x: 3, position_y: 4, game: queen.game)
+      create(:pawn, position_x: 3, position_y: 4, game: queen.game)
 
       expect(queen.valid_move?(3, 5)).to eq false
+    end
+
+    it 'returns false if out of bounds' do
+      expect(queen.valid_move?(13, 3)).to eq false
     end
   end
 end

@@ -20,5 +20,10 @@ RSpec.describe Bishop do
       create(:pawn, position_x: 4, position_y: 4, game: bishop.game)
       expect(bishop.valid_move?(3, 3)).to eq false
     end
+
+    it 'returns false if the move is outside the boundaries of the board' do
+      bishop = create(:bishop, position_x: 8, position_y: 4)
+      expect(bishop.valid_move?(12, 8)).to eq false
+    end
   end
 end
