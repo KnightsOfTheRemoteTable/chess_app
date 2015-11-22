@@ -65,8 +65,7 @@ group :test do
   # Use Capybara for acceptance testing
   gem 'capybara', '~> 2.5'
 
-  # Use simplecov for code coverage analysis
-  gem 'simplecov', require: false
+  # Use coveralls for code coverage analysis
   gem 'coveralls', require: false
 
   # Use shoulda-matchers for easy one-line tests
