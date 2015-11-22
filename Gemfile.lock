@@ -266,7 +266,6 @@ DEPENDENCIES
   sdoc
   shoulda-matchers
   simple_form (~> 3.2)
-  simplecov
   slim-rails
   spring
   spring-commands-rspec
