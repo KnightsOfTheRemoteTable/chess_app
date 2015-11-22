@@ -1,5 +1,5 @@
 .row
   .col-xs-12.col-md-8.col-md-offset-2
-    p = "Welcome #{@email}!"
+    p Welcome #{@email}!
     p You can confirm your account email through the link below:
     p = link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)
