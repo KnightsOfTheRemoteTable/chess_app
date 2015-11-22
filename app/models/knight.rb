@@ -11,7 +11,15 @@ class Knight < ChessPiece
   private
 
   def x_and_y_are_offset?(destination_x, destination_y)
-    ((destination_x - position_x == XY_MOVE_FACTOR) && (destination_y - position_y == ALT_XY_MOVE_FACTOR)) ||
-      ((destination_y - position_y == XY_MOVE_FACTOR) && (destination_x - position_x == ALT_XY_MOVE_FACTOR))
+    ((diff_in_x(destination_x) == XY_MOVE_FACTOR) && (diff_in_y(destination_y) == ALT_XY_MOVE_FACTOR)) ||
+      ((diff_in_y(destination_y) == XY_MOVE_FACTOR) && (diff_in_x(destination_x) == ALT_XY_MOVE_FACTOR))
+  end
+
+  def diff_in_x(destination_x)
+    (destination_x - position_x).abs
+  end
+
+  def diff_in_y(destination_y)
+    (destination_y - position_y).abs
   end
 end
