@@ -46,6 +46,8 @@ group :development do
   gem 'spring'
   # Adds spring compatibility to rspec
   gem 'spring-commands-rspec'
+  # Use Pry instead of IRB
+  gem 'pry-rails'
 end
 
 group :development, :test do
