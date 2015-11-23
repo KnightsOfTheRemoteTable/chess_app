@@ -78,11 +78,16 @@ class ChessPiece < ActiveRecord::Base
     position_x == destination_x && position_y != destination_y
   end
 
-  def diagonal_move?(destination_x, destination_y)
-    x_diff = position_x - destination_x
-    y_diff = position_y - destination_y
+  def diff_in_x(destination_x)
+    (destination_x - position_x).abs
+  end
 
-    x_diff.abs == y_diff.abs
+  def diff_in_y(destination_y)
+    (destination_y - position_y).abs
+  end
+
+  def diagonal_move?(destination_x, destination_y)
+    diff_in_x(destination_x) == diff_in_y(destination_y)
   end
 
   def out_of_bounds?(destination_x, destination_y)
