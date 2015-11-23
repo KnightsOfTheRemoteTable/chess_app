@@ -1,6 +1,6 @@
 # Chess piece model
 class ChessPiece < ActiveRecord::Base
-  BOARD_BGN_INDEX = 1
+  BOARD_START_INDEX = 1
   BOARD_END_INDEX = 8
 
   belongs_to :player, class_name: 'User'
@@ -91,9 +91,9 @@ class ChessPiece < ActiveRecord::Base
   end
 
   def out_of_bounds?(destination_x, destination_y)
-    destination_x < BOARD_BGN_INDEX ||
+    destination_x < BOARD_START_INDEX ||
       destination_x > BOARD_END_INDEX ||
-      destination_y < BOARD_BGN_INDEX ||
+      destination_y < BOARD_START_INDEX ||
       destination_y > BOARD_END_INDEX
   end
 end
