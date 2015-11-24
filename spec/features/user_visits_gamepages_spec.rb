@@ -11,8 +11,8 @@ RSpec.feature 'UserVisitsGamepages', type: :feature do
   scenario 'has links for all chess pieces' do
     game = create(:game)
     visit game_path(game)
-      game.chess_pieces.each do |piece|
-        expect(page).to have_link("", href: piece_path(piece))
+    game.chess_pieces.each do |piece|
+      expect(page).to have_link('', href: piece_path(piece))
     end
   end
 end
