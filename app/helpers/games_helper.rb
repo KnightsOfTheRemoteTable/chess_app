@@ -14,6 +14,6 @@ module GamesHelper
     current_piece = @chess_pieces.first
     return unless current_piece && current_piece.position_x == x_axis && current_piece.position_y == y_axis
     @chess_pieces.shift
-    image_tag "#{current_piece.color.downcase}_#{current_piece.type.downcase}.png"
+    link_to image_tag("#{current_piece.color.downcase}_#{current_piece.type.downcase}.png"), piece_path(current_piece)
   end
 end
