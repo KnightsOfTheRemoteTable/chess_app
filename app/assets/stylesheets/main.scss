@@ -7,3 +7,8 @@
 
 // Lastly import partials
 @import "partials/chessboard";
+
+
+.selected {
+  border: 1px solid red;
+}

@@ -11,3 +11,9 @@
  *= require_self
  *= require main
  */
+
+ .selected {
+  border: red;
+  border-width: 20px;
+  border-color: red;
+}
