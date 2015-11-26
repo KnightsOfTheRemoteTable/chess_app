@@ -48,6 +48,6 @@ class Pawn < ChessPiece
 
   def forward_move?(destination_y)
     y_distance = destination_y - position_y
-    color == 'white' ? y_distance > 0 : y_distance < 0
+    white? ? y_distance > 0 : y_distance < 0
   end
 end
