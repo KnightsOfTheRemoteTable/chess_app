@@ -14,12 +14,12 @@ class Pawn < ChessPiece
   private
 
   def valid_vertical_move?(destination_x, destination_y)
-    return false if moved_to_far?(destination_y)
+    return false if moved_too_far?(destination_y)
     return false if position_occupied?(destination_x, destination_y)
     !obstructed?(destination_x, destination_y)
   end
 
-  def moved_to_far?(destination_y)
+  def moved_too_far?(destination_y)
     diff_in_y(destination_y) > y_move_factor
   end
 
