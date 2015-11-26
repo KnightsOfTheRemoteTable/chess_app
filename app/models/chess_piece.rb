@@ -32,6 +32,10 @@ class ChessPiece < ActiveRecord::Base
 
   private
 
+  def moved?
+    updated_at != created_at
+  end
+
   def diagonal_obstruction?(destination_x, destination_y)
     from_x = [position_x, destination_x].min + 1
     from_y = [position_y, destination_y].min + 1
