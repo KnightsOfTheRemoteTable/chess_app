@@ -12,7 +12,8 @@
       - @games.each do |game|
         tr.game
           td
-            = game.name
+            =link_to game_path(game.id)
+              = game.name
           td
             = game.created_at
   .col-xs-12.col-md-8.col-md-offset-2
