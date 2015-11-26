@@ -4,11 +4,8 @@ class Pawn < ChessPiece
 
   def valid_move?(destination_x, destination_y)
     return false unless forward_move?(destination_y)
-    if vertical_move?(destination_x, destination_y)
-      valid_vertical_move?(destination_x, destination_y)
-    else
-      valid_capture?(destination_x, destination_y)
-    end
+    return valid_vertical_move?(destination_x, destination_y) if vertical_move?(destination_x, destination_y)
+    valid_capture?(destination_x, destination_y)
   end
 
   private
