@@ -1,15 +1,11 @@
 class Rook < ChessPiece
   def valid_move?(destination_x, destination_y)
-    # Non move
-    return false if destination_x == position_x && destination_y == position_y
+    return false if destination_matches_origin(destination_x, destination_y)
+    return false if obstruction?(destination_x, destination_y)
+    horizontal_move?(destination_x, destination_y) || vertical_move(destination_x, destination_y)
+  end
 
-    # no obstruction
-    return false if obstruction?(destination_x, destination_y) == true
-
-    # horizontal or vertical move
-    return false if (destination_x < position_x || destination_x > position_y) &&
-                    (destination_y < position_y || destination_y > position_y)
-
-    true
+  def destination_matches_origin(destination_x, destination_y)
+    destination_x == position_x && destination_y == position_y
   end
 end
