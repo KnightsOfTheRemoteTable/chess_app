@@ -30,12 +30,8 @@ class Pawn < ChessPiece
   end
 
   def opponent_at?(destination_x, destination_y)
-    destination_piece = find_piece(destination_x, destination_y)
+    destination_piece = game.chess_pieces.find_by(position_x: destination_x, position_y: destination_y)
     opponent?(destination_piece)
-  end
-
-  def find_piece(destination_x, destination_y)
-    game.chess_pieces.find_by(position_x: destination_x, position_y: destination_y)
   end
 
   def opponent?(piece)
