@@ -1,6 +1,6 @@
 class Pawn < ChessPiece
-  INITIAL_MOVE_FACTOR = 2
-  POST_INITIAL_MOVE_FACTOR = 1
+  FIRST_MOVE_FACTOR = 2
+  SECOND_MOVE_FACTOR = 1
 
   def valid_move?(destination_x, destination_y)
     return false unless forward_move?(destination_y)
@@ -46,7 +46,7 @@ class Pawn < ChessPiece
   end
 
   def y_move_factor
-    moved? ? POST_INITIAL_MOVE_FACTOR : INITIAL_MOVE_FACTOR
+    moved? ? SECOND_MOVE_FACTOR : FIRST_MOVE_FACTOR
   end
 
   def moved?
