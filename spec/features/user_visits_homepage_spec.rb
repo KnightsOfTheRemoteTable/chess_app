@@ -22,6 +22,6 @@ feature 'user visits the homepage of the application' do
     game = create(:game, name: 'click me test game')
     visit root_path
     click_link('click me test game')
-    expect(current_path).to eq game_path(game.id)
+    expect(current_path).to eq game_path(game)
   end
 end
