@@ -3,6 +3,6 @@ class Rook < ChessPiece
     return false if out_of_bounds?(destination_x, destination_y)
     return false if diagonal_move?(destination_x, destination_y)
     return false if obstructed?(destination_x, destination_y)
-    horizontal_move?(destination_x, destination_y) || vertical_move?(destination_x, destination_y) ? true : false
+    horizontal_move?(destination_x, destination_y) || vertical_move?(destination_x, destination_y)
   end
 end
