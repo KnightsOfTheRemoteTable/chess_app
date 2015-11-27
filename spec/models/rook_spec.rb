@@ -21,7 +21,7 @@ RSpec.describe Rook do
     end
 
     it 'returns false for jagged moves' do
-      expect(rook.valid_move?(6, 4)).to eq false
+      expect(rook.valid_move?(4, 3)).to eq false
     end
 
     it 'returns false if obstructed' do
