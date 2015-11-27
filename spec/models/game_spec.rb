@@ -69,4 +69,50 @@ RSpec.describe Game do
       expect(game.check?).to eq true
     end
   end
+
+  describe '#current_player_is_black_player!' do
+    it 'sets the current player of the game to black' do
+      game = create(:game)
+      game.current_player_is_black_player!
+
+      expect(game.current_player_is_white_player?).to eq false
+      expect(game.current_player_is_black_player?).to eq true
+    end
+  end
+
+  describe '#current_player_is_black_player?' do
+    let(:game) { create(:game) }
+    it 'returns true if the current player of the game is the black player' do
+      game.current_player_is_black_player!
+      expect(game.current_player_is_black_player?).to eq true
+    end
+
+    it 'returns false otherwise' do
+      game.current_player_is_white_player!
+      expect(game.current_player_is_black_player?).to eq false
+    end
+  end
+
+  describe '#current_player_is_white_player!' do
+    it 'sets the current player of the game to white' do
+      game = create(:game)
+      game.current_player_is_white_player!
+
+      expect(game.current_player_is_black_player?).to eq false
+      expect(game.current_player_is_white_player?).to eq true
+    end
+  end
+
+  describe '#current_player_is_white_player?' do
+    let(:game) { create(:game) }
+    it 'returns true if the current player of the game is the white player' do
+      game.current_player_is_white_player!
+      expect(game.current_player_is_white_player?).to eq true
+    end
+
+    it 'returns false otherwise' do
+      game.current_player_is_black_player!
+      expect(game.current_player_is_white_player?).to eq false
+    end
+  end
 end

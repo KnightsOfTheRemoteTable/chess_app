@@ -6,6 +6,9 @@ class Game < ActiveRecord::Base
 
   validates :name, presence: true
 
+  enum current_player: [:current_player_is_black_player,
+                        :current_player_is_white_player]
+
   after_create :populate_board!
 
   def populate_board!
