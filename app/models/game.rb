@@ -57,4 +57,30 @@ class Game < ActiveRecord::Base
       chess_pieces.create(type: 'Pawn', position_x: x, position_y: 7, color: :black)
     end
   end
+
+  def check?
+    king_is_in_check?('black') || king_is_in_check?('white')
+  end
+
+  private
+
+  def king_is_in_check?(color)
+    king = locate_king(color)
+    capturable_by_opposing_color?(king)
+  end
+
+  def locate_king(color)
+    chess_pieces.find_by(type: 'King', color: chess_pieces.colors[color])
+  end
+
+  def capturable_by_opposing_color?(king)
+    chess_pieces.where(color: chess_pieces.colors[opposite_color(king.color)]).find_each do |opponent|
+      return true if opponent.valid_move?(king.position_x, king.position_y)
+    end
+    false
+  end
+
+  def opposite_color(color)
+    color == 'black' ? 'white' : 'black'
+  end
 end
