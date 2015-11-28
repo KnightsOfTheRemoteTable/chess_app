@@ -169,7 +169,7 @@ RSpec.describe Game do
     let(:white_rook) { create(:rook, color: 'white', game: game, position_x: 6, position_y: 6) }
 
     it 'generates an ArgumentError if a piece of the same color is at the destination' do
-      _occupying_rook = create(:rook, color: 'black', game: game, position_x: 6, position_y: 5)
+      create(:rook, color: 'black', game: game, position_x: 6, position_y: 5)
       expect { black_rook.move_to!(6, 5) }.to raise_error(ArgumentError)
     end
 
