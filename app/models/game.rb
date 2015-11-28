@@ -17,6 +17,7 @@ class Game < ActiveRecord::Base
     create_bishops
     create_rooks
     create_pawns
+    current_player_is_black_player!
   end
 
   def create_knights
@@ -63,6 +64,10 @@ class Game < ActiveRecord::Base
 
   def check?
     king_is_in_check?('black') || king_is_in_check?('white')
+  end
+
+  def update_current_player!
+    current_player_is_white_player? ? current_player_is_black_player! : current_player_is_white_player!
   end
 
   private
