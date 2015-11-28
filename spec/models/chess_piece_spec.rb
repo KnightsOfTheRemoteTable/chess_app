@@ -91,4 +91,18 @@ RSpec.describe ChessPiece, type: :model do
       expect(ChessPiece.find_by(id: opposing_piece.id)).to be_nil
     end
   end
+
+  describe '.with_color' do
+    it 'returns pieces of the specified color' do
+      pawn = create(:pawn, color: :white)
+
+      expect(ChessPiece.with_color(:white)).to include pawn
+    end
+
+    it 'does not return pieces of the opposite color' do
+      pawn = create(:pawn, color: :white)
+
+      expect(ChessPiece.with_color(:black)).to_not include pawn
+    end
+  end
 end

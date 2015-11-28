@@ -70,17 +70,13 @@ class Game < ActiveRecord::Base
   end
 
   def locate_king(color)
-    chess_pieces.find_by(type: 'King', color: chess_pieces.colors[color])
+    chess_pieces.with_color(color).find_by(type: 'King')
   end
 
   def capturable_by_opposing_color?(king)
-    chess_pieces.where(color: chess_pieces.colors[opposite_color(king.color)]).find_each do |opponent|
+    chess_pieces.with_color(king.opposite_color).find_each do |opponent|
       return true if opponent.valid_move?(king.position_x, king.position_y)
     end
     false
-  end
-
-  def opposite_color(color)
-    color == 'black' ? 'white' : 'black'
   end
 end
