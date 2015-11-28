@@ -22,7 +22,7 @@ RSpec.describe ChessPiece, type: :model do
 
     describe 'invalid moves' do
       it 'raises an error if move is not a straight line' do
-        expect { king.obstructed?(5, 5) }.to raise_error(ArgumentError)
+        expect { king.obstructed?(Coordinates.new(5, 5)) }.to raise_error(ArgumentError)
       end
     end
 
@@ -30,11 +30,11 @@ RSpec.describe ChessPiece, type: :model do
       it 'is true when a piece is in the way' do
         create(:pawn, position_x: 4, position_y: 4, game: game)
 
-        expect(king.obstructed?(4, 5)).to eq true
+        expect(king.obstructed?(Coordinates.new(4, 5))).to eq true
       end
 
       it 'is false when unobstructed' do
-        expect(king.obstructed?(4, 6)).to eq false
+        expect(king.obstructed?(Coordinates.new(4, 6))).to eq false
       end
     end
 
@@ -42,11 +42,11 @@ RSpec.describe ChessPiece, type: :model do
       it 'is true when a piece is in the way' do
         create(:pawn, position_x: 5, position_y: 3, game: game)
 
-        expect(king.obstructed?(6, 3)).to eq true
+        expect(king.obstructed?(Coordinates.new(6, 3))).to eq true
       end
 
       it 'is false when unobstructed' do
-        expect(king.obstructed?(6, 3)).to eq false
+        expect(king.obstructed?(Coordinates.new(6, 3))).to eq false
       end
     end
 
@@ -54,11 +54,11 @@ RSpec.describe ChessPiece, type: :model do
       it 'is true when a piece is in the way' do
         create(:pawn, position_x: 5, position_y: 4, game: game)
 
-        expect(king.obstructed?(6, 5)).to eq true
+        expect(king.obstructed?(Coordinates.new(6, 5))).to eq true
       end
 
       it 'is false when unobstructed' do
-        expect(king.obstructed?(6, 5)).to eq false
+        expect(king.obstructed?(Coordinates.new(6, 5))).to eq false
       end
     end
   end
@@ -67,7 +67,7 @@ RSpec.describe ChessPiece, type: :model do
     let(:piece) { create(:pawn, color: :white) }
 
     it 'updates piece coordinates' do
-      piece.move_to!(5, 5)
+      piece.move_to!(Coordinates.new(5, 5))
 
       expect(piece.position_x).to eq 5
       expect(piece.position_y).to eq 5
@@ -76,7 +76,7 @@ RSpec.describe ChessPiece, type: :model do
     it 'raises an error if there is a piece of the same color there' do
       create(:pawn, color: :white, position_x: 5, position_y: 5, game: piece.game)
 
-      expect { piece.move_to!(5, 5) }.to raise_error(ArgumentError)
+      expect { piece.move_to!(Coordinates.new(5, 5)) }.to raise_error(ArgumentError)
       expect(piece.position_x).to eq 1
       expect(piece.position_y).to eq 1
     end
@@ -84,7 +84,7 @@ RSpec.describe ChessPiece, type: :model do
     it 'deletes piece and moves there if destination piece is the opposite color' do
       opposing_piece = create(:pawn, color: :black, position_x: 5, position_y: 5, game: piece.game)
 
-      piece.move_to!(5, 5)
+      piece.move_to!(Coordinates.new(5, 5))
 
       expect(piece.position_x).to eq 5
       expect(piece.position_y).to eq 5

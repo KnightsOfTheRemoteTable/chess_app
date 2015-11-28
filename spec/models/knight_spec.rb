@@ -9,20 +9,20 @@ RSpec.describe Knight do
     let(:knight) { create(:knight, position_x: 4, position_y: 4) }
 
     it 'returns true if the x and y move components are 1 and 2, respectively' do
-      expect(knight.valid_move?(5, 6)).to eq true
+      expect(knight.valid_move?(Coordinates.new(5, 6))).to eq true
     end
 
     it 'returns true if the x and y move components are 2 and 1, respectively' do
-      expect(knight.valid_move?(6, 5)).to eq true
+      expect(knight.valid_move?(Coordinates.new(6, 5))).to eq true
     end
 
     it 'returns false if out of bounds' do
       knight = create(:knight, position_x: 7, position_y: 4)
-      expect(knight.valid_move?(9, 5)).to eq false
+      expect(knight.valid_move?(Coordinates.new(9, 5))).to eq false
     end
 
     it 'returns false otherwise' do
-      expect(knight.valid_move?(6, 6)).to eq false
+      expect(knight.valid_move?(Coordinates.new(6, 6))).to eq false
     end
   end
 end
