@@ -21,6 +21,10 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def players
+    [white_player, black_player].compact
+  end
+
   def populate_board!
     create_knights
     create_queens

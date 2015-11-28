@@ -217,4 +217,15 @@ RSpec.describe Game do
       expect(game.winner).to eq black_player
     end
   end
+
+  describe '#players' do
+    it 'returns both players' do
+      black_player = create(:user)
+      white_player = create(:user)
+      game = create(:game, black_player: black_player, white_player: white_player)
+
+      expect(game.players).to include black_player
+      expect(game.players).to include white_player
+    end
+  end
 end
