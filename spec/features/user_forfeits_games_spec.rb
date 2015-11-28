@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "UserForfeitsGames", type: :feature do
+feature 'UserForfeitsGames', type: :feature do
   scenario 'successfully' do
     user = create(:user)
     game = create(:game, black_player: user)
