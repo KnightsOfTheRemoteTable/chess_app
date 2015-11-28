@@ -52,4 +52,21 @@ RSpec.describe Game do
       end
     end
   end
+
+  describe '#check?' do
+    it 'returns false if the game is not in a state of check' do
+      game = create(:game)
+      expect(game.check?).to eq false
+    end
+
+    it 'returns true if the game is in a state of check' do
+      # Put the game in check by deleting all black pawns, leaving black king
+      # with multiple valid moves; and then placing a white bishop in a position to capture.
+      game = create(:game)
+      Pawn.destroy_all(color: 'black', game: game)
+      create(:bishop, position_x: 3, position_y: 6, color: 'white', game: game)
+
+      expect(game.check?).to eq true
+    end
+  end
 end
