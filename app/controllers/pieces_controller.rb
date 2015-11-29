@@ -1,8 +1,11 @@
 class PiecesController < ApplicationController
   def show
-    @piece = ChessPiece.find(params[:id])
-    @game = @piece.game
+    @selected_piece = ChessPiece.find(params[:id])
+    @game = @selected_piece.game
     @chess_pieces = @game.chess_pieces.order(:position_y).order(:position_x).to_a
-    render 'games/show'
+  end
+
+  def update
+    @chess_piece = ChessPiece.find_by(class: 'selected')
   end
 end

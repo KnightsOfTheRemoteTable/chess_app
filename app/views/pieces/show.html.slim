@@ -1,0 +1,15 @@
+/ Each view is contained with the outer layout and should begin with a row
+.row
+  .col-xs-12.col-md-8.col-md-offset-2
+
+    /Begin chessboard view
+    .chessboard
+      / A chessboard consists of eight (8) rows, starting (from the top)
+      / with a lite-colored row. We can create eight (8) rows by creating
+      / four (4) sets of lite-dark alternating rows
+      - 1.upto(8) do |y_axis|
+        / Create a row starting with the lite color, which we can do by
+        / creating four (4) pairs of alternating squares, starting with lite
+        .chessboard__row
+          - 1.upto(8) do |x_axis|
+            = draw_square(x_axis, y_axis)
