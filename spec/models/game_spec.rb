@@ -23,6 +23,7 @@ RSpec.describe Game do
 
   describe '#current_player_is_black_player?' do
     let(:game) { create(:game) }
+
     it 'returns true if the current player of the game is the black player' do
       game.current_player_is_black_player!
       expect(game.current_player_is_black_player?).to eq true
