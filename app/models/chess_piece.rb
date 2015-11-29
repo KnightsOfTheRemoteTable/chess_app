@@ -24,11 +24,8 @@ class ChessPiece < ActiveRecord::Base
 
   def move_to!(coordinates)
     destination_piece = game.chess_pieces.find_by(position_x: coordinates.x, position_y: coordinates.y)
+    capture(destination_piece) if destination_piece
 
-    if destination_piece
-      fail ArgumentError, 'Invalid Move' if destination_piece.color == color
-      destination_piece.destroy
-    end
     update(position_x: coordinates.x, position_y: coordinates.y)
     game.update_current_player!
   end
@@ -42,6 +39,11 @@ class ChessPiece < ActiveRecord::Base
   end
 
   private
+
+  def capture(piece)
+    fail ArgumentError, 'Invalid Move' if piece.color == color
+    piece.destroy
+  end
 
   def moved?
     updated_at != created_at
