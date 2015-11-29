@@ -2,35 +2,35 @@ class Pawn < ChessPiece
   FIRST_MOVE_FACTOR = 2
   SECOND_MOVE_FACTOR = 1
 
-  def valid_move?(destination_x, destination_y)
-    return false unless forward_move?(destination_y)
-    return valid_vertical_move?(destination_x, destination_y) if vertical_move?(destination_x, destination_y)
-    valid_capture?(destination_x, destination_y)
+  def valid_move?(coordinates)
+    return false unless forward_move?(coordinates.y)
+    return valid_vertical_move?(coordinates) if vertical_move?(coordinates)
+    valid_capture?(coordinates)
   end
 
   private
 
-  def valid_vertical_move?(destination_x, destination_y)
-    return false if moved_too_far?(destination_y)
-    return false if position_occupied?(destination_x, destination_y)
-    !obstructed?(destination_x, destination_y)
+  def valid_vertical_move?(coordinates)
+    return false if moved_too_far?(coordinates.y)
+    return false if position_occupied?(coordinates)
+    !obstructed?(coordinates)
   end
 
   def moved_too_far?(destination_y)
     diff_in_y(destination_y) > y_move_factor
   end
 
-  def valid_capture?(destination_x, destination_y)
-    return false unless single_diagonal_move?(destination_x, destination_y)
-    opponent_at?(destination_x, destination_y)
+  def valid_capture?(coordinates)
+    return false unless single_diagonal_move?(coordinates)
+    opponent_at?(coordinates)
   end
 
-  def single_diagonal_move?(destination_x, destination_y)
-    diff_in_x(destination_x) == 1 && diff_in_y(destination_y) == 1
+  def single_diagonal_move?(coordinates)
+    diff_in_x(coordinates.x) == 1 && diff_in_y(coordinates.y) == 1
   end
 
-  def opponent_at?(destination_x, destination_y)
-    destination_piece = game.chess_pieces.find_by(position_x: destination_x, position_y: destination_y)
+  def opponent_at?(coordinates)
+    destination_piece = game.chess_pieces.find_by(position_x: coordinates.x, position_y: coordinates.y)
     opponent?(destination_piece)
   end
 
