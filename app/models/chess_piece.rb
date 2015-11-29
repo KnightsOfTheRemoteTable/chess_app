@@ -13,6 +13,8 @@ class ChessPiece < ActiveRecord::Base
             presence: true
   enum color: [:black, :white]
 
+  scope :with_color, ->(color) { where(color: colors[color]) }
+
   def obstructed?(destination_x, destination_y)
     return diagonal_obstruction?(destination_x, destination_y) if diagonal_move?(destination_x, destination_y)
     return vertical_obstruction?(destination_x, destination_y) if vertical_move?(destination_x, destination_y)
@@ -28,6 +30,10 @@ class ChessPiece < ActiveRecord::Base
       destination_piece.destroy
     end
     update(position_x: destination_x, position_y: destination_y)
+  end
+
+  def opposite_color
+    black? ? 'white' : 'black'
   end
 
   private
