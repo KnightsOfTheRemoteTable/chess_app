@@ -180,13 +180,13 @@ RSpec.describe Game do
 
     it 'when moved successfully, it switches the current player to white when black moves' do
       black_rook.move_to!(4, 5)
-      expect(black_rook.game.current_player_is_white_player?).to eq true
+      expect(game.current_player_is_white_player?).to eq true
     end
 
     it 'when moved successfully, it switches the current player to black when white moves' do
       game.current_player_is_white_player!
       white_rook.move_to!(7, 6)
-      expect(white_rook.game.current_player_is_black_player?).to eq true
+      expect(game.current_player_is_black_player?).to eq true
     end
   end
 end
