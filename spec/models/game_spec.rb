@@ -173,17 +173,22 @@ RSpec.describe Game do
       expect { black_rook.move_to!(6, 5) }.to raise_error(ArgumentError)
     end
 
-    it 'otherwise updates the current position of the piece' do
+    it 'otherwise updates the current x position of the piece' do
       black_rook.move_to!(4, 5)
       expect(black_rook.position_x).to eq 4
     end
 
-    it 'when moved successfully, it switches the current player to white when black moves' do
+    it 'otherwise updates the current y position of the piece' do
+      black_rook.move_to!(5, 6)
+      expect(black_rook.position_y).to eq 6
+    end
+
+    it 'when black moves, the current player becomes white' do
       black_rook.move_to!(4, 5)
       expect(game.current_player_is_white_player?).to eq true
     end
 
-    it 'when moved successfully, it switches the current player to black when white moves' do
+    it 'when white moves, the current player becomes black' do
       game.current_player_is_white_player!
       white_rook.move_to!(7, 6)
       expect(game.current_player_is_black_player?).to eq true
