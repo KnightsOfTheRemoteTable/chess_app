@@ -37,6 +37,10 @@ class ChessPiece < ActiveRecord::Base
     black? ? 'white' : 'black'
   end
 
+  def coordinates
+    Coordinates.new(position_x, position_y)
+  end
+
   private
 
   def moved?

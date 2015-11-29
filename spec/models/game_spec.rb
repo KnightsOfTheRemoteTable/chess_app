@@ -171,27 +171,27 @@ RSpec.describe Game do
 
     it 'generates an ArgumentError if a piece of the same color is at the destination' do
       create(:rook, color: 'black', game: game, position_x: 6, position_y: 5)
-      expect { black_rook.move_to!(6, 5) }.to raise_error(ArgumentError)
+      expect { black_rook.move_to!(Coordinates.new(6, 5)) }.to raise_error(ArgumentError)
     end
 
     it 'otherwise updates the current x position of the piece' do
-      black_rook.move_to!(4, 5)
+      black_rook.move_to!(Coordinates.new(4, 5))
       expect(black_rook.position_x).to eq 4
     end
 
     it 'otherwise updates the current y position of the piece' do
-      black_rook.move_to!(5, 6)
+      black_rook.move_to!(Coordinates.new(5, 6))
       expect(black_rook.position_y).to eq 6
     end
 
     it 'when black moves, the current player becomes white' do
-      black_rook.move_to!(4, 5)
+      black_rook.move_to!(Coordinates.new(4, 5))
       expect(game.current_player_is_white_player?).to eq true
     end
 
     it 'when white moves, the current player becomes black' do
       game.current_player_is_white_player!
-      white_rook.move_to!(7, 6)
+      white_rook.move_to!(Coordinates.new(7, 6))
       expect(game.current_player_is_black_player?).to eq true
     end
   end
