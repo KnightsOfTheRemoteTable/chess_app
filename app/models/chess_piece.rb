@@ -30,6 +30,7 @@ class ChessPiece < ActiveRecord::Base
       destination_piece.destroy
     end
     update(position_x: destination_x, position_y: destination_y)
+    game.update_current_player!
   end
 
   def opposite_color
