@@ -17,6 +17,8 @@ module GamesHelper
 
     @chess_pieces.shift
 
-    link_to image_tag("#{current_piece.color.downcase}_#{current_piece.type.downcase}.png", id: current_piece.id), piece_path(current_piece)
+    link_to image_tag("#{current_piece.color.downcase}_#{current_piece.type.downcase}.png",
+                      id: current_piece.id),
+            piece_path(current_piece)
   end
 end
