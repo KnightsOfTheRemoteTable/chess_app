@@ -31,7 +31,12 @@ RSpec.describe King do
       game = create(:game)
       king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
       rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
+
+      # remove pawns and all pieces between king and rooks before moving
       Pawn.destroy_all(color: 'black', game: game)
+      Knight.destroy_all(color: 'black', game: game)
+      Bishop.destroy_all(color: 'black', game: game)
+      Queen.destroy_all(color: 'black', game: game)
       rook.move_to!(Coordinates.new(1, 4))
 
       expect(king.can_castle?(rook)).to eq false
@@ -41,7 +46,12 @@ RSpec.describe King do
       game = create(:game)
       king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
       rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
+
+      # remove pawns and all pieces between king and rooks before moving
       Pawn.destroy_all(color: 'black', game: game)
+      Knight.destroy_all(color: 'black', game: game)
+      Bishop.destroy_all(color: 'black', game: game)
+      Queen.destroy_all(color: 'black', game: game)
       king.move_to!(Coordinates.new(5, 7))
 
       expect(king.can_castle?(rook)).to eq false
@@ -65,20 +75,19 @@ RSpec.describe King do
 
     it 'returns false if the king crosses any square that would put the game in check' do
       game = create(:game)
-      black_king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
-      black_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
-      black_blocking_bishop = game.chess_pieces.find_by(position_x: 6, position_y: 8)
-      black_blocking_knight = game.chess_pieces.find_by(position_x: 7, position_y: 8)
+      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
 
       # Remove friendly pieces that block potential opponents/castling move
       Pawn.destroy_all(color: 'black', game: game)
-      black_blocking_bishop.destroy
-      black_blocking_knight.destroy
+      Knight.destroy_all(color: 'black', game: game)
+      Bishop.destroy_all(color: 'black', game: game)
+      Queen.destroy_all(color: 'black', game: game)
 
       # Add in an opponent that can capture a square traversed by the king
       Bishop.create(position_x: 7, position_y: 7, color: 'white', game: game)
 
-      expect(black_king.can_castle?(black_kingside_rook)).to eq false
+      expect(king.can_castle?(rook)).to eq false
     end
   end
 end
