@@ -38,15 +38,15 @@ class ChessPiece < ActiveRecord::Base
     Coordinates.new(position_x, position_y)
   end
 
+  def moved?
+    updated_at != created_at
+  end
+
   private
 
   def capture(piece)
     fail ArgumentError, 'Invalid Move' if piece.color == color
     piece.destroy
-  end
-
-  def moved?
-    updated_at != created_at
   end
 
   def x_start(destination_x)

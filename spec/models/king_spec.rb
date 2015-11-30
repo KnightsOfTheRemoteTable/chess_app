@@ -25,4 +25,60 @@ RSpec.describe King do
       expect(king.valid_move?(Coordinates.new(0, 4))).to eq false
     end
   end
+
+  describe '#can_castle' do
+    it 'returns false if a rook has previously moved' do
+      game = create(:game)
+      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
+      Pawn.destroy_all(color: 'black', game: game)
+      rook.move_to!(Coordinates.new(1, 4))
+
+      expect(king.can_castle?(rook)).to eq false
+    end
+
+    it 'returns false if the king has previously moved' do
+      game = create(:game)
+      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
+      Pawn.destroy_all(color: 'black', game: game)
+      king.move_to!(Coordinates.new(5, 7))
+
+      expect(king.can_castle?(rook)).to eq false
+    end
+
+    it 'returns false if, when trying to castle queenside, there is an obstruction' do
+      game = create(:game)
+      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
+
+      expect(king.can_castle?(rook)).to eq false
+    end
+
+    it 'returns false if, when trying to castle kingside, there is an obstruction' do
+      game = create(:game)
+      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
+
+      expect(king.can_castle?(rook)).to eq false
+    end
+
+    it 'returns false if the king crosses any square that would put the game in check' do
+      game = create(:game)
+      black_king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      black_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
+      black_blocking_bishop = game.chess_pieces.find_by(position_x: 6, position_y: 8)
+      black_blocking_knight = game.chess_pieces.find_by(position_x: 7, position_y: 8)
+
+      # Remove friendly pieces that block potential opponents/castling move
+      Pawn.destroy_all(color: 'black', game: game)
+      black_blocking_bishop.destroy
+      black_blocking_knight.destroy
+
+      # Add in an opponent that can capture a square traversed by the king
+      Bishop.create(position_x: 7, position_y: 7, color: 'white', game: game)
+
+      expect(black_king.can_castle?(black_kingside_rook)).to eq false
+    end
+  end
 end
