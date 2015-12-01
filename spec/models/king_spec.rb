@@ -27,67 +27,44 @@ RSpec.describe King do
   end
 
   describe '#can_castle' do
-    it 'returns false if a rook has previously moved' do
-      game = create(:game)
-      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
-      rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
+    let(:game) { create(:game) }
+    let(:king) { game.chess_pieces.find_by(position_x: 5, position_y: 8) }
+    let(:rook) { game.chess_pieces.find_by(position_x: 1, position_y: 8) }
 
-      # remove pawns and all pieces between king and rooks before moving
-      Pawn.destroy_all(color: 'black', game: game)
-      Knight.destroy_all(color: 'black', game: game)
-      Bishop.destroy_all(color: 'black', game: game)
-      Queen.destroy_all(color: 'black', game: game)
+    it 'returns false if a rook has previously moved' do
+      remove_everything_but_rook_and_king!('black')
       rook.move_to!(Coordinates.new(1, 4))
 
       expect(king.can_castle?(rook)).to eq false
     end
 
     it 'returns false if the king has previously moved' do
-      game = create(:game)
-      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
-      rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
-
-      # remove pawns and all pieces between king and rooks before moving
-      Pawn.destroy_all(color: 'black', game: game)
-      Knight.destroy_all(color: 'black', game: game)
-      Bishop.destroy_all(color: 'black', game: game)
-      Queen.destroy_all(color: 'black', game: game)
+      remove_everything_but_rook_and_king!('black')
       king.move_to!(Coordinates.new(5, 7))
 
       expect(king.can_castle?(rook)).to eq false
     end
 
     it 'returns false if, when trying to castle queenside, there is an obstruction' do
-      game = create(:game)
-      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
-      rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
-
       expect(king.can_castle?(rook)).to eq false
     end
 
     it 'returns false if, when trying to castle kingside, there is an obstruction' do
-      game = create(:game)
-      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
-      rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
-
       expect(king.can_castle?(rook)).to eq false
     end
 
     it 'returns false if the king crosses any square that would put the game in check' do
-      game = create(:game)
-      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
-      rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
-
-      # Remove friendly pieces that block potential opponents/castling move
-      Pawn.destroy_all(color: 'black', game: game)
-      Knight.destroy_all(color: 'black', game: game)
-      Bishop.destroy_all(color: 'black', game: game)
-      Queen.destroy_all(color: 'black', game: game)
-
-      # Add in an opponent that can capture a square traversed by the king
+      remove_everything_but_rook_and_king!('black')
       Bishop.create(position_x: 7, position_y: 7, color: 'white', game: game)
 
       expect(king.can_castle?(rook)).to eq false
     end
   end
+end
+
+def remove_everything_but_rook_and_king!(color)
+  Pawn.destroy_all(color:   color, game: game)
+  Knight.destroy_all(color: color, game: game)
+  Bishop.destroy_all(color: color, game: game)
+  Queen.destroy_all(color:  color, game: game)
 end
