@@ -19,9 +19,7 @@ class King < ChessPiece
     return false if moved?
     return false if obstructed?(rook.coordinates)
 
-    free_castling_spaces.each do |space|
-      return false if king_capturable_at_space?(space)
-    end
+    free_castling_spaces.each { |space| return false if king_capturable_at_space?(space) }
 
     true
   end

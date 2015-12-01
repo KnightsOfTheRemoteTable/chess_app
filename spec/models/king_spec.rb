@@ -55,7 +55,7 @@ RSpec.describe King do
 
     it 'returns false if the king crosses any square that would put the game in check' do
       remove_everything_but_rook_and_king!('black')
-      Bishop.create(position_x: 7, position_y: 7, color: 'white', game: game)
+      Rook.create(position_x: 6, position_y: 6, color: 'white', game: game)
 
       expect(king.can_castle?(rook)).to eq false
     end
