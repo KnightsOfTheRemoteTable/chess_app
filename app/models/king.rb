@@ -40,20 +40,37 @@ class King < ChessPiece
 
     side = selected_castle_side(rook)
     free_castling_spaces(side).each { |space| return false if king_capturable_at_space?(space) }
-
     true
   end
 
   def castle!(rook)
-    side = selected_castle_side(rook)
-
-    black_castle_kingside!  if black_kingside?(side)  && can_castle?(rook)
-    black_castle_queenside! if black_queenside?(side) && can_castle?(rook)
-    white_castle_kingside!  if white_kingside?(side)  && can_castle?(rook)
-    white_castle_queenside! if white_queenside?(side) && can_castle?(rook)
+    black_castle_kingside!  if black_king_can_castle_kingside?(rook)
+    black_castle_queenside! if black_king_can_castle_queenside?(rook)
+    white_castle_kingside!  if white_king_can_castle_kingside?(rook)
+    white_castle_queenside! if white_king_can_castle_queenside?(rook)
   end
 
   private
+
+  def black_king_can_castle_kingside?(rook)
+    side = selected_castle_side(rook)
+    black_kingside?(side) && can_castle?(rook)
+  end
+
+  def black_king_can_castle_queenside?(rook)
+    side = selected_castle_side(rook)
+    black_queenside?(side) && can_castle?(rook)
+  end
+
+  def white_king_can_castle_kingside?(rook)
+    side = selected_castle_side(rook)
+    white_kingside?(side) && can_castle?(rook)
+  end
+
+  def white_king_can_castle_queenside?(rook)
+    side = selected_castle_side(rook)
+    white_queenside?(side) && can_castle?(rook)
+  end
 
   def selected_castle_side(rook)
     return :kingside  if rook.position_x == CASTLING_KINGSIDE
