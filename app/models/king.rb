@@ -7,6 +7,25 @@ class King < ChessPiece
   WHITE_QUEENSIDE_CASTLE_TRAVERSED_SPACES = [Coordinates.new(3, 1), Coordinates.new(4, 1)]
   WHITE_KINGSIDE_CASTLE_TRAVERSED_SPACES  = [Coordinates.new(6, 1), Coordinates.new(7, 1)]
 
+  CASTLING_KINGSIDE  = 8
+  CASTLING_QUEENSIDE = 1
+
+  BLACK_KINGSIDE_ROOK_ORIGINAL_POSITION       = { position_x: 8, position_y: 8 }
+  BLACK_KINGSIDE_ROOK_AFTER_CASTLING_POSITION = Coordinates.new(6, 8)
+  BLACK_KING_AFTER_CASTLING_KINGSIDE_POSITION = Coordinates.new(7, 8)
+
+  BLACK_QUEENSIDE_ROOK_ORIGINAL_POSITION       = { position_x: 1, position_y: 8 }
+  BLACK_QUEENSIDE_ROOK_AFTER_CASTLING_POSITION = Coordinates.new(4, 8)
+  BLACK_KING_AFTER_CASTLING_QUEENSIDE_POSITION = Coordinates.new(3, 8)
+
+  WHITE_KINGSIDE_ROOK_ORIGINAL_POSITION       = { position_x: 8, position_y: 1 }
+  WHITE_KINGSIDE_ROOK_AFTER_CASTLING_POSITION = Coordinates.new(6, 1)
+  WHITE_KING_AFTER_CASTLING_KINGSIDE_POSITION = Coordinates.new(7, 1)
+
+  WHITE_QUEENSIDE_ROOK_ORIGINAL_POSITION       = { position_x: 1, position_y: 1 }
+  WHITE_QUEENSIDE_ROOK_AFTER_CASTLING_POSITION = Coordinates.new(4, 1)
+  WHITE_KING_AFTER_CASTLING_QUEENSIDE_POSITION = Coordinates.new(3, 1)
+
   def valid_move?(coordinates)
     return false if out_of_bounds?(coordinates)
     return false if diff_in_x(coordinates.x) > X_MOVE_FACTOR
@@ -37,8 +56,8 @@ class King < ChessPiece
   private
 
   def selected_castle_side(rook)
-    return :kingside  if rook.position_x == 8
-    return :queenside if rook.position_x == 1
+    return :kingside  if rook.position_x == CASTLING_KINGSIDE
+    return :queenside if rook.position_x == CASTLING_QUEENSIDE
   end
 
   def free_castling_spaces(side)
@@ -72,26 +91,26 @@ class King < ChessPiece
   end
 
   def black_castle_kingside!
-    move_to!(Coordinates.new(7, 8))
-    black_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
-    black_kingside_rook.move_to!(Coordinates.new(6, 8))
+    move_to!(BLACK_KING_AFTER_CASTLING_KINGSIDE_POSITION)
+    black_kingside_rook = game.chess_pieces.find_by(BLACK_KINGSIDE_ROOK_ORIGINAL_POSITION)
+    black_kingside_rook.move_to!(BLACK_KINGSIDE_ROOK_AFTER_CASTLING_POSITION)
   end
 
   def black_castle_queenside!
-    move_to!(Coordinates.new(3, 8))
-    black_queenside_rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
-    black_queenside_rook.move_to!(Coordinates.new(4, 8))
+    move_to!(BLACK_KING_AFTER_CASTLING_QUEENSIDE_POSITION)
+    black_queenside_rook = game.chess_pieces.find_by(BLACK_QUEENSIDE_ROOK_ORIGINAL_POSITION)
+    black_queenside_rook.move_to!(BLACK_QUEENSIDE_ROOK_AFTER_CASTLING_POSITION)
   end
 
   def white_castle_kingside!
-    move_to!(Coordinates.new(7, 1))
-    white_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 1)
-    white_kingside_rook.move_to!(Coordinates.new(6, 1))
+    move_to!(WHITE_KING_AFTER_CASTLING_KINGSIDE_POSITION)
+    white_kingside_rook = game.chess_pieces.find_by(WHITE_KINGSIDE_ROOK_ORIGINAL_POSITION)
+    white_kingside_rook.move_to!(WHITE_KINGSIDE_ROOK_AFTER_CASTLING_POSITION)
   end
 
   def white_castle_queenside!
-    move_to!(Coordinates.new(3, 1))
-    white_queenside_rook = game.chess_pieces.find_by(position_x: 1, position_y: 1)
-    white_queenside_rook.move_to!(Coordinates.new(4, 1))
+    move_to!(WHITE_KING_AFTER_CASTLING_QUEENSIDE_POSITION)
+    white_queenside_rook = game.chess_pieces.find_by(WHITE_QUEENSIDE_ROOK_ORIGINAL_POSITION)
+    white_queenside_rook.move_to!(WHITE_QUEENSIDE_ROOK_AFTER_CASTLING_POSITION)
   end
 end

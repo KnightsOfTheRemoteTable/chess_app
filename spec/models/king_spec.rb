@@ -119,7 +119,7 @@ RSpec.describe King do
     it 'updates the x coordinates of the black king when castling kingside'do
       remove_everything_but_rook_and_king!('black')
       black_king.castle!(black_kingside_rook)
-      expect(black_king.position_x).to eq 7
+      expect(black_king.reload.position_x).to eq 7
     end
 
     it 'updates the x coordinates of the black king when castling queenside'do
