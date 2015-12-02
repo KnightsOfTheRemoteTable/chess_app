@@ -125,43 +125,43 @@ RSpec.describe King do
     it 'updates the x coordinates of the black king when castling queenside'do
       remove_everything_but_rook_and_king!('black')
       black_king.castle!(black_queenside_rook)
-      expect(black_king.position_x).to eq 3
+      expect(black_king.reload.position_x).to eq 3
     end
 
     it 'updates the x coordinates of the black rook when castling kingside'do
       remove_everything_but_rook_and_king!('black')
       black_king.castle!(black_kingside_rook)
-      expect(black_kingside_rook.position_x).to eq 6
+      expect(black_kingside_rook.reload.position_x).to eq 6
     end
 
     it 'updates the x coordinates of the black rook when castling queenside'do
       remove_everything_but_rook_and_king!('black')
-      black_king.castle!(black_kingside_rook)
-      expect(black_kingside_rook.position_x).to eq 4
+      black_king.castle!(black_queenside_rook)
+      expect(black_queenside_rook.reload.position_x).to eq 4
     end
 
     it 'updates the x coordinates of the white king when castling kingside'do
       remove_everything_but_rook_and_king!('white')
       white_king.castle!(white_kingside_rook)
-      expect(white_king.position_x).to eq 7
+      expect(white_king.reload.position_x).to eq 7
     end
 
     it 'updates the x coordinates of the white king when castling queenside'do
       remove_everything_but_rook_and_king!('white')
       white_king.castle!(white_queenside_rook)
-      expect(white_king.position_x).to eq 3
+      expect(white_king.reload.position_x).to eq 3
     end
 
     it 'updates the x coordinates of the white rook when castling kingside'do
       remove_everything_but_rook_and_king!('white')
       white_king.castle!(white_kingside_rook)
-      expect(white_kingside_rook.position_x).to eq 6
+      expect(white_kingside_rook.reload.position_x).to eq 6
     end
 
     it 'updates the x coordinates of the white rook when castling queenside'do
       remove_everything_but_rook_and_king!('white')
-      white_king.castle!(white_kingside_rook)
-      expect(white_kingside_rook.position_x).to eq 4
+      white_king.castle!(white_queenside_rook)
+      expect(white_queenside_rook.reload.position_x).to eq 4
     end
   end
 end

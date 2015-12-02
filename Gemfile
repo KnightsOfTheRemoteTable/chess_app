@@ -46,11 +46,14 @@ group :development do
   gem 'spring'
   # Adds spring compatibility to rspec
   gem 'spring-commands-rspec'
-  # Use Pry instead of IRB
-  gem 'pry-rails'
 end
 
 group :development, :test do
+
+  # Use Pry instead of IRB
+  gem 'pry-rails'
+  gem 'byebug'
+
   gem 'rspec-rails', '~> 3.0'
 
   # Use rubocop for linting
