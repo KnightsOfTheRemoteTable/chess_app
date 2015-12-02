@@ -25,7 +25,19 @@ class King < ChessPiece
     true
   end
 
+  def castle!(rook)
+    side = selected_castle_side(rook)
+    black_castle_kingside! if black_kingside?(side) && can_castle?(rook)
+  end
+
   private
+
+  def black_castle_kingside!
+    update(position_x: 7)
+    black_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
+    black_kingside_rook.update(position_x: 6)
+    puts black_kingside_rook.position_x
+  end
 
   def selected_castle_side(rook)
     return :kingside  if rook.position_x == 8

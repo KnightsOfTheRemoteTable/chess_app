@@ -99,6 +99,38 @@ RSpec.describe King do
 
       expect(black_king.can_castle?(black_kingside_rook)).to eq false
     end
+
+    it 'returns true otherwise' do
+      remove_everything_but_rook_and_king!('black')
+
+      expect(black_king.can_castle?(black_kingside_rook)).to eq true
+    end
+  end
+
+  describe '#castle!' do
+    let(:game)                 { create(:game) }
+    let(:black_king)           { game.chess_pieces.find_by(position_x: 5, position_y: 8) }
+    let(:white_king)           { game.chess_pieces.find_by(position_x: 5, position_y: 1) }
+    let(:black_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 8) }
+    let(:black_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 8) }
+    let(:white_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 1) }
+    let(:white_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 1) }
+
+    it 'updates the x coordinates of the black king when castling kingside'do
+      remove_everything_but_rook_and_king!('black')
+      black_king.castle!(black_kingside_rook)
+      expect(black_king.position_x).to eq 7
+    end
+
+    it 'updates the x coordinates of the black rook when castling kingside'do
+      remove_everything_but_rook_and_king!('black')
+      black_king.castle!(black_kingside_rook)
+      expect(black_kingside_rook.position_x).to eq 6
+    end
+
+    it 'swaps the x coordinates of the black king and the black queenside rook'
+    it 'swaps the x coordinates of the white king and the white kingside rook'
+    it 'swaps the x coordinates of the white king and the white queenside rook'
   end
 end
 
