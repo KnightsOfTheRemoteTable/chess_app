@@ -15,10 +15,11 @@ class Game < ActiveRecord::Base
 
   def forfeit_by!(player)
     if player == white_player
-      self.winner = black_player
+      winner = black_player
     else
-      self.winner = white_player
+      winner = white_player
     end
+    update!(winner: winner)
   end
 
   def players

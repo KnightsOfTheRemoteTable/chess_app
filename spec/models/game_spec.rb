@@ -204,7 +204,7 @@ RSpec.describe Game do
 
       game.forfeit_by!(black_player)
 
-      expect(game.winner).to eq white_player
+      expect(game.reload.winner).to eq white_player
     end
 
     it 'results in black victory when white forfeits' do
@@ -214,7 +214,7 @@ RSpec.describe Game do
 
       game.forfeit_by!(white_player)
 
-      expect(game.winner).to eq black_player
+      expect(game.reload.winner).to eq black_player
     end
   end
 
