@@ -1,4 +1,7 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authorize_player, only: :forfeit
+
   def index
   end
 
@@ -14,8 +17,17 @@ class GamesController < ApplicationController
   end
 
   def forfeit
-    @game = Game.find(params[:id])
-    @game.forfeit_by!(current_user)
-    redirect_to @game, alert: 'You have forfeited the game'
+    current_game.forfeit_by!(current_user)
+    redirect_to current_game, alert: 'You have forfeited the game'
+  end
+
+  private
+
+  def authorize_player
+    render text: 'Forbidden', status: :unauthorized unless current_game.players.include?(current_user)
+  end
+
+  def current_game
+    @game ||= Game.find(params[:id])
   end
 end
