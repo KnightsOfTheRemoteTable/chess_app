@@ -25,6 +25,8 @@ class King < ChessPiece
     true
   end
 
+  private
+
   def selected_castle_side(rook)
     return :kingside  if rook.position_x == 8
     return :queenside if rook.position_x == 1
