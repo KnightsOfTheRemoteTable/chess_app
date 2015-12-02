@@ -27,37 +27,77 @@ RSpec.describe King do
   end
 
   describe '#can_castle' do
-    let(:game) { create(:game) }
-    let(:king) { game.chess_pieces.find_by(position_x: 5, position_y: 8) }
-    let(:rook) { game.chess_pieces.find_by(position_x: 1, position_y: 8) }
+    let(:game)           { create(:game) }
+    let(:black_king)     { game.chess_pieces.find_by(position_x: 5, position_y: 8) }
+    let(:white_king)     { game.chess_pieces.find_by(position_x: 5, position_y: 1) }
+    let(:black_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 8) }
+    let(:black_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 8) }
+    let(:white_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 1) }
+    let(:white_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 1) }
 
-    it 'returns false if a rook has previously moved' do
+    it 'returns false if the black kingside rook has previously moved' do
       remove_everything_but_rook_and_king!('black')
-      rook.move_to!(Coordinates.new(1, 4))
+      black_kingside_rook.move_to!(Coordinates.new(8, 4))
 
-      expect(king.can_castle?(rook)).to eq false
+      expect(black_king.can_castle?(black_kingside_rook)).to eq false
     end
 
-    it 'returns false if the king has previously moved' do
+    it 'returns false if the black queenside rook has previously moved' do
       remove_everything_but_rook_and_king!('black')
-      king.move_to!(Coordinates.new(5, 7))
+      black_queenside_rook.move_to!(Coordinates.new(1, 4))
 
-      expect(king.can_castle?(rook)).to eq false
+      expect(black_king.can_castle?(black_queenside_rook)).to eq false
     end
 
-    it 'returns false if, when trying to castle queenside, there is an obstruction' do
-      expect(king.can_castle?(rook)).to eq false
+    it 'returns false if the black king has previously moved' do
+      remove_everything_but_rook_and_king!('black')
+      black_king.move_to!(Coordinates.new(5, 7))
+
+      expect(black_king.can_castle?(black_kingside_rook)).to eq false
     end
 
-    it 'returns false if, when trying to castle kingside, there is an obstruction' do
-      expect(king.can_castle?(rook)).to eq false
+    it 'returns false if there is an obstruction on black kingside' do
+      expect(black_king.can_castle?(black_kingside_rook)).to eq false
+    end
+
+    it 'returns false if there is an obstruction on black queenside' do
+      expect(black_king.can_castle?(black_queenside_rook)).to eq false
+    end
+
+    it 'returns false if the white kingside rook has previously moved' do
+      remove_everything_but_rook_and_king!('white')
+      white_kingside_rook.move_to!(Coordinates.new(8, 4))
+
+      expect(white_king.can_castle?(white_kingside_rook)).to eq false
+    end
+
+    it 'returns false if the white queenside rook has previously moved' do
+      remove_everything_but_rook_and_king!('white')
+      white_queenside_rook.move_to!(Coordinates.new(1, 5))
+
+      expect(white_king.can_castle?(white_queenside_rook)).to eq false
+    end
+
+    it 'returns false if the white king has previously moved' do
+      remove_everything_but_rook_and_king!('white')
+      white_king.move_to!(Coordinates.new(5, 7))
+
+      expect(white_king.can_castle?(white_kingside_rook)).to eq false
+    end
+
+    it 'returns false if there is an obstruction on white kingside' do
+      expect(white_king.can_castle?(white_kingside_rook)).to eq false
+    end
+
+    it 'returns false if there is an obstruction on white queenside' do
+      expect(white_king.can_castle?(white_queenside_rook)).to eq false
     end
 
     it 'returns false if the king crosses any square that would put the game in check' do
       remove_everything_but_rook_and_king!('black')
       Rook.create(position_x: 6, position_y: 6, color: 'white', game: game)
 
-      expect(king.can_castle?(rook)).to eq false
+      expect(black_king.can_castle?(black_kingside_rook)).to eq false
     end
   end
 end

@@ -19,14 +19,38 @@ class King < ChessPiece
     return false if moved?
     return false if obstructed?(rook.coordinates)
 
-    free_castling_spaces.each { |space| return false if king_capturable_at_space?(space) }
+    side = selected_castle_side(rook)
+    free_castling_spaces(side).each { |space| return false if king_capturable_at_space?(space) }
 
     true
   end
 
-  def free_castling_spaces
-    black? ? BLACK_KINGSIDE_CASTLE_TRAVERSED_SPACES && BLACK_QUEENSIDE_CASTLE_TRAVERSED_SPACES :
-             WHITE_KINGSIDE_CASTLE_TRAVERSED_SPACES && WHITE_QUEENSIDE_CASTLE_TRAVERSED_SPACES
+  def selected_castle_side(rook)
+    return :kingside  if rook.position_x == 8
+    return :queenside if rook.position_x == 1
+  end
+
+  def free_castling_spaces(side)
+    return BLACK_KINGSIDE_CASTLE_TRAVERSED_SPACES  if black_kingside?(side)
+    return BLACK_QUEENSIDE_CASTLE_TRAVERSED_SPACES if black_queenside?(side)
+    return WHITE_KINGSIDE_CASTLE_TRAVERSED_SPACES  if white_kingside?(side)
+    return WHITE_QUEENSIDE_CASTLE_TRAVERSED_SPACES if white_queenside?(side)
+  end
+
+  def black_kingside?(side)
+    black? && side == :kingside
+  end
+
+  def black_queenside?(side)
+    black? && side == :queenside
+  end
+
+  def white_kingside?(side)
+    white? && side == :kingside
+  end
+
+  def white_queenside?(side)
+    white? && side == :queenside
   end
 
   def king_capturable_at_space?(coordinates)
