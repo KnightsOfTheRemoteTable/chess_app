@@ -142,6 +142,7 @@ RSpec.describe King do
 
     it 'updates the x coordinates of the white king when castling kingside'do
       remove_everything_but_rook_and_king!('white')
+      expect(white_king.can_castle?(white_kingside_rook)).to eq true
       white_king.castle!(white_kingside_rook)
       expect(white_king.reload.position_x).to eq 7
     end
@@ -167,8 +168,8 @@ RSpec.describe King do
 end
 
 def remove_everything_but_rook_and_king!(color)
-  Pawn.destroy_all(color:   color, game: game)
-  Knight.destroy_all(color: color, game: game)
-  Bishop.destroy_all(color: color, game: game)
-  Queen.destroy_all(color:  color, game: game)
+  Pawn.with_color(color).destroy_all(game: game)
+  Knight.with_color(color).destroy_all(game: game)
+  Bishop.with_color(color).destroy_all(game: game)
+  Queen.with_color(color).destroy_all(game: game)
 end
