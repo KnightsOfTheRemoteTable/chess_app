@@ -105,7 +105,6 @@ RSpec.describe King do
     end
 
     it 'returns false if the king crosses any square that would put the game in check' do
-      remove_everything_but_rook_and_king!('black')
       Rook.create(position_x: 6, position_y: 6, color: 'white', game: game)
 
       expect(black_king.can_castle?(black_kingside_rook)).to eq false
@@ -113,7 +112,6 @@ RSpec.describe King do
 
     it 'returns true otherwise' do
       remove_everything_but_rook_and_king!('black')
-
       expect(black_king.can_castle?(black_kingside_rook)).to eq true
     end
   end
@@ -127,53 +125,64 @@ RSpec.describe King do
     let(:white_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 1) }
     let(:white_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 1) }
 
-    it 'updates the x coordinates of the black king when castling kingside'do
-      remove_everything_but_rook_and_king!('black')
-      black_king.castle!(black_kingside_rook)
-      expect(black_king.reload.position_x).to eq 7
+    context 'when black is castling' do
+      before(:each) do
+        remove_everything_but_rook_and_king!('black')
+      end
+
+      it 'updates the x coordinates of the black king when castling kingside'do
+        black_king.castle!(black_kingside_rook)
+
+        expect(black_king.reload.position_x).to eq 7
+      end
+
+      it 'updates the x coordinates of the black king when castling queenside'do
+        black_king.castle!(black_queenside_rook)
+
+        expect(black_king.reload.position_x).to eq 3
+      end
+
+      it 'updates the x coordinates of the black rook when castling kingside'do
+        black_king.castle!(black_kingside_rook)
+
+        expect(black_kingside_rook.reload.position_x).to eq 6
+      end
+
+      it 'updates the x coordinates of the black rook when castling queenside'do
+        black_king.castle!(black_queenside_rook)
+
+        expect(black_queenside_rook.reload.position_x).to eq 4
+      end
     end
 
-    it 'updates the x coordinates of the black king when castling queenside'do
-      remove_everything_but_rook_and_king!('black')
-      black_king.castle!(black_queenside_rook)
-      expect(black_king.reload.position_x).to eq 3
-    end
+    context 'when white is castling' do
+      before(:each) do
+        remove_everything_but_rook_and_king!('white')
+      end
 
-    it 'updates the x coordinates of the black rook when castling kingside'do
-      remove_everything_but_rook_and_king!('black')
-      black_king.castle!(black_kingside_rook)
-      expect(black_kingside_rook.reload.position_x).to eq 6
-    end
+      it 'updates the x coordinates of the white king when castling kingside'do
+        white_king.castle!(white_kingside_rook)
 
-    it 'updates the x coordinates of the black rook when castling queenside'do
-      remove_everything_but_rook_and_king!('black')
-      black_king.castle!(black_queenside_rook)
-      expect(black_queenside_rook.reload.position_x).to eq 4
-    end
+        expect(white_king.reload.position_x).to eq 7
+      end
 
-    it 'updates the x coordinates of the white king when castling kingside'do
-      remove_everything_but_rook_and_king!('white')
-      expect(white_king.can_castle?(white_kingside_rook)).to eq true
-      white_king.castle!(white_kingside_rook)
-      expect(white_king.reload.position_x).to eq 7
-    end
+      it 'updates the x coordinates of the white king when castling queenside'do
+        white_king.castle!(white_queenside_rook)
 
-    it 'updates the x coordinates of the white king when castling queenside'do
-      remove_everything_but_rook_and_king!('white')
-      white_king.castle!(white_queenside_rook)
-      expect(white_king.reload.position_x).to eq 3
-    end
+        expect(white_king.reload.position_x).to eq 3
+      end
 
-    it 'updates the x coordinates of the white rook when castling kingside'do
-      remove_everything_but_rook_and_king!('white')
-      white_king.castle!(white_kingside_rook)
-      expect(white_kingside_rook.reload.position_x).to eq 6
-    end
+      it 'updates the x coordinates of the white rook when castling kingside'do
+        white_king.castle!(white_kingside_rook)
 
-    it 'updates the x coordinates of the white rook when castling queenside'do
-      remove_everything_but_rook_and_king!('white')
-      white_king.castle!(white_queenside_rook)
-      expect(white_queenside_rook.reload.position_x).to eq 4
+        expect(white_kingside_rook.reload.position_x).to eq 6
+      end
+
+      it 'updates the x coordinates of the white rook when castling queenside'do
+        white_king.castle!(white_queenside_rook)
+
+        expect(white_queenside_rook.reload.position_x).to eq 4
+      end
     end
   end
 end
