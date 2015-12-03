@@ -9,5 +9,9 @@ RSpec.feature 'User moves piece', type: :feature do
     click_link('', href: piece_path(pawn))
 
     expect(current_path).to eq piece_path(pawn)
+
+    click_link('', href: piece_path(id: pawn, x: 1, y: 3))
+
+    expect(pawn.reload.position_y).to eq 3
   end
 end
