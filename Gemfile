@@ -49,7 +49,6 @@ group :development do
 end
 
 group :development, :test do
-
   # Use Pry instead of IRB
   gem 'pry-rails'
   gem 'byebug'
