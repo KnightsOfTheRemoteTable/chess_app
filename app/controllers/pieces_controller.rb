@@ -6,6 +6,7 @@ class PiecesController < ApplicationController
   end
 
   def update
-    @chess_piece = ChessPiece.find_by(class: 'selected')
+    @chess_piece = ChessPiece.find_by(params[:id])
+
   end
 end
