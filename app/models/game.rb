@@ -1,4 +1,5 @@
 class Game < ActiveRecord::Base
+
   belongs_to :white_player, class_name: 'User'
   belongs_to :black_player, class_name: 'User'
   belongs_to :winner, class_name: 'User'
@@ -96,11 +97,66 @@ class Game < ActiveRecord::Base
     coordinates == en_passant_coordinates
   end
 
+  def checkmate?
+    if king_is_in_check?('black')
+      return true unless black_can_escape?
+    end
+
+    if king_is_in_check('white')
+      return true unless white_can_escape?
+    end
+  end
+
   private
 
   def en_passant_coordinates
     return unless en_passant_position
     Coordinates.new(*en_passant_position.split(',').map(&:to_i))
+  end
+
+  def white_can_escape?
+    white? && king_is_in_check('white')
+    potential_moves = white_king_moves
+    potential_moves.each { |move| return true if king.valid_move?(move) }
+    false
+  end
+
+  def black_can_escape?
+    black? && king_is_in_check('black')
+    potential_moves = black_king_moves
+    potential_moves.each { |move| return true if king.valid_move?(move) }
+    false
+  end
+
+  def black_king_moves
+    king = locate_king('black') 
+    moves = []
+    moves << Coordinates.new(king.position_x, king.position_y + 1)
+    moves << Coordinates.new(king.position_x + 1, king.position_y + 1)
+    moves << Coordinates.new(king.position_x + 1, king.position_y)
+    moves << Coordinates.new(king.position_x + 1, king.position_y - 1)
+    moves << Coordinates.new(king.position_x, king.position_y - 1)
+    moves << Coordinates.new(king.position_x - 1, king.position_y - 1)
+    moves << Coordinates.new(king.position_x - 1, king.position_y)
+    moves << Coordinates.new(king.position_x - 1, king.position_y + 1)
+  end
+
+  def white_king_moves
+    king = locate_king('white') 
+    moves = []
+    moves << Coordinates.new(king.position_x, king.position_y + 1)
+    moves << Coordinates.new(king.position_x + 1, king.position_y + 1)
+    moves << Coordinates.new(king.position_x + 1, king.position_y)
+    moves << Coordinates.new(king.position_x + 1, king.position_y - 1)
+    moves << Coordinates.new(king.position_x, king.position_y - 1)
+    moves << Coordinates.new(king.position_x - 1, king.position_y - 1)
+    moves << Coordinates.new(king.position_x - 1, king.position_y)
+    moves << Coordinates.new(king.position_x - 1, king.position_y + 1)
+  end
+
+  def king_is_in_check?(color)
+    king = locate_king(color)
+    capturable_by_opposing_color?(king)
   end
 
   def locate_king(color)
