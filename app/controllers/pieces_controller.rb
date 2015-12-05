@@ -1,5 +1,6 @@
 class PiecesController < ApplicationController
   before_action :authenticate_user!, only: [:update]
+  before_action :authorize_player, only: [:update]
 
   def show
     @selected_piece = ChessPiece.find(params[:id])
@@ -15,11 +16,23 @@ class PiecesController < ApplicationController
       @selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
       redirect_to game_path(@game)
     else
-      render text: 'Invalid', status: :forbidden
+      render text: 'Forbidden', status: :unauthorized
     end
   end
 
   private
+
+  def authorize_player
+    render text: 'Forbidden', status: :unauthorized unless current_game.players.include?(current_user)
+  end
+
+  def current_game
+    @game ||= ChessPiece.find(params[:id]).game
+  end
+
+  def players
+    [current_game.black_player, current_game.white_player]
+  end
 
   def moving_validly?
     @selected_piece && @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
