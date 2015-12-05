@@ -97,8 +97,8 @@ class Game < ActiveRecord::Base
   end
 
   def checkmate?
-    return true unless black_can_escape? if king_is_in_check?('black')
-    return true unless white_can_escape? if king_is_in_check('white')
+    return true if !black_can_escape? && king_is_in_check?('black')
+    return true if !white_can_escape? && king_is_in_check('white')
   end
 
   private
