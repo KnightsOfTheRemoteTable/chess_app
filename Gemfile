@@ -38,6 +38,8 @@ gem 'devise'
 
 # jQuery UI for the Rails asset pipeline
 gem 'jquery-ui-rails'
+# Use omniauth-facebook gem for facebook login
+gem 'omniauth-facebook'
 
 group :development do
   # awesome_print gem for more readable output in terminal
