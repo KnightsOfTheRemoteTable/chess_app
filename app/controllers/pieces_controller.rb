@@ -6,7 +6,23 @@ class PiecesController < ApplicationController
   end
 
   def update
-    @chess_piece = ChessPiece.find_by(params[:id])
+    @selected_piece = ChessPiece.find(params[:id])
 
+    if @selected_piece && @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+      @selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+      redirect_to piece_path(@selected_piece)
+    else
+      render 'Invalid', status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def move_to_x_parameter
+    (params[:piece][:position_x]).to_i
+  end
+
+  def move_to_y_parameter
+    (params[:piece][:position_y]).to_i
   end
 end
