@@ -85,7 +85,16 @@ class Game < ActiveRecord::Base
     current_player_is_white_player? ? current_player_is_black_player! : current_player_is_white_player!
   end
 
+  def can_en_passant?(coordinates)
+    coordinates == en_passant_coordinates
+  end
+
   private
+
+  def en_passant_coordinates
+    return unless en_passant_position
+    Coordinates.new(*en_passant_position.split(',').map(&:to_i))
+  end
 
   def king_is_in_check?(color)
     king = locate_king(color)
