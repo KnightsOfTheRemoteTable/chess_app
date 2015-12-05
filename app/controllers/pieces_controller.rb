@@ -11,15 +11,19 @@ class PiecesController < ApplicationController
     @selected_piece = ChessPiece.find(params[:id])
     @game = @selected_piece.game
 
-    if @selected_piece && @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+    if moving_validly?
       @selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
-      redirect_to game_path(@game) and return
+      redirect_to game_path(@game)
     else
       render text: 'Invalid', status: :forbidden
     end
   end
 
   private
+
+  def moving_validly?
+    @selected_piece && @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+  end
 
   def move_to_x_parameter
     (params[:piece][:position_x]).to_i
