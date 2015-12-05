@@ -14,7 +14,10 @@ RSpec.describe PiecesController, type: :controller do
 
   describe 'PUT pieces#update' do
     it 'responds successfully with an HTTP 302 status code' do
-      game = create(:game)
+      black_player = create(:user)
+      game = create(:game, black_player: black_player)
+      sign_in black_player
+
       piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 7).id
       put(:update, id: piece_id, piece: { position_x: 1, position_y: 6 })
 

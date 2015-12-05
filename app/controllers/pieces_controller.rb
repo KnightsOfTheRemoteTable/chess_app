@@ -1,4 +1,6 @@
 class PiecesController < ApplicationController
+  before_action :authenticate_user!, only: [:update]
+
   def show
     @selected_piece = ChessPiece.find(params[:id])
     @game = @selected_piece.game

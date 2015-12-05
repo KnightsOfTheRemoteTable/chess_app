@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.feature 'User moves piece', type: :feature do
   scenario 'successfully' do
-    game = create(:game)
+    user = create(:user)
+    game = create(:game, black_player: user)
+    sign_in_as(user)
     visit game_path(game)
 
     pawn = game.chess_pieces.find_by(position_x: 1, position_y: 2)
