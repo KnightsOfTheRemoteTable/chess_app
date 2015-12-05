@@ -4,6 +4,10 @@ ChessApp::Application.routes.draw do
   resources :pieces, only: [:show, :update] do
     get 'valid_moves', on: :member
   end
+  get '/username', to: 'users#username'
+  resource :user, only: :update
+  resources :games, only: [:new, :create, :show]
+  resources :pieces, only: [:show, :update]
   resources :games, only: [:index, :new, :create, :show] do
     put 'forfeit', on: :member
     put 'join', on: :member

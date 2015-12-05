@@ -1,0 +1,7 @@
+.row
+  .col-md-8.col-offset-2
+    h2 Please set a username
+    = simple_form_for(current_user) do |f|
+      = f.input :username, input_html: { value: '' }
+
+      = f.button :submit, 'Set username'
