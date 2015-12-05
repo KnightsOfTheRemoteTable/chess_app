@@ -1,5 +1,4 @@
 class Game < ActiveRecord::Base
-
   belongs_to :white_player, class_name: 'User'
   belongs_to :black_player, class_name: 'User'
   belongs_to :winner, class_name: 'User'
@@ -98,13 +97,8 @@ class Game < ActiveRecord::Base
   end
 
   def checkmate?
-    if king_is_in_check?('black')
-      return true unless black_can_escape?
-    end
-
-    if king_is_in_check('white')
-      return true unless white_can_escape?
-    end
+    return true unless black_can_escape? if king_is_in_check?('black')
+    return true unless white_can_escape? if king_is_in_check('white')
   end
 
   private
@@ -129,7 +123,7 @@ class Game < ActiveRecord::Base
   end
 
   def black_king_moves
-    king = locate_king('black') 
+    king = locate_king('black')
     moves = []
     moves << Coordinates.new(king.position_x, king.position_y + 1)
     moves << Coordinates.new(king.position_x + 1, king.position_y + 1)
@@ -142,7 +136,7 @@ class Game < ActiveRecord::Base
   end
 
   def white_king_moves
-    king = locate_king('white') 
+    king = locate_king('white')
     moves = []
     moves << Coordinates.new(king.position_x, king.position_y + 1)
     moves << Coordinates.new(king.position_x + 1, king.position_y + 1)
