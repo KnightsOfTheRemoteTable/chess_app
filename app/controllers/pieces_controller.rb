@@ -7,12 +7,13 @@ class PiecesController < ApplicationController
 
   def update
     @selected_piece = ChessPiece.find(params[:id])
+    @game = @selected_piece.game
 
     if @selected_piece && @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
       @selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
-      redirect_to piece_path(@selected_piece)
+      redirect_to game_path(@game) and return
     else
-      render 'Invalid', status: :unprocessable_entity
+      render text: 'Invalid', status: :forbidden
     end
   end
 
