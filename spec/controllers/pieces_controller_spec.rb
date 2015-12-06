@@ -23,5 +23,23 @@ RSpec.describe PiecesController, type: :controller do
 
       expect(response).to have_http_status(302)
     end
+
+    it 'redirects to login if not signed in' do
+      game = create(:game)
+      piece_id = game.chess_pieces.first.id
+
+      put(:update, id: piece_id, piece: { position_x: 1, position_y: 6 })
+
+      expect(response).to redirect_to new_user_session_path
+    end
+
+    it 'returns status unauthorized if not playing game' do
+      game = create(:game)
+      piece_id = game.chess_pieces.first.id
+      sign_in create(:user)
+      put(:update, id: piece_id, piece: { position_x: 1, position_y: 6 })
+
+      expect(response).to have_http_status(:unauthorized)
+    end
   end
 end
