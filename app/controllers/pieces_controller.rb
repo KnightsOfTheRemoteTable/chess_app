@@ -1,6 +1,6 @@
 class PiecesController < ApplicationController
-  before_action :authenticate_user!, only: [:update, :show]
-  before_action :authorize_player, only: [:show]
+  before_action :authenticate_user!
+  before_action :authorize_player
 
   def show
     @selected_piece = ChessPiece.find(params[:id])
@@ -23,11 +23,19 @@ class PiecesController < ApplicationController
   private
 
   def authorize_player
-    render text: 'Forbidden', status: :unauthorized unless current_game.players.include?(current_user)
+    if current_user == current_game.black_player
+      render text: 'Forbidden', status: :unauthorized unless selected_piece.black?
+    elsif current_user == current_game.white_player
+      render text: 'Forbidden', status: :unauthorized unless selected_piece.white?
+    end
   end
 
   def current_game
     @game ||= ChessPiece.find(params[:id]).game
+  end
+
+  def selected_piece
+    @selected_piece ||= ChessPiece.find(params[:id])
   end
 
   def moving_validly?

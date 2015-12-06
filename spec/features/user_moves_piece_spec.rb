@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'User moves piece', type: :feature do
   scenario 'successfully' do
     user = create(:user)
-    game = create(:game, black_player: user)
+    game = create(:game, white_player: user)
     sign_in_as(user)
     visit game_path(game)
 

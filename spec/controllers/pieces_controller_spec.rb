@@ -9,7 +9,7 @@ RSpec.describe PiecesController, type: :controller do
 
     it 'responds successfully with an HTTP 200 status code' do
       sign_in @black_player
-      piece_id = @game.chess_pieces.first.id
+      piece_id = @game.chess_pieces.find_by(position_x: 1, position_y: 7)
       get :show, id: piece_id
 
       expect(response).to be_success
