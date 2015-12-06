@@ -23,11 +23,8 @@ class PiecesController < ApplicationController
   private
 
   def authorize_player
-    if current_user == current_game.black_player
-      render text: 'Forbidden', status: :unauthorized unless selected_piece.black?
-    elsif current_user == current_game.white_player
-      render text: 'Forbidden', status: :unauthorized unless selected_piece.white?
-    end
+    render text: 'Forbidden', status: :unauthorized unless
+      current_user == current_game.send("#{selected_piece.color}_player")
   end
 
   def current_game
