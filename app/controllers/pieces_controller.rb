@@ -1,6 +1,6 @@
 class PiecesController < ApplicationController
-  before_action :authenticate_user!, only: [:update]
-  before_action :authorize_player, only: [:update]
+  before_action :authenticate_user!, only: [:update, :show]
+  before_action :authorize_player, only: [:show]
 
   def show
     @selected_piece = ChessPiece.find(params[:id])
@@ -30,12 +30,8 @@ class PiecesController < ApplicationController
     @game ||= ChessPiece.find(params[:id]).game
   end
 
-  def players
-    [current_game.black_player, current_game.white_player]
-  end
-
   def moving_validly?
-    @selected_piece && @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+    @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
   end
 
   def move_to_x_parameter
