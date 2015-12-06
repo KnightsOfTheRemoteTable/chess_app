@@ -6,6 +6,7 @@ RSpec.describe Game do
 
   it { is_expected.to belong_to :white_player }
   it { is_expected.to belong_to :black_player }
+  it { is_expected.to belong_to :winner }
 
   it { is_expected.to have_many :chess_pieces }
 
@@ -193,6 +194,38 @@ RSpec.describe Game do
       game.current_player_is_white_player!
       white_rook.move_to!(Coordinates.new(7, 6))
       expect(game.current_player_is_black_player?).to eq true
+    end
+  end
+  describe '#forfeit_by!' do
+    it 'results in white victory when black forfeits' do
+      black_player = create(:user)
+      white_player = create(:user)
+      game = create(:game, black_player: black_player, white_player: white_player)
+
+      game.forfeit_by!(black_player)
+
+      expect(game.reload.winner).to eq white_player
+    end
+
+    it 'results in black victory when white forfeits' do
+      black_player = create(:user)
+      white_player = create(:user)
+      game = create(:game, black_player: black_player, white_player: white_player)
+
+      game.forfeit_by!(white_player)
+
+      expect(game.reload.winner).to eq black_player
+    end
+  end
+
+  describe '#players' do
+    it 'returns both players' do
+      black_player = create(:user)
+      white_player = create(:user)
+      game = create(:game, black_player: black_player, white_player: white_player)
+
+      expect(game.players).to include black_player
+      expect(game.players).to include white_player
     end
   end
 end

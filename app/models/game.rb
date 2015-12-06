@@ -2,6 +2,8 @@
 class Game < ActiveRecord::Base
   belongs_to :white_player, class_name: 'User'
   belongs_to :black_player, class_name: 'User'
+  belongs_to :winner, class_name: 'User'
+
   has_many :chess_pieces
 
   validates :name, presence: true
@@ -10,6 +12,19 @@ class Game < ActiveRecord::Base
                         :current_player_is_white_player]
 
   after_create :populate_board!
+
+  def forfeit_by!(player)
+    if player == white_player
+      winner = black_player
+    else
+      winner = white_player
+    end
+    update!(winner: winner)
+  end
+
+  def players
+    [white_player, black_player].compact
+  end
 
   def populate_board!
     create_knights
