@@ -4,13 +4,7 @@
 @import "modules/bootstrap-framework";
 
 // Import modules that should be globally available
+@import "modules/gravatar";
 
 // Lastly import partials
 @import "partials/chessboard";
-
-.gravatar {
-  border-radius: 50%;
-  -webkit-border-redius: 50;
-  -moz-border-redius: 50;
-  margin-top: 5px;
-}
