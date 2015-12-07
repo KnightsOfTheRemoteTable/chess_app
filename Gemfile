@@ -36,6 +36,9 @@ gem 'simple_form', '~> 3.2'
 # Use Devise for user authentication
 gem 'devise'
 
+# jQuery UI for the Rails asset pipeline
+gem 'jquery-ui-rails'
+
 group :development do
   # awesome_print gem for more readable output in terminal
   gem 'awesome_print'
