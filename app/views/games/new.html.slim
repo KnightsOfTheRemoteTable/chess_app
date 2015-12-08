@@ -1,6 +1,8 @@
 / Each view is contained with the outer layout and should begin with a row
 .row
   .col-xs-12.col-md-8.col-md-offset-2
-    h1.text-primary New
+    h1.text-primary Create a New Game
   .col-xs-12.col-md-8.col-md-offset-2
-    a href="https://github.com/KnightsOfTheRemoteTable/chess_app" Github
+    = simple_form_for @game do |f|
+      = f.input 'name'
+      = f.submit 'Create a new game', class: 'btn btn-lg btn-primary'

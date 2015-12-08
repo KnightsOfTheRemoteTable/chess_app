@@ -3,12 +3,21 @@ class GamesController < ApplicationController
   before_action :authorize_player, only: :forfeit
 
   def index
+    @games = Game.all
   end
 
   def new
+    @game = Game.new
   end
 
   def create
+    @game = Game.create(game_params.merge(black_player: current_user))
+    if @game.valid?
+      flash[:notice] = 'Game created. You are the black player.'
+      redirect_to games_path
+    else
+      render 'new', status: :unprocessable_entity
+    end
   end
 
   def show
@@ -22,6 +31,10 @@ class GamesController < ApplicationController
   end
 
   private
+
+  def game_params
+    params.require(:game).permit(:name)
+  end
 
   def authorize_player
     render text: 'Forbidden', status: :unauthorized unless current_game.players.include?(current_user)
