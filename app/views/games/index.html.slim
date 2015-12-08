@@ -9,14 +9,14 @@
         th
           | Game Name
         th
-          | Created At
+          | Created On
       - @games.each do |game|
         tr.game
           td
             =link_to game_path(game.id)
               = game.name
           td
-            = game.created_at
+            = game.created_at.strftime('%m-%d-%Y')
 
   .col-xs-12.col-md-8.col-md-offset-2.text-center
     =link_to new_game_path, class: 'btn btn-lg btn-primary'
