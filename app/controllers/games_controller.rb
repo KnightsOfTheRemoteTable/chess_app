@@ -22,6 +22,7 @@ class GamesController < ApplicationController
 
   def show
     @chess_pieces = current_game.chess_pieces.order(:position_y).order(:position_x).to_a
+    flash[:alert] = 'The game is in a state of check' if current_game.check?
   end
 
   def forfeit
