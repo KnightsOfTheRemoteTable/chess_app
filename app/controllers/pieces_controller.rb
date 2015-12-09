@@ -8,8 +8,9 @@ class PiecesController < ApplicationController
 
   def update
     if moving_validly?
-      selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
-      redirect_to game_path(current_game)
+      @selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+      render json: { success: true } && return if request.xhr?
+      redirect_to game_path(@game)
     else
       render text: 'Forbidden', status: :unauthorized
     end
