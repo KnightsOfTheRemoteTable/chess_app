@@ -25,6 +25,11 @@ class GamesController < ApplicationController
     flash[:alert] = 'The game is in a state of check' if current_game.check?
   end
 
+  def join
+    current_game.update(white_player: current_user) unless current_user == current_game.black_player
+    redirect_to current_game, notice: 'You are the white player.'
+  end
+
   def forfeit
     current_game.forfeit_by!(current_user)
     redirect_to current_game, alert: 'You have forfeited the game'

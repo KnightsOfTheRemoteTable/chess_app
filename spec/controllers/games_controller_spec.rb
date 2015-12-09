@@ -135,4 +135,15 @@ RSpec.describe GamesController, type: :controller do
       expect(game.reload.winner).to be_nil
     end
   end
+
+  describe 'PUT games#join' do
+    it 'assigns the joining player to be the white player' do
+      game = Game.create(name: 'TEST GAME', black_player: build(:user))
+      white_player = create(:user)
+      sign_in white_player
+      put :join, id: game
+
+      expect(game.white_player).to eq white_player
+    end
+  end
 end
