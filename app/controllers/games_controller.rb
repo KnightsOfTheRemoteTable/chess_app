@@ -26,8 +26,12 @@ class GamesController < ApplicationController
   end
 
   def join
-    current_game.update(white_player: current_user) unless current_user == current_game.black_player
-    redirect_to current_game, notice: 'You are the white player.'
+    if current_game.white_player.nil? && current_user != current_game.black_player
+      current_game.update(white_player: current_user)
+      redirect_to current_game, notice: 'You are the white player.'
+    else
+      render text: 'This game is full or you are trying to play against yourself', status: :unauthorized
+    end
   end
 
   def forfeit

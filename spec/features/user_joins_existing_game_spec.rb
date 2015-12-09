@@ -9,5 +9,6 @@ feature 'User joins an existing game' do
     sign_in_as(white_player)
     visit games_path
     click_link 'Join'
+    expect(page).to have_content('You are the white player.')
   end
 end

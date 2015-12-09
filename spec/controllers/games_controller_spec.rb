@@ -138,12 +138,49 @@ RSpec.describe GamesController, type: :controller do
 
   describe 'PUT games#join' do
     it 'assigns the joining player to be the white player' do
-      game = Game.create(name: 'TEST GAME', black_player: build(:user))
+      game = Game.create(name: 'TEST GAME', black_player: build(:user), white_player: nil)
       white_player = create(:user)
       sign_in white_player
       put :join, id: game
 
       expect(game.reload.white_player).to eq white_player
+    end
+
+    it 'upon success, redirects a user to the game' do
+      game = Game.create(name: 'TEST GAME', black_player: build(:user), white_player: nil)
+      white_player = create(:user)
+      sign_in white_player
+      put :join, id: game
+
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to(game_path(game))
+    end
+
+    it 'redirects a user to the login if the user is not signed in' do
+      game = create(:game, black_player: build(:user), white_player: nil)
+      create(:user)
+      put :join, id: game
+
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to(new_user_session_path)
+    end
+
+    it 'returns a status of unauthorized if the game is full' do
+      game = create(:game)
+      white_player = create(:user)
+      sign_in white_player
+      put :join, id: game
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'returns a status of unauthorized if the same player tries to play both colors' do
+      black_player = create(:user)
+      game = create(:game, black_player: black_player)
+      sign_in black_player
+      put :join, id: game
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end
