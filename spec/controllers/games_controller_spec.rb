@@ -143,7 +143,7 @@ RSpec.describe GamesController, type: :controller do
       sign_in white_player
       put :join, id: game
 
-      expect(game.white_player).to eq white_player
+      expect(game.reload.white_player).to eq white_player
     end
   end
 end
