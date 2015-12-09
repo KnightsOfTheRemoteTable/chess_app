@@ -2,20 +2,7 @@
 .row
   .col-xs-12.col-md-8.col-md-offset-2
     h1.text-primary Future home of the best chess game ever made...
-  .col-xs-12.col-md-8.col-md-offset-2
-    table.table.table-striped
-      tr
-        th
-          | Game Name
-        th
-          | Created At
-      - @games.each do |game|
-        tr.game
-          td
-            =link_to game_path(game.id)
-              = game.name
-          td
-            = game.created_at
-  .col-xs-12.col-md-8.col-md-offset-2
-    a href="https://github.com/KnightsOfTheRemoteTable/chess_app" Github
 
+  .col-xs-12.col-md-8.col-md-offset-2.text-center
+    =link_to games_path, class: 'btn btn-lg btn-primary'
+      | Show me all games
