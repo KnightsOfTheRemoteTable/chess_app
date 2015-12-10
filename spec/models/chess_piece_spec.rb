@@ -57,6 +57,13 @@ RSpec.describe ChessPiece, type: :model do
         expect(king.obstructed?(Coordinates.new(6, 5))).to eq true
       end
 
+      it 'is false when a piece is beside the path' do
+        king = create(:king, position_x: 5, position_y: 3, game: game)
+        create(:pawn, position_x: 3, position_y: 4, game: game)
+
+        expect(king.obstructed?(Coordinates.new(2, 6))).to eq false
+      end
+
       it 'is false when unobstructed' do
         expect(king.obstructed?(Coordinates.new(6, 5))).to eq false
       end

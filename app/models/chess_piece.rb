@@ -6,11 +6,8 @@ class ChessPiece < ActiveRecord::Base
   belongs_to :player, class_name: 'User'
   belongs_to :game
 
-  validates :type,
-            :position_x,
-            :position_y,
-            :color,
-            presence: true
+  validates :type, :position_x, :position_y, :color, presence: true
+
   enum color: [:black, :white]
 
   scope :with_color, ->(color) { where(color: colors[color]) }
@@ -76,13 +73,22 @@ class ChessPiece < ActiveRecord::Base
     [position_y, destination_y].max
   end
 
+  def y_range(coordinates)
+    range = (y_start(coordinates.y)...y_end(coordinates.y)).to_a
+
+    # Reverse the range if x is increasing and y is decreasing or vice versa
+    return range if position_x - coordinates.x == position_y - coordinates.y
+    range.reverse
+  end
+
   def diagonal_obstruction?(coordinates)
     from_x = x_start(coordinates.x)
-    from_y = y_start(coordinates.y)
     to_x = x_end(coordinates.x)
 
+    y_positions = y_range(coordinates)
+
     (from_x...to_x).each_with_index do |x, idx|
-      return true if position_occupied?(Coordinates.new(x, from_y + idx))
+      return true if position_occupied?(Coordinates.new(x, y_positions[idx]))
     end
 
     false
