@@ -58,10 +58,6 @@ class Pawn < ChessPiece
     moved? ? SECOND_MOVE_FACTOR : FIRST_MOVE_FACTOR
   end
 
-  def forward_one(y)
-    y + forward_direction
-  end
-
   def backward_one(y)
     y + -forward_direction
   end
