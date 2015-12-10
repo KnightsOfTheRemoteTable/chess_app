@@ -34,7 +34,7 @@ class PiecesController < ApplicationController
   end
 
   def http_status
-    return :success if moving_validly?
+    return :ok if moving_validly?
     :forbidden
   end
 

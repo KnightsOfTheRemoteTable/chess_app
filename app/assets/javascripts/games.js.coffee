@@ -1,9 +1,15 @@
 $ ->
-  $('.chessboard__row__space img').draggable(cursor: 'move', snap: '.chessboard__row__space')
+  $('.chessboard__row__space a').draggable
+    cursor: 'move',
+    snap: '.chessboard__row__space',
+    snapMode: 'inner',
+    revert: 'invalid'
+
   $('.chessboard__row__space').droppable drop: (event, ui)->
     $target = $(event.target)
 
-    piece_url = ui.draggable.parent().attr('href')
+    piece = ui.draggable
+    piece_url = piece.attr('href')
 
     $.ajax
       url: piece_url,
@@ -12,8 +18,9 @@ $ ->
         piece:
           position_x: $target.data('x'),
           position_y: $target.data('y')
-      complete: ->
-        location.reload()
-      error: ->
-        alert('Invalid move')
+      success: ->
+        piece.css(top: 0, left: 0)
+        $target.empty().append(piece.detach())
+      error: (response)->
+        ui.draggable.animate(top: 0, left: 0)
 
