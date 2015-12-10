@@ -3,18 +3,13 @@ class PiecesController < ApplicationController
   before_action :authorize_player
 
   def show
-    @selected_piece = ChessPiece.find(params[:id])
-    @game = @selected_piece.game
-    @chess_pieces = @game.chess_pieces.order(:position_y).order(:position_x).to_a
+    @chess_pieces = current_game.chess_pieces.order(:position_y).order(:position_x).to_a
   end
 
   def update
-    @selected_piece = ChessPiece.find(params[:id])
-    @game = @selected_piece.game
-
     if moving_validly?
-      @selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
-      redirect_to game_path(@game)
+      selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+      redirect_to game_path(current_game)
     else
       render text: 'Forbidden', status: :unauthorized
     end
@@ -36,7 +31,7 @@ class PiecesController < ApplicationController
   end
 
   def moving_validly?
-    @selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+    selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
   end
 
   def move_to_x_parameter

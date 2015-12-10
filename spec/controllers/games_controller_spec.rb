@@ -79,6 +79,28 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to be_success
       expect(response).to have_http_status(200)
     end
+
+    it 'assigns the correct instance variables to the templates' do
+      game = create(:game)
+      get :show, id: game
+
+      expect(assigns(:game)).not_to be_nil
+    end
+
+    it 'renders the correct template' do
+      game = create(:game)
+      get :show, id: game
+
+      expect(response).to render_template('show')
+    end
+
+    it 'flashes that the game is in check if the game is in check' do
+      game = create(:game)
+      allow_any_instance_of(Game).to receive(:check?).and_return(true)
+      get :show, id: game
+
+      expect(flash[:alert]).to eq 'The game is in a state of check'
+    end
   end
 
   describe 'PUT games#forfeit' do
