@@ -41,6 +41,9 @@ gem 'jquery-ui-rails'
 # Use omniauth-facebook gem for facebook login
 gem 'omniauth-facebook'
 
+# Use omniauth-google-oauth2 for google login
+gem 'omniauth-google-oauth2'
+
 group :development do
   # awesome_print gem for more readable output in terminal
   gem 'awesome_print'
