@@ -60,13 +60,17 @@ RSpec.describe Game do
 
   describe 'games#populate_board!' do
     it 'initializes a Black & White King in correct starting position' do
-      expect(game.chess_pieces.find_by(type: 'King', position_x: 5, position_y: 1).color).to eq 'white'
-      expect(game.chess_pieces.find_by(type: 'King', position_x: 5, position_y: 8).color).to eq 'black'
+      game = create(:game)
+
+      expect(game.chess_pieces.find_by(type: 'King', position_x: 4, position_y: 1).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'King', position_x: 4, position_y: 8).color).to eq 'black'
     end
 
     it 'initializes a Black & White Queen in correct starting position' do
-      expect(game.chess_pieces.find_by(type: 'Queen', position_x: 4, position_y: 1).color).to eq 'white'
-      expect(game.chess_pieces.find_by(type: 'Queen', position_x: 4, position_y: 8).color).to eq 'black'
+      game = create(:game)
+
+      expect(game.chess_pieces.find_by(type: 'Queen', position_x: 5, position_y: 1).color).to eq 'white'
+      expect(game.chess_pieces.find_by(type: 'Queen', position_x: 5, position_y: 8).color).to eq 'black'
     end
 
     it 'initializes a Black & White Bishop in correct starting position' do
@@ -100,7 +104,7 @@ RSpec.describe Game do
       # Put the game in check by deleting all black pawns, leaving black king
       # with multiple valid moves; and then placing a white bishop in a position to capture.
       Pawn.destroy_all(color: 'black', game: game)
-      create(:bishop, position_x: 3, position_y: 6, color: 'white', game: game)
+      create(:bishop, position_x: 2, position_y: 6, color: 'white', game: game)
 
       expect(game.check?).to eq true
     end
@@ -118,6 +122,26 @@ RSpec.describe Game do
       create(:queen, position_x: 7, position_y: 3, color: 'white', game: game)
 
       expect(game.state_of_stalemate?('black')).to eq true
+    end
+  end
+
+  describe '#checkmate?' do
+    def setup_fools_mate(game)
+      game.chess_pieces.find_by(position_x: 3, position_y: 2).move_to!(Coordinates.new(3, 3))
+      game.chess_pieces.find_by(position_x: 2, position_y: 2).move_to!(Coordinates.new(2, 4))
+      game.chess_pieces.find_by(position_x: 5, position_y: 8).move_to!(Coordinates.new(1, 4))
+    end
+
+    it 'returns false if the game is not checkmated' do
+      game = create(:game)
+      expect(game.checkmate?).to eq false
+    end
+
+    it 'returns true if either of the kings is in checkmate' do
+      game = create(:game)
+      setup_fools_mate(game)
+
+      expect(game.checkmate?).to eq true
     end
   end
 

@@ -40,8 +40,8 @@ RSpec.describe King do
 
   describe '#can_castle' do
     let(:game)           { create(:game) }
-    let(:black_king)     { game.chess_pieces.find_by(position_x: 5, position_y: 8) }
-    let(:white_king)     { game.chess_pieces.find_by(position_x: 5, position_y: 1) }
+    let(:black_king)     { game.chess_pieces.find_by(position_x: 4, position_y: 8) }
+    let(:white_king)     { game.chess_pieces.find_by(position_x: 4, position_y: 1) }
     let(:black_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 8) }
     let(:black_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 8) }
     let(:white_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 1) }
@@ -129,8 +129,8 @@ RSpec.describe King do
 
   describe '#castle!' do
     let(:game)                 { create(:game) }
-    let(:black_king)           { game.chess_pieces.find_by(position_x: 5, position_y: 8) }
-    let(:white_king)           { game.chess_pieces.find_by(position_x: 5, position_y: 1) }
+    let(:black_king)           { game.chess_pieces.find_by(position_x: 4, position_y: 8) }
+    let(:white_king)           { game.chess_pieces.find_by(position_x: 4, position_y: 1) }
     let(:black_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 8) }
     let(:black_queenside_rook) { game.chess_pieces.find_by(position_x: 1, position_y: 8) }
     let(:white_kingside_rook)  { game.chess_pieces.find_by(position_x: 8, position_y: 1) }
@@ -195,6 +195,33 @@ RSpec.describe King do
         expect(white_queenside_rook.reload.position_x).to eq 4
       end
     end
+  end
+
+  describe '#checkmate?' do
+    let(:game) { create(:game) }
+    let(:white_king) { King.with_color(:white).find_by(game: game) }
+
+    def setup_fools_mate(game)
+      game.chess_pieces.find_by(position_x: 3, position_y: 2).move_to!(Coordinates.new(3, 3))
+      game.chess_pieces.find_by(position_x: 2, position_y: 2).move_to!(Coordinates.new(2, 4))
+      game.chess_pieces.find_by(position_x: 5, position_y: 8).move_to!(Coordinates.new(1, 4))
+    end
+
+    it 'is false when not in check' do
+      expect(white_king.checkmate?).to eq false
+    end
+
+    it 'is true for fools mate' do
+      setup_fools_mate(game)
+
+      expect(white_king.checkmate?).to eq true
+    end
+
+    it 'is false when escape is possible'
+
+    it 'is false when capture is possible'
+
+    it 'is false when blocking is possible'
   end
 end
 

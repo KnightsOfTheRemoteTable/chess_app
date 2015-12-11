@@ -35,11 +35,30 @@ class King < ChessPiece
     white_castle_queenside! if white_king_can_castle_queenside?(rook)
   end
 
+  def checkmate?
+    return false unless game.check?
+    # return false if valid_move_available?
+    true
+  end
+
   private
 
   def move_within_limits?(coordinates)
     return false if diff_in_x(coordinates.x) > X_MOVE_FACTOR
     diff_in_y(coordinates.y) <= Y_MOVE_FACTOR
+  end
+
+  def valid_move_available?
+    potential_moves.each do |position|
+      return true if valid_move?(position)
+    end
+    false
+  end
+
+  def potential_moves
+    [-1, 0, 1].repeated_permutation(2)
+      .reject { |offset| offset == [0, 0] }
+      .map { |offset| Coordinates.new(position_x + offset[0], position_y + offset[1]) }
   end
 
   def black_king_can_castle_kingside?(rook)

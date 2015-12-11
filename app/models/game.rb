@@ -44,10 +44,13 @@ class Game < ActiveRecord::Base
   end
 
   def create_queens
-    chess_pieces.create(type: 'King', position_x: 5, position_y: 1, color: :white)
-    chess_pieces.create(type: 'King', position_x: 5, position_y: 8, color: :black)
-    chess_pieces.create(type: 'Queen', position_x: 4, position_y: 1, color: :white)
-    chess_pieces.create(type: 'Queen', position_x: 4, position_y: 8, color: :black)
+    # Create White & Black Queen
+    chess_pieces.create(type: 'King', position_x: 4, position_y: 1, color: :white)
+    chess_pieces.create(type: 'King', position_x: 4, position_y: 8, color: :black)
+
+    # Create white & Black Queen
+    chess_pieces.create(type: 'Queen', position_x: 5, position_y: 1, color: :white)
+    chess_pieces.create(type: 'Queen', position_x: 5, position_y: 8, color: :black)
   end
 
   def create_bishops
@@ -97,8 +100,7 @@ class Game < ActiveRecord::Base
   end
 
   def checkmate?
-    return true if !black_can_escape? && king_is_in_check?('black')
-    return true if !white_can_escape? && king_is_in_check('white')
+    black_king.checkmate? || white_king.checkmate?
   end
 
   private
@@ -108,49 +110,12 @@ class Game < ActiveRecord::Base
     Coordinates.new(*en_passant_position.split(',').map(&:to_i))
   end
 
-  def white_can_escape?
-    white? && king_is_in_check('white')
-    potential_moves = white_king_moves
-    potential_moves.each { |move| return true if king.valid_move?(move) }
-    false
+  def black_king
+    locate_king(:black)
   end
 
-  def black_can_escape?
-    black? && king_is_in_check('black')
-    potential_moves = black_king_moves
-    potential_moves.each { |move| return true if king.valid_move?(move) }
-    false
-  end
-
-  def black_king_moves
-    king = locate_king('black')
-    moves = []
-    moves << Coordinates.new(king.position_x, king.position_y + 1)
-    moves << Coordinates.new(king.position_x + 1, king.position_y + 1)
-    moves << Coordinates.new(king.position_x + 1, king.position_y)
-    moves << Coordinates.new(king.position_x + 1, king.position_y - 1)
-    moves << Coordinates.new(king.position_x, king.position_y - 1)
-    moves << Coordinates.new(king.position_x - 1, king.position_y - 1)
-    moves << Coordinates.new(king.position_x - 1, king.position_y)
-    moves << Coordinates.new(king.position_x - 1, king.position_y + 1)
-  end
-
-  def white_king_moves
-    king = locate_king('white')
-    moves = []
-    moves << Coordinates.new(king.position_x, king.position_y + 1)
-    moves << Coordinates.new(king.position_x + 1, king.position_y + 1)
-    moves << Coordinates.new(king.position_x + 1, king.position_y)
-    moves << Coordinates.new(king.position_x + 1, king.position_y - 1)
-    moves << Coordinates.new(king.position_x, king.position_y - 1)
-    moves << Coordinates.new(king.position_x - 1, king.position_y - 1)
-    moves << Coordinates.new(king.position_x - 1, king.position_y)
-    moves << Coordinates.new(king.position_x - 1, king.position_y + 1)
-  end
-
-  def king_is_in_check?(color)
-    king = locate_king(color)
-    capturable_by_opposing_color?(king)
+  def white_king
+    locate_king(:white)
   end
 
   def locate_king(color)
