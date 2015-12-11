@@ -7,6 +7,7 @@ RSpec.describe King do
 
   describe '#valid_move?' do
     let(:king) { create(:king, position_x: 4, position_y: 4) }
+    let(:game) { create(:game) }
 
     it 'returns true when a proposed move is within the movement abilities of the piece' do
       expect(king.valid_move?(Coordinates.new(5, 5))).to be true
@@ -24,6 +25,14 @@ RSpec.describe King do
       king = create(:king, position_x: 1, position_y: 4)
 
       expect(king.valid_move?(Coordinates.new(0, 4))).to eq false
+    end
+
+    it 'returns false if the king would be put in check' do
+      remove_everything_but_king!('black')
+      king = game.chess_pieces.find_by(position_x: 5, position_y: 8)
+      create(:rook, position_x: 5, position_y: 7, color: 'white', game: game)
+      create(:rook, position_x: 5, position_y: 6, color: 'white', game: game)
+      expect(king.valid_move?(Coordinates.new(5, 7))).to eq false
     end
   end
 
@@ -192,4 +201,12 @@ def remove_everything_but_rook_and_king!(color)
   Knight.with_color(color).destroy_all(game: game)
   Bishop.with_color(color).destroy_all(game: game)
   Queen.with_color(color).destroy_all(game: game)
+end
+
+def remove_everything_but_king!(color)
+  Pawn.with_color(color).destroy_all(game: game)
+  Knight.with_color(color).destroy_all(game: game)
+  Bishop.with_color(color).destroy_all(game: game)
+  Queen.with_color(color).destroy_all(game: game)
+  Rook.with_color(color).destroy_all(game: game)
 end
