@@ -4,5 +4,6 @@ ChessApp::Application.routes.draw do
   resources :pieces, only: [:show, :update]
   resources :games, only: [:index, :new, :create, :show] do
     put 'forfeit', on: :member
+    put 'join', on: :member
   end
 end
