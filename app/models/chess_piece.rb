@@ -19,6 +19,18 @@ class ChessPiece < ActiveRecord::Base
     false
   end
 
+  def move_puts_king_in_check?(coordinates)
+    check_state = false
+
+    ActiveRecord::Base.transaction do
+      move_to!(coordinates)
+      check_state = game.check?
+      raise ActiveRecord::Rollback
+    end
+
+    check_state
+  end
+
   def move_to!(coordinates)
     destination_piece = game.chess_pieces.find_by(position_x: coordinates.x, position_y: coordinates.y)
     capture(destination_piece) if destination_piece
