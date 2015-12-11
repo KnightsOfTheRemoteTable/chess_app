@@ -1,5 +1,5 @@
 class Queen < ChessPiece
-  def valid_move?(coordinates)
+  def valid_move?(coordinates, _skip_checkstate_check = false)
     return false if out_of_bounds?(coordinates)
     return false unless within_movement_parameters?(coordinates)
     return false if friendly_piece_at?(coordinates)
