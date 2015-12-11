@@ -27,6 +27,7 @@ class ChessPiece < ActiveRecord::Base
     capture(destination_piece) if destination_piece
 
     update(position_x: coordinates.x, position_y: coordinates.y)
+    game.update(en_passant_position: nil)
     game.update_current_player!
   end
 

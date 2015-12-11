@@ -5,10 +5,25 @@ class Pawn < ChessPiece
   def valid_move?(coordinates)
     return false unless forward_move?(coordinates.y)
     return valid_vertical_move?(coordinates) if vertical_move?(coordinates)
+    return true if game.can_en_passant?(coordinates)
     valid_capture?(coordinates)
   end
 
+  def move_to!(coordinates)
+    two_step_move = diff_in_y(coordinates.y) == FIRST_MOVE_FACTOR
+    capture_en_passant(coordinates) if game.can_en_passant?(coordinates)
+    super
+    game.update(en_passant_position: "#{coordinates.x},#{backward_one(coordinates.y)}") if two_step_move
+  end
+
   private
+
+  def capture_en_passant(coordinates)
+    game.chess_pieces.find_by(
+      position_x: coordinates.x,
+      position_y: backward_one(coordinates.y)
+    ).destroy
+  end
 
   def valid_vertical_move?(coordinates)
     return false if moved_too_far?(coordinates.y)
@@ -22,6 +37,7 @@ class Pawn < ChessPiece
 
   def valid_capture?(coordinates)
     return false unless single_diagonal_move?(coordinates)
+    return true if game.can_en_passant?(coordinates)
     opponent_at?(coordinates)
   end
 
@@ -40,6 +56,14 @@ class Pawn < ChessPiece
 
   def y_move_factor
     moved? ? SECOND_MOVE_FACTOR : FIRST_MOVE_FACTOR
+  end
+
+  def backward_one(y)
+    y + -forward_direction
+  end
+
+  def forward_direction
+    white? ? 1 : -1
   end
 
   def moved?
