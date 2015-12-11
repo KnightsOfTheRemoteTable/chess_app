@@ -18,6 +18,10 @@ class PiecesController < ApplicationController
     end
   end
 
+  def valid_moves
+    render json: selected_piece.valid_moves
+  end
+
   private
 
   def authorize_player

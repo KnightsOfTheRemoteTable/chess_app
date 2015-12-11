@@ -43,6 +43,16 @@ class ChessPiece < ActiveRecord::Base
     updated_at != created_at
   end
 
+  def valid_moves
+    moves = []
+    1.upto(8) do |x|
+      1.upto(8) do |y|
+        moves << { x: x, y: y } if valid_move?(Coordinates.new(x, y))
+      end
+    end
+    moves
+  end
+
   private
 
   def capture(piece)

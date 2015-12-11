@@ -92,6 +92,16 @@ RSpec.describe ChessPiece, type: :model do
     end
   end
 
+  describe '#valid_moves' do
+    it 'returns an array of valid moves' do
+      game = create(:game)
+      pawn = game.chess_pieces.find_by(position_x: 1, position_y: 2)
+
+      expect(pawn.valid_moves.length).to eq 2
+      expect(pawn.valid_moves).to include(x: 1, y: 4)
+    end
+  end
+
   describe '.with_color' do
     it 'returns pieces of the specified color' do
       pawn = create(:pawn, color: :white)

@@ -37,6 +37,10 @@ $chessboard-border: #8A6B3D;
   padding:    1px;
   text-align: center;
 
+  &.valid-move {
+    box-shadow: inset 0 0 17px 7px rgba(0,0,255,.5)
+  }
+
   a {
     width: 100%;
   }

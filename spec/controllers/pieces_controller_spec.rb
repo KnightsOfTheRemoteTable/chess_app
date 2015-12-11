@@ -64,4 +64,15 @@ RSpec.describe PiecesController, type: :controller do
       expect(response).to have_http_status(:forbidden)
     end
   end
+
+  describe 'GET pieces#valid_moves' do
+    it 'returns valid moves for the piece' do
+      pawn = create(:game).chess_pieces.find_by(position_x: 1, position_y: 2)
+      sign_in pawn.game.white_player
+
+      get :valid_moves, id: pawn
+
+      expect(JSON.parse(response.body)).to include('x' => 1, 'y' => 3)
+    end
+  end
 end

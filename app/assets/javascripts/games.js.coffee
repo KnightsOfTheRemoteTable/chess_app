@@ -3,7 +3,15 @@ $ ->
     cursor: 'move',
     snap: '.chessboard__row__space',
     snapMode: 'inner',
-    revert: 'invalid'
+    revert: 'invalid',
+    start: (event, ui)->
+      url = ui.helper.attr('href') + '/valid_moves'
+      $.get url, (response)->
+        response.forEach (position)->
+          $("[data-x=#{position.x}][data-y=#{position.y}]").addClass('valid-move')
+    stop: ->
+      $('.valid-move').removeClass('valid-move')
+
 
   $('.chessboard__row__space').droppable drop: (event, ui)->
     $target = $(event.target)
