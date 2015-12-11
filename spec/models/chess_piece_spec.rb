@@ -57,6 +57,13 @@ RSpec.describe ChessPiece, type: :model do
         expect(king.obstructed?(Coordinates.new(6, 5))).to eq true
       end
 
+      it 'is false when a piece is beside the path' do
+        king = create(:king, position_x: 5, position_y: 3, game: game)
+        create(:pawn, position_x: 3, position_y: 4, game: game)
+
+        expect(king.obstructed?(Coordinates.new(2, 6))).to eq false
+      end
+
       it 'is false when unobstructed' do
         expect(king.obstructed?(Coordinates.new(6, 5))).to eq false
       end
@@ -89,6 +96,16 @@ RSpec.describe ChessPiece, type: :model do
       expect(piece.position_x).to eq 5
       expect(piece.position_y).to eq 5
       expect(ChessPiece.find_by(id: opposing_piece.id)).to be_nil
+    end
+  end
+
+  describe '#valid_moves' do
+    it 'returns an array of valid moves' do
+      game = create(:game)
+      pawn = game.chess_pieces.find_by(position_x: 1, position_y: 2)
+
+      expect(pawn.valid_moves.length).to eq 2
+      expect(pawn.valid_moves).to include(x: 1, y: 4)
     end
   end
 

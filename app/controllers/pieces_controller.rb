@@ -7,12 +7,19 @@ class PiecesController < ApplicationController
   end
 
   def update
+    attempt_move
+
+    render(json: { success: moving_validly?, message: message }, status: http_status) && return if request.xhr?
+
     if moving_validly?
-      selected_piece.move_to!(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
-      redirect_to game_path(current_game)
+      redirect_to selected_piece.game
     else
-      render text: 'Forbidden', status: :unauthorized
+      render text: message, status: http_status
     end
+  end
+
+  def valid_moves
+    render json: selected_piece.valid_moves
   end
 
   private
@@ -23,15 +30,39 @@ class PiecesController < ApplicationController
   end
 
   def current_game
-    @game ||= ChessPiece.find(params[:id]).game
+    @game ||= selected_piece.game
   end
 
   def selected_piece
     @selected_piece ||= ChessPiece.find(params[:id])
   end
 
+  def http_status
+    return :ok if moving_validly?
+    :forbidden
+  end
+
+  def message
+    return 'Success' if moving_validly?
+    'Invalid move'
+  end
+
+  def attempt_move
+    selected_piece.move_to!(destination_coordinates) if moving_validly?
+  end
+
+  def successful_move?
+    return false unless moving_validly?
+    @selected_piece.move_to!(destination_coordinates)
+    true
+  end
+
   def moving_validly?
-    selected_piece.valid_move?(Coordinates.new(move_to_x_parameter, move_to_y_parameter))
+    @valid_move ||= selected_piece.valid_move?(destination_coordinates)
+  end
+
+  def destination_coordinates
+    @destination_coordinates ||= Coordinates.new(move_to_x_parameter, move_to_y_parameter)
   end
 
   def move_to_x_parameter

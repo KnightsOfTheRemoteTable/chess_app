@@ -34,9 +34,12 @@ $chessboard-border: #8A6B3D;
   height:     $chessboard-space-size-std;
   width:      $chessboard-space-size-std;
   float:      left;
-  overflow:   hidden;
   padding:    1px;
   text-align: center;
+
+  &.valid-move {
+    box-shadow: inset 0 0 17px 7px rgba(0,0,255,.5)
+  }
 
   a {
     width: 100%;

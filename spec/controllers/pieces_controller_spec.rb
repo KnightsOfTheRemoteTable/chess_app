@@ -52,5 +52,27 @@ RSpec.describe PiecesController, type: :controller do
 
       expect(response).to have_http_status(:unauthorized)
     end
+
+    it 'returns status forbidden for invalid moves' do
+      black_player = create(:user)
+      game = create(:game, black_player: black_player)
+      sign_in black_player
+
+      piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 7).id
+      put(:update, id: piece_id, piece: { position_x: 2, position_y: 6 })
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe 'GET pieces#valid_moves' do
+    it 'returns valid moves for the piece' do
+      pawn = create(:game).chess_pieces.find_by(position_x: 1, position_y: 2)
+      sign_in pawn.game.white_player
+
+      get :valid_moves, id: pawn
+
+      expect(JSON.parse(response.body)).to include('x' => 1, 'y' => 3)
+    end
   end
 end

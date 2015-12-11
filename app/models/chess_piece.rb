@@ -6,20 +6,17 @@ class ChessPiece < ActiveRecord::Base
   belongs_to :player, class_name: 'User'
   belongs_to :game
 
-  validates :type,
-            :position_x,
-            :position_y,
-            :color,
-            presence: true
+  validates :type, :position_x, :position_y, :color, presence: true
+
   enum color: [:black, :white]
 
   scope :with_color, ->(color) { where(color: colors[color]) }
 
   def obstructed?(coordinates)
-    return diagonal_obstruction?(coordinates) if diagonal_move?(coordinates)
-    return vertical_obstruction?(coordinates) if vertical_move?(coordinates)
-    return horizontal_obstruction?(coordinates) if horizontal_move?(coordinates)
-    fail ArgumentError, 'Invalid move'
+    move_for(coordinates).path.each do |path_coordinates|
+      return true if position_occupied?(path_coordinates)
+    end
+    false
   end
 
   def move_to!(coordinates)
@@ -43,61 +40,25 @@ class ChessPiece < ActiveRecord::Base
     updated_at != created_at
   end
 
+  def valid_moves
+    moves = []
+    1.upto(8) do |x|
+      1.upto(8) do |y|
+        moves << { x: x, y: y } if valid_move?(Coordinates.new(x, y))
+      end
+    end
+    moves
+  end
+
   private
+
+  def move_for(coordinates)
+    Move.new(piece: self, destination: coordinates)
+  end
 
   def capture(piece)
     fail ArgumentError, 'Invalid Move' if piece.color == color
     piece.destroy
-  end
-
-  def x_start(destination_x)
-    [position_x, destination_x].min + 1
-  end
-
-  def y_start(destination_y)
-    [position_y, destination_y].min + 1
-  end
-
-  def x_end(destination_x)
-    [position_x, destination_x].max
-  end
-
-  def y_end(destination_y)
-    [position_y, destination_y].max
-  end
-
-  def diagonal_obstruction?(coordinates)
-    from_x = x_start(coordinates.x)
-    from_y = y_start(coordinates.y)
-    to_x = x_end(coordinates.x)
-
-    (from_x...to_x).each_with_index do |x, idx|
-      return true if position_occupied?(Coordinates.new(x, from_y + idx))
-    end
-
-    false
-  end
-
-  def vertical_obstruction?(coordinates)
-    from_y = y_start(coordinates.y)
-    to_y = y_end(coordinates.y)
-
-    (from_y...to_y).each do |y|
-      return true if position_occupied?(Coordinates.new(coordinates.x, y))
-    end
-
-    false
-  end
-
-  def horizontal_obstruction?(coordinates)
-    from_x = x_start(coordinates.x)
-    to_x = x_end(coordinates.x)
-
-    (from_x...to_x).each do |x|
-      return true if position_occupied?(Coordinates.new(x, coordinates.y))
-    end
-
-    false
   end
 
   def position_occupied?(coordinates)
