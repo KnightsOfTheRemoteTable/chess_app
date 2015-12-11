@@ -10,7 +10,7 @@ class King < ChessPiece
   CASTLING_KINGSIDE  = 8
   CASTLING_QUEENSIDE = 1
 
-  def valid_move?(coordinates)
+  def valid_move?(coordinates, _skip_checkstate_check = false)
     return false if out_of_bounds?(coordinates)
     return false if diff_in_x(coordinates.x) > X_MOVE_FACTOR
     return false if diff_in_y(coordinates.y) > Y_MOVE_FACTOR

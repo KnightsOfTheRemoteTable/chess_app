@@ -39,7 +39,6 @@ RSpec.describe Rook do
       remove_everything_but_king!('black')
       rook = create(:rook, position_x: 6, position_y: 8, color: 'black', game: game)
       create(:rook, position_x: 8, position_y: 8, color: 'white', game: game)
-      expect(King.find_by(position_x: 5, position_y: 1)).not_to be_nil
       expect(rook.valid_move?(Coordinates.new(6, 5))).to eq false
     end
   end
