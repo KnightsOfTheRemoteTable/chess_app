@@ -7,6 +7,7 @@ RSpec.describe Queen do
 
   describe '#valid_move?' do
     let(:queen) { create(:queen, position_x: 3, position_y: 3) }
+    let(:game)  { create(:game) }
 
     it 'returns true for vertical moves' do
       expect(queen.valid_move?(Coordinates.new(3, 6))).to eq true
@@ -33,5 +34,20 @@ RSpec.describe Queen do
     it 'returns false if out of bounds' do
       expect(queen.valid_move?(Coordinates.new(13, 3))).to eq false
     end
+
+    it 'returns false if the king would be put in check' do
+      remove_everything_but_king!('black')
+      queen = create(:queen, position_x: 5, position_y: 7, color: 'black', game: game)
+      create(:rook, position_x: 5, position_y: 5, color: 'white', game: game)
+      expect(queen.valid_move?(Coordinates.new(4, 6))).to eq false
+    end
   end
+end
+
+def remove_everything_but_king!(color)
+  Pawn.with_color(color).destroy_all(game: game)
+  Knight.with_color(color).destroy_all(game: game)
+  Bishop.with_color(color).destroy_all(game: game)
+  Queen.with_color(color).destroy_all(game: game)
+  Rook.with_color(color).destroy_all(game: game)
 end
