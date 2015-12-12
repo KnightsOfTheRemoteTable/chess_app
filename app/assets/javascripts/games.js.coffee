@@ -1,7 +1,7 @@
 
 $ ->
 
-  gameId = $('.chessboard').data('gameid')
+  gameId = $('.chessboard').data('channelid')
   pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
   channel = pusher.subscribe gameId
 
