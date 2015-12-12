@@ -69,6 +69,22 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def stalemate?
+    state_of_stalemate?('black') || state_of_stalemate?('white')
+  end
+
+  def state_of_stalemate?(color)
+    potential_moves = load_potential_moves
+
+    chess_pieces.with_color(color).each do |piece|
+      potential_moves.each do |move|
+        return false if piece.valid_move?(move)
+      end
+    end
+
+    true
+  end
+
   def check?
     king_is_in_check?('black') || king_is_in_check?('white')
   end
@@ -93,6 +109,17 @@ class Game < ActiveRecord::Base
 
   private
 
+  def load_potential_moves
+    potential_moves = []
+    1.upto(8) do |x|
+      1.upto(8) do |y|
+        potential_moves << Coordinates.new(x, y)
+      end
+    end
+
+    potential_moves
+  end
+
   def en_passant_coordinates
     return unless en_passant_position
     Coordinates.new(*en_passant_position.split(',').map(&:to_i))
@@ -106,6 +133,7 @@ class Game < ActiveRecord::Base
     chess_pieces.with_color(king.opposite_color).find_each do |opponent|
       return true if opponent.valid_move?(king.coordinates, true)
     end
+
     false
   end
 end
