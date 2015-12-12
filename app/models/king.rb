@@ -12,8 +12,8 @@ class King < ChessPiece
 
   def valid_move?(coordinates, skip_checkstate_check = false)
     return false if out_of_bounds?(coordinates)
-    return false if diff_in_x(coordinates.x) > X_MOVE_FACTOR
-    return false if diff_in_y(coordinates.y) > Y_MOVE_FACTOR
+    return false unless move_within_limits?(coordinates)
+    return false if friendly_piece_at?(coordinates)
     return false if obstructed?(coordinates)
     return true if skip_checkstate_check
     !(move_puts_king_in_check?(coordinates))
@@ -38,6 +38,11 @@ class King < ChessPiece
   end
 
   private
+
+  def move_within_limits?(coordinates)
+    return false if diff_in_x(coordinates.x) > X_MOVE_FACTOR
+    diff_in_y(coordinates.y) <= Y_MOVE_FACTOR
+  end
 
   def black_king_can_castle_kingside?(rook)
     side = selected_castle_side(rook)

@@ -6,7 +6,7 @@ RSpec.describe King do
   end
 
   describe '#valid_move?' do
-    let(:king) { create(:king, position_x: 4, position_y: 4) }
+    let(:king) { create(:king, position_x: 4, position_y: 4, color: :white, game: game) }
     let(:game) { create(:game) }
 
     it 'returns true when a proposed move is within the movement abilities of the piece' do
@@ -33,6 +33,16 @@ RSpec.describe King do
       create(:rook, position_x: 5, position_y: 7, color: 'white', game: game)
       create(:rook, position_x: 5, position_y: 6, color: 'white', game: game)
       expect(king.valid_move?(Coordinates.new(5, 7))).to eq false
+    end
+
+    it 'returns false if moving to the same square' do
+      expect(king.valid_move?(Coordinates.new(4, 4))).to eq false
+    end
+
+    it 'returns false if capturing friendly piece' do
+      create(:pawn, color: :white, position_x: 5, position_y: 5, game: game)
+
+      expect(king.valid_move?(Coordinates.new(5, 5))).to eq false
     end
   end
 

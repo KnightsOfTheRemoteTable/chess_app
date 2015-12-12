@@ -4,6 +4,7 @@ class Knight < ChessPiece
   def valid_move?(coordinates, skip_checkstate_check = false)
     return false if out_of_bounds?(coordinates)
     return false unless VALID_MOVE_DISTANCES.include? [diff_in_x(coordinates.x), diff_in_y(coordinates.y)]
+    return false if friendly_piece_at?(coordinates)
     return true if skip_checkstate_check
     !(move_puts_king_in_check?(coordinates))
   end

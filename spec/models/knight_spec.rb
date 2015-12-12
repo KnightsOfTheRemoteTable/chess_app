@@ -6,7 +6,7 @@ RSpec.describe Knight do
   end
 
   describe '#valid_move?' do
-    let(:knight) { create(:knight, position_x: 4, position_y: 4) }
+    let(:knight) { create(:knight, position_x: 4, position_y: 4, game: game, color: :white) }
     let(:game)   { create(:game) }
 
     it 'returns true if the x and y move components are 1 and 2, respectively' do
@@ -27,6 +27,14 @@ RSpec.describe Knight do
       knight = create(:bishop, position_x: 6, position_y: 7, color: 'black', game: game)
       create(:rook, position_x: 5, position_y: 6, color: 'white', game: game)
       expect(knight.valid_move?(Coordinates.new(4, 5))).to eq false
+    end
+
+    it 'returns false if moving to the same square' do
+      expect(knight.valid_move?(Coordinates.new(4, 4))).to eq false
+    end
+
+    it 'returns false if capturing friendly piece' do
+      expect(knight.valid_move?(Coordinates.new(5, 2))).to eq false
     end
 
     it 'returns false otherwise' do

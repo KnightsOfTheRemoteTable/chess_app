@@ -12,6 +12,8 @@ class ChessPiece < ActiveRecord::Base
 
   scope :with_color, ->(color) { where(color: colors[color]) }
 
+  scope :at_coordinates, ->(coordinates) { where(position_x: coordinates.x, position_y: coordinates.y) }
+
   def obstructed?(coordinates)
     move_for(coordinates).path.each do |path_coordinates|
       return true if position_occupied?(path_coordinates)
@@ -33,7 +35,7 @@ class ChessPiece < ActiveRecord::Base
   end
 
   def move_to!(coordinates)
-    destination_piece = game.chess_pieces.find_by(position_x: coordinates.x, position_y: coordinates.y)
+    destination_piece = game.chess_pieces.at_coordinates(coordinates).first
     capture(destination_piece) if destination_piece
 
     update(position_x: coordinates.x, position_y: coordinates.y)
@@ -75,7 +77,11 @@ class ChessPiece < ActiveRecord::Base
   end
 
   def position_occupied?(coordinates)
-    game.chess_pieces.where(position_x: coordinates.x, position_y: coordinates.y).present?
+    game.chess_pieces.at_coordinates(coordinates).present?
+  end
+
+  def friendly_piece_at?(coordinates)
+    game.chess_pieces.with_color(color).at_coordinates(coordinates).present?
   end
 
   def horizontal_move?(coordinates)

@@ -6,7 +6,7 @@ RSpec.describe Queen do
   end
 
   describe '#valid_move?' do
-    let(:queen) { create(:queen, position_x: 3, position_y: 3) }
+    let(:queen) { create(:queen, position_x: 3, position_y: 3, color: :white) }
     let(:game)  { create(:game) }
 
     it 'returns true for vertical moves' do
@@ -40,6 +40,14 @@ RSpec.describe Queen do
       queen = create(:queen, position_x: 5, position_y: 7, color: 'black', game: game)
       create(:rook, position_x: 5, position_y: 5, color: 'white', game: game)
       expect(queen.valid_move?(Coordinates.new(4, 6))).to eq false
+    end
+
+    it 'returns false if moving to the same square' do
+      expect(queen.valid_move?(Coordinates.new(3, 3))).to eq false
+    end
+
+    it 'returns false if capturing friendly piece' do
+      expect(queen.valid_move?(Coordinates.new(3, 2))).to eq false
     end
   end
 end

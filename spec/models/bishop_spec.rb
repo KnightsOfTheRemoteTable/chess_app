@@ -6,7 +6,7 @@ RSpec.describe Bishop do
   end
 
   describe '#valid_move?' do
-    let(:bishop) { create(:bishop, position_x: 5, position_y: 5) }
+    let(:bishop) { create(:bishop, position_x: 5, position_y: 5, color: :black) }
     let(:game)   { create(:game) }
 
     it 'returns true for diagonal moves' do
@@ -32,6 +32,14 @@ RSpec.describe Bishop do
       bishop = create(:bishop, position_x: 6, position_y: 7, color: 'black', game: game)
       create(:bishop, position_x: 7, position_y: 6, color: 'white', game: game)
       expect(bishop.valid_move?(Coordinates.new(5, 6))).to eq false
+    end
+
+    it 'returns false if moving to the same square' do
+      expect(bishop.valid_move?(Coordinates.new(5, 5))).to eq false
+    end
+
+    it 'returns false if capturing friendly piece' do
+      expect(bishop.valid_move?(Coordinates.new(3, 7))).to eq false
     end
   end
 end
