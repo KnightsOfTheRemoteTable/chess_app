@@ -69,10 +69,6 @@ class Game < ActiveRecord::Base
     end
   end
 
-  def stalemate?
-    state_of_stalemate?('black') || state_of_stalemate?('white')
-  end
-
   def state_of_stalemate?(color)
     potential_moves = load_potential_moves
 

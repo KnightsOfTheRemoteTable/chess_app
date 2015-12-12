@@ -108,7 +108,7 @@ RSpec.describe Game do
 
   describe '#stalemate?' do
     it 'returns false if the game is not in a state of stalemate' do
-      expect(game.stalemate?).to eq false
+      expect(game.state_of_stalemate?('black')).to eq false
     end
 
     it 'returns true if the game is in a state of stalemate' do
