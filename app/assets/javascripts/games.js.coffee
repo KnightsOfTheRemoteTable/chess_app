@@ -1,9 +1,9 @@
-$ ->
-  pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
-  channel = pusher.subscribe 'main_channel'
-  channel.bind 'refresh_event', (data)->
-    alert 'Piece was moved!!!'
+pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
+channel = pusher.subscribe 'main_channel'
+channel.bind 'refresh_event', (data)->
+  alert data
 
+$ ->
   $('.chessboard__row__space a').draggable
     cursor: 'move',
     snap: '.chessboard__row__space',

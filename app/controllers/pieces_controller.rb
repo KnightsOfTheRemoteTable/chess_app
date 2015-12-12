@@ -48,7 +48,9 @@ class PiecesController < ApplicationController
   end
 
   def attempt_move
-    selected_piece.move_to!(destination_coordinates) if moving_validly?
+    return unless moving_validly?
+    selected_piece.move_to!(destination_coordinates)
+    Pusher.trigger('main_channel', 'refresh_event', { message: 'hello world' })
   end
 
   def successful_move?
@@ -59,7 +61,7 @@ class PiecesController < ApplicationController
 
   def moving_validly?
     @valid_move ||= selected_piece.valid_move?(destination_coordinates)
-    Pusher.trigger('main_channel', 'refresh_event', { message: 'hello world' })
+    # Pusher.trigger('main_channel', 'refresh_event', { message: 'hello world' })
   end
 
   def destination_coordinates
