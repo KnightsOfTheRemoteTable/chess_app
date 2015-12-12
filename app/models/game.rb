@@ -70,10 +70,12 @@ class Game < ActiveRecord::Base
   end
 
   def check?
-    chess_pieces.where(type: 'King').find_each do |king|
-      return true if capturable_by_opposing_color?(king)
-    end
-    false
+    king_is_in_check?('black') || king_is_in_check?('white')
+  end
+
+  def king_is_in_check?(color)
+    king = locate_king(color)
+    capturable_by_opposing_color?(king)
   end
 
   def king_is_in_check?(color)
