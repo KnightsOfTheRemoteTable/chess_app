@@ -59,6 +59,7 @@ class PiecesController < ApplicationController
 
   def moving_validly?
     @valid_move ||= selected_piece.valid_move?(destination_coordinates)
+    Pusher.trigger('main_channel', 'refresh_event', { message: 'hello world' })
   end
 
   def destination_coordinates

@@ -1,4 +1,9 @@
 $ ->
+  pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
+  channel = pusher.subscribe 'main_channel'
+  channel.bind 'refresh_event', (data)->
+    alert 'Piece was moved!!!'
+
   $('.chessboard__row__space a').draggable
     cursor: 'move',
     snap: '.chessboard__row__space',
@@ -31,4 +36,3 @@ $ ->
         $target.empty().append(piece.detach())
       error: (response)->
         ui.draggable.animate(top: 0, left: 0)
-

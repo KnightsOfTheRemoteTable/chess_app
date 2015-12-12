@@ -44,6 +44,9 @@ gem 'omniauth-facebook'
 # Use omniauth-google-oauth2 for google login
 gem 'omniauth-google-oauth2'
 
+# Use Pusher for realtime updates
+gem 'pusher'
+
 group :development do
   # awesome_print gem for more readable output in terminal
   gem 'awesome_print'
