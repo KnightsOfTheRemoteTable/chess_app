@@ -47,6 +47,9 @@ gem 'omniauth-google-oauth2'
 # Use Pusher for realtime updates
 gem 'pusher'
 
+# Use Figaro for environment configuration
+gem 'figaro'
+
 group :development do
   # awesome_print gem for more readable output in terminal
   gem 'awesome_print'
