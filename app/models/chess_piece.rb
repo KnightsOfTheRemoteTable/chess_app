@@ -28,6 +28,7 @@ class ChessPiece < ActiveRecord::Base
       fail ActiveRecord::Rollback
     end
 
+    reload
     check_state
   end
 
