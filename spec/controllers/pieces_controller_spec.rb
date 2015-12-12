@@ -9,6 +9,7 @@ RSpec.describe PiecesController, type: :controller do
 
     it 'responds successfully with an HTTP 200 status code' do
       sign_in @black_player
+      @game.update_current_player!('white')
       piece_id = @game.chess_pieces.find_by(position_x: 1, position_y: 7)
       get :show, id: piece_id
 
@@ -25,15 +26,13 @@ RSpec.describe PiecesController, type: :controller do
   end
 
   describe 'PUT pieces#update' do
-    let(:game) { create(:game) }
+    let(:white_player) { create(:user) }
+    let(:game) { create(:game, white_player: white_player) }
 
     it 'responds successfully with an HTTP 302 status code' do
-      black_player = create(:user)
-      game = create(:game, black_player: black_player)
-      sign_in black_player
-
-      piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 7).id
-      put(:update, id: piece_id, piece: { position_x: 1, position_y: 6 })
+      sign_in white_player
+      piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 2).id
+      put(:update, id: piece_id, piece: { position_x: 1, position_y: 3 })
 
       expect(response).to have_http_status(302)
     end
@@ -66,6 +65,8 @@ RSpec.describe PiecesController, type: :controller do
   end
 
   describe 'GET pieces#valid_moves' do
+    let(:game) { create(:game) }
+
     it 'returns valid moves for the piece' do
       pawn = create(:game).chess_pieces.find_by(position_x: 1, position_y: 2)
       sign_in pawn.game.white_player
@@ -73,6 +74,16 @@ RSpec.describe PiecesController, type: :controller do
       get :valid_moves, id: pawn
 
       expect(JSON.parse(response.body)).to include('x' => 1, 'y' => 3)
+    end
+
+    it 'returns status forbidden if not players turn' do
+      sign_in game.black_player
+
+      piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 7).id
+      expect(game.current_player_is_black_player?).to eq false
+      put(:update, id: piece_id, piece: { position_x: 1, position_y: 6 })
+
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

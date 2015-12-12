@@ -1,6 +1,7 @@
 class PiecesController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_player
+  before_action :check_turn
 
   def show
     @chess_pieces = current_game.chess_pieces.order(:position_y).order(:position_x).to_a
@@ -27,6 +28,11 @@ class PiecesController < ApplicationController
   def authorize_player
     render text: 'Forbidden', status: :unauthorized unless
       current_user == current_game.send("#{selected_piece.color}_player")
+  end
+
+  def check_turn
+    render text: 'Not your turn', status: :forbidden unless
+      current_game.send("current_player_is_#{selected_piece.color}_player?")
   end
 
   def current_game
