@@ -26,7 +26,7 @@ class ChessPiece < ActiveRecord::Base
 
     ActiveRecord::Base.transaction do
       move_to!(coordinates)
-      check_state = game.check?
+      check_state = game.king_is_in_check?(color)
       fail ActiveRecord::Rollback
     end
 

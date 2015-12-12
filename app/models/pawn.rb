@@ -4,11 +4,14 @@ class Pawn < ChessPiece
 
   def valid_move?(coordinates, skip_checkstate_check = false)
     return false unless forward_move?(coordinates.y)
-    return valid_vertical_move?(coordinates) if vertical_move?(coordinates)
-    return true if game.can_en_passant?(coordinates)
-    return false unless valid_capture?(coordinates)
-    return true if skip_checkstate_check
-    !(move_puts_king_in_check?(coordinates))
+    return false if vertical_move?(coordinates) && !valid_vertical_move?(coordinates)
+
+    if vertical_move?(coordinates) || game.can_en_passant?(coordinates) || valid_capture?(coordinates)
+      return true if skip_checkstate_check
+      return !(move_puts_king_in_check?(coordinates))
+    end
+
+    false
   end
 
   def move_to!(coordinates)
