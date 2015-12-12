@@ -1,7 +1,7 @@
 pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
 channel = pusher.subscribe 'main_channel'
 channel.bind 'refresh_event', (data)->
-  alert data
+  location.reload()
 
 $ ->
   $('.chessboard__row__space a').draggable
