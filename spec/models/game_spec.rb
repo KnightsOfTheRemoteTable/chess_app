@@ -113,7 +113,7 @@ RSpec.describe Game do
 
     it 'returns true if the game is in a state of stalemate' do
       game.chess_pieces.destroy_all
-      king = create(:king, position_x: 8, position_y: 1, color: 'black', game: game)
+      create(:king, position_x: 8, position_y: 1, color: 'black', game: game)
       create(:king, position_x: 6, position_y: 2, color: 'white', game: game)
       create(:queen, position_x: 7, position_y: 3, color: 'white', game: game)
 

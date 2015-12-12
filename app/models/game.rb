@@ -7,8 +7,7 @@ class Game < ActiveRecord::Base
 
   validates :name, presence: true
 
-  enum current_player: [:current_player_is_black_player,
-                        :current_player_is_white_player]
+  enum current_player: [:current_player_is_black_player, :current_player_is_white_player]
 
   after_create :populate_board!
 
@@ -73,9 +72,7 @@ class Game < ActiveRecord::Base
     potential_moves = load_potential_moves
 
     chess_pieces.with_color(color).each do |piece|
-      potential_moves.each do |move|
-        return false if piece.valid_move?(move)
-      end
+      potential_moves.each { |move| return false if piece.valid_move?(move) }
     end
 
     true
