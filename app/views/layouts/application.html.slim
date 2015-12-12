@@ -4,14 +4,21 @@ html
     title ChessApp
     = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag    'application'
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
     / Add in mobile support
-  meta name="viewport" content="width=device-width, initial-scale=1"
+    meta name="viewport" content="width=device-width, initial-scale=1"
   body
     = render 'layouts/header'
     / Required by Devise for notification purposes
     p.notice = notice
     p.alert = alert
+    - if notice
+      p.alert.alert-success = notice
+    - if alert
+      p.alert.alert-danger = alert
+
     / Begin outer BS3 fluid container
     .container-fluid
       == yield
