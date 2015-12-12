@@ -8,6 +8,15 @@ RSpec.describe Pawn do
   end
 
   describe 'valid_move?' do
+    let(:game) { create(:game) }
+
+    it 'returns false if the king would be put in check' do
+      remove_everything_but_king!('black')
+      pawn = create(:bishop, position_x: 6, position_y: 7, color: 'black', game: game)
+      create(:bishop, position_x: 7, position_y: 6, color: 'white', game: game)
+      expect(pawn.valid_move?(Coordinates.new(6, 6))).to eq false
+    end
+
     context 'when color is white' do
       it 'returns true for one step forward moves' do
         expect(pawn.valid_move?(Coordinates.new(4, 5))).to eq true
@@ -96,4 +105,12 @@ RSpec.describe Pawn do
       expect(Pawn.find_by(id: pawn.id)).to be_nil
     end
   end
+end
+
+def remove_everything_but_king!(color)
+  Pawn.with_color(color).destroy_all(game: game)
+  Knight.with_color(color).destroy_all(game: game)
+  Bishop.with_color(color).destroy_all(game: game)
+  Queen.with_color(color).destroy_all(game: game)
+  Rook.with_color(color).destroy_all(game: game)
 end
