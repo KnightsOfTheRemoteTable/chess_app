@@ -50,7 +50,7 @@ class PiecesController < ApplicationController
   def attempt_move
     return unless moving_validly?
     selected_piece.move_to!(destination_coordinates)
-    Pusher.trigger('main_channel', 'refresh_event', { message: 'hello world' })
+    Pusher.trigger(current_game.id, 'refresh_event', message: '')
   end
 
   def successful_move?
