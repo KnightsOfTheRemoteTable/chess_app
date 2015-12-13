@@ -120,7 +120,6 @@ RSpec.describe ChessPiece, type: :model do
     end
   end
 
-
   describe '.with_color' do
     it 'returns pieces of the specified color' do
       pawn = create(:pawn, color: :white)
