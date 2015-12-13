@@ -3,7 +3,7 @@ development:
   encoding: unicode
   database: chess_app_development
   pool: 5
-  username: postgres
+  username: alif
   password: password
   host: localhost
 
@@ -12,7 +12,7 @@ test:
   encoding: unicode
   database: chess_app_test
   pool: 5
-  username: postgres
+  username: alif
   password: password
   host: localhost
 
@@ -21,6 +21,6 @@ production:
   encoding: unicode
   database: chess_app_production
   pool: 5
-  username: postgres
+  username: alif
   password: password
   host: localhost

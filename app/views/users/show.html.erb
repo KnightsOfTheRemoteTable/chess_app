@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-8.col-offset-2">
+    <div class="container">
+      <h1 class="text-primary">Welcome to Your Dashboard <%= current_user.username %> :)</h1>
+
+      <% @games.each do |game| %>
+        <p><%= link_to game.name, game_path(game) %></p>
+        <hr />
+        <%= game.winner %>
+      <% end %>
+      <h2>Your Won  : 2 games</h2>
+      <h2>Your Lost : 3 games</h2>
+      <h2>Your Draw : 1 game </h2>
+      <br />
+      <%= @games.inspect %>
+    </div>
+  </div>
+</div>
