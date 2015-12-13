@@ -25,7 +25,7 @@ class ChessPiece < ActiveRecord::Base
 
     update(position_x: coordinates.x, position_y: coordinates.y)
     game.update(en_passant_position: nil)
-    game.update_current_player!
+    game.update_current_player!(color)
   end
 
   def opposite_color
