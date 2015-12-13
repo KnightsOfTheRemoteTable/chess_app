@@ -99,7 +99,7 @@ class Game < ActiveRecord::Base
 
   def capturable_by_opposing_color?(king)
     chess_pieces.with_color(king.opposite_color).find_each do |opponent|
-      return true if opponent.valid_move?(king.coordinates, true)
+      return true if opponent.valid_move?(king.coordinates)
     end
     false
   end

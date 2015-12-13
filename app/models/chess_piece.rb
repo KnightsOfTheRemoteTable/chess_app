@@ -59,7 +59,7 @@ class ChessPiece < ActiveRecord::Base
     moves = []
     1.upto(8) do |x|
       1.upto(8) do |y|
-        moves << { x: x, y: y } if valid_move?(Coordinates.new(x, y))
+        moves << { x: x, y: y } if valid_move?(Coordinates.new(x, y)) && !(move_puts_king_in_check?(Coordinates.new(x, y)))
       end
     end
     moves

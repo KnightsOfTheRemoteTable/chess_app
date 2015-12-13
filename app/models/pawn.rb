@@ -2,13 +2,10 @@ class Pawn < ChessPiece
   FIRST_MOVE_FACTOR = 2
   SECOND_MOVE_FACTOR = 1
 
-  def valid_move?(coordinates, skip_checkstate_check = false)
+  def valid_move?(coordinates)
     return false unless forward_move?(coordinates.y)
     return false if vertical_move?(coordinates) && !valid_vertical_move?(coordinates)
-
-    return false unless within_movement_parameters?(coordinates)
-    return true if skip_checkstate_check
-    !(move_puts_king_in_check?(coordinates))
+    within_movement_parameters?(coordinates)
   end
 
   def within_movement_parameters?(coordinates)

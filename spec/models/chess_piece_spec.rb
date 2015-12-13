@@ -109,6 +109,18 @@ RSpec.describe ChessPiece, type: :model do
     end
   end
 
+  describe '#move_puts_king_in_check' do
+    let(:game) { create(:game) }
+
+    it 'returns true if the move would put the king in check' do
+      remove_everything_but_king!('black')
+      bishop = create(:bishop, position_x: 6, position_y: 7, color: 'black', game: game)
+      create(:bishop, position_x: 7, position_y: 6, color: 'white', game: game)
+      expect(bishop.move_puts_king_in_check?(Coordinates.new(5, 6))).to eq true
+    end
+  end
+
+
   describe '.with_color' do
     it 'returns pieces of the specified color' do
       pawn = create(:pawn, color: :white)
@@ -122,4 +134,12 @@ RSpec.describe ChessPiece, type: :model do
       expect(ChessPiece.with_color(:black)).to_not include pawn
     end
   end
+end
+
+def remove_everything_but_king!(color)
+  Pawn.with_color(color).destroy_all(game: game)
+  Knight.with_color(color).destroy_all(game: game)
+  Bishop.with_color(color).destroy_all(game: game)
+  Queen.with_color(color).destroy_all(game: game)
+  Rook.with_color(color).destroy_all(game: game)
 end

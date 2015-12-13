@@ -66,7 +66,7 @@ class PiecesController < ApplicationController
   end
 
   def moving_validly?
-    @valid_move ||= selected_piece.valid_move?(destination_coordinates)
+    @valid_move ||= selected_piece.valid_move?(destination_coordinates) && !(selected_piece.move_puts_king_in_check?(destination_coordinates))
   end
 
   def destination_coordinates

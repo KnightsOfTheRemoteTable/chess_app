@@ -35,13 +35,6 @@ RSpec.describe Rook do
       expect(rook.valid_move?(Coordinates.new(13, 5))).to eq false
     end
 
-    it 'returns false if the king would be put in check' do
-      remove_everything_but_king!('black')
-      rook = create(:rook, position_x: 6, position_y: 8, color: 'black', game: game)
-      create(:rook, position_x: 8, position_y: 8, color: 'white', game: game)
-      expect(rook.valid_move?(Coordinates.new(6, 5))).to eq false
-    end
-
     it 'returns false if moving to the same square' do
       expect(rook.valid_move?(Coordinates.new(5, 5))).to eq false
     end
@@ -50,12 +43,4 @@ RSpec.describe Rook do
       expect(rook.valid_move?(Coordinates.new(5, 2))).to eq false
     end
   end
-end
-
-def remove_everything_but_king!(color)
-  Pawn.with_color(color).destroy_all(game: game)
-  Knight.with_color(color).destroy_all(game: game)
-  Bishop.with_color(color).destroy_all(game: game)
-  Queen.with_color(color).destroy_all(game: game)
-  Rook.with_color(color).destroy_all(game: game)
 end
