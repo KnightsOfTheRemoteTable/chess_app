@@ -106,6 +106,21 @@ RSpec.describe Game do
     end
   end
 
+  describe '#stalemate?' do
+    it 'returns false if the game is not in a state of stalemate' do
+      expect(game.state_of_stalemate?('black')).to eq false
+    end
+
+    it 'returns true if the game is in a state of stalemate' do
+      game.chess_pieces.destroy_all
+      create(:king, position_x: 8, position_y: 1, color: 'black', game: game)
+      create(:king, position_x: 6, position_y: 2, color: 'white', game: game)
+      create(:queen, position_x: 7, position_y: 3, color: 'white', game: game)
+
+      expect(game.state_of_stalemate?('black')).to eq true
+    end
+  end
+
   describe '#current_player_is_black_player!' do
     it 'sets the current player of the game to black' do
       game.current_player_is_black_player!
