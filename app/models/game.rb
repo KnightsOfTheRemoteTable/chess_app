@@ -7,8 +7,7 @@ class Game < ActiveRecord::Base
 
   validates :name, presence: true
 
-  enum current_player: [:current_player_is_black_player,
-                        :current_player_is_white_player]
+  enum current_player: [:current_player_is_black_player, :current_player_is_white_player]
 
   after_create :populate_board!
 
@@ -31,7 +30,7 @@ class Game < ActiveRecord::Base
     create_bishops
     create_rooks
     create_pawns
-    current_player_is_white_player!
+    current_player_is_black_player!
   end
 
   def create_knights
@@ -69,6 +68,16 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def state_of_stalemate?(color)
+    potential_moves = load_potential_moves
+
+    chess_pieces.with_color(color).each do |piece|
+      potential_moves.each { |move| return false if piece.valid_move?(move) }
+    end
+
+    true
+  end
+
   def check?
     king_is_in_check?('black') || king_is_in_check?('white')
   end
@@ -78,8 +87,8 @@ class Game < ActiveRecord::Base
     capturable_by_opposing_color?(king)
   end
 
-  def update_current_player!(color)
-    color == 'white' ? current_player_is_black_player! : current_player_is_white_player!
+  def update_current_player!
+    current_player_is_white_player? ? current_player_is_black_player! : current_player_is_white_player!
   end
 
   def can_en_passant?(coordinates)
@@ -87,6 +96,17 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def load_potential_moves
+    potential_moves = []
+    1.upto(8) do |x|
+      1.upto(8) do |y|
+        potential_moves << Coordinates.new(x, y)
+      end
+    end
+
+    potential_moves
+  end
 
   def en_passant_coordinates
     return unless en_passant_position
@@ -101,6 +121,7 @@ class Game < ActiveRecord::Base
     chess_pieces.with_color(king.opposite_color).find_each do |opponent|
       return true if opponent.valid_move?(king.coordinates)
     end
+
     false
   end
 end
