@@ -1,5 +1,5 @@
 class Rook < ChessPiece
-  def valid_move?(coordinates, skip_checkstate_check = false)
+  def valid_move?(coordinates)
     return false if out_of_bounds?(coordinates)
     return false unless move_within_limits?(coordinates)
     return false if friendly_piece_at?(coordinates)

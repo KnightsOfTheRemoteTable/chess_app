@@ -30,7 +30,7 @@ class Game < ActiveRecord::Base
     create_bishops
     create_rooks
     create_pawns
-    current_player_is_white_player!
+    current_player_is_black_player!
   end
 
   def create_knights
@@ -87,13 +87,8 @@ class Game < ActiveRecord::Base
     capturable_by_opposing_color?(king)
   end
 
-  def king_is_in_check?(color)
-    king = locate_king(color)
-    capturable_by_opposing_color?(king)
-  end
-
-  def update_current_player!(color)
-    color == 'white' ? current_player_is_black_player! : current_player_is_white_player!
+  def update_current_player!
+    current_player_is_white_player? ? current_player_is_black_player! : current_player_is_white_player!
   end
 
   def can_en_passant?(coordinates)
@@ -124,7 +119,7 @@ class Game < ActiveRecord::Base
 
   def capturable_by_opposing_color?(king)
     chess_pieces.with_color(king.opposite_color).find_each do |opponent|
-      return true if opponent.valid_move?(king.coordinates, true)
+      return true if opponent.valid_move?(king.coordinates)
     end
 
     false
