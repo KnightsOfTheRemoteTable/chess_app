@@ -7,11 +7,13 @@
         <p><%= link_to game.name, game_path(game) %></p>
         <hr />
         <%= game.winner %>
+        <%= game %>
       <% end %>
       <h2>Your Won  : 2 games</h2>
       <h2>Your Lost : 3 games</h2>
       <h2>Your Draw : 1 game </h2>
       <br />
+      <!-- <% binding.pry %> -->
       <%= @games.inspect %>
     </div>
   </div>
