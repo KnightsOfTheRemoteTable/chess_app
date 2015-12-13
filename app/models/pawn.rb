@@ -4,9 +4,12 @@ class Pawn < ChessPiece
 
   def valid_move?(coordinates)
     return false unless forward_move?(coordinates.y)
-    return valid_vertical_move?(coordinates) if vertical_move?(coordinates)
-    return true if game.can_en_passant?(coordinates)
-    valid_capture?(coordinates)
+    return false if vertical_move?(coordinates) && !valid_vertical_move?(coordinates)
+    within_movement_parameters?(coordinates)
+  end
+
+  def within_movement_parameters?(coordinates)
+    vertical_move?(coordinates) || game.can_en_passant?(coordinates) || valid_capture?(coordinates)
   end
 
   def move_to!(coordinates)

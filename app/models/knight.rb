@@ -3,6 +3,7 @@ class Knight < ChessPiece
 
   def valid_move?(coordinates)
     return false if out_of_bounds?(coordinates)
-    VALID_MOVE_DISTANCES.include? [diff_in_x(coordinates.x), diff_in_y(coordinates.y)]
+    return false unless VALID_MOVE_DISTANCES.include? [diff_in_x(coordinates.x), diff_in_y(coordinates.y)]
+    !(friendly_piece_at?(coordinates))
   end
 end

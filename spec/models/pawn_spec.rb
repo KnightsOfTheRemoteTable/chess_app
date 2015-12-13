@@ -8,6 +8,8 @@ RSpec.describe Pawn do
   end
 
   describe 'valid_move?' do
+    let(:game) { create(:game) }
+
     context 'when color is white' do
       it 'returns true for one step forward moves' do
         expect(pawn.valid_move?(Coordinates.new(4, 5))).to eq true

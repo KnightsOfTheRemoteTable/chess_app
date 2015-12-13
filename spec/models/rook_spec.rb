@@ -6,7 +6,8 @@ RSpec.describe Rook do
   end
 
   describe '#valid_move?' do
-    let(:rook) { create(:rook, position_x: 5, position_y: 5) }
+    let(:rook) { create(:rook, position_x: 5, position_y: 5, color: :white, game: game) }
+    let(:game) { create(:game) }
 
     it 'returns true for vertical moves' do
       expect(rook.valid_move?(Coordinates.new(5, 6))).to eq true
@@ -32,6 +33,14 @@ RSpec.describe Rook do
 
     it 'returns false if out of bounds' do
       expect(rook.valid_move?(Coordinates.new(13, 5))).to eq false
+    end
+
+    it 'returns false if moving to the same square' do
+      expect(rook.valid_move?(Coordinates.new(5, 5))).to eq false
+    end
+
+    it 'returns false if capturing friendly piece' do
+      expect(rook.valid_move?(Coordinates.new(5, 2))).to eq false
     end
   end
 end
