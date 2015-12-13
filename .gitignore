@@ -20,3 +20,6 @@
 
 #Ignore local simplecov reporting
 /coverage
+
+# Ignore application configuration
+/config/application.yml
