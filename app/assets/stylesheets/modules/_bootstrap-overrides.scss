@@ -8,8 +8,6 @@ $brand-lite: #ECD8A3;
 $state-success-text: $brand-primary;
 $state-success-bg: $brand-lite;
 
-
-
 // Primary font stack
 $font-family-sans-serif:  "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
@@ -23,3 +21,4 @@ $navbar-default-toggle-hover-bg: $brand-primary;
 
 // Buttons
 $btn-font-weight: 100;
+$btn-primary-color: $brand-lite;
