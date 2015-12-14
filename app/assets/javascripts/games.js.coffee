@@ -1,12 +1,12 @@
 
 $ ->
-
   gameId = $('.chessboard').data('channelid')
-  pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
-  channel = pusher.subscribe gameId
 
-  channel.bind 'refresh_event', (data)->
-    location.reload()
+  if (gameId != undefined)
+    pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
+    channel = pusher.subscribe gameId
+    channel.bind 'refresh_event', (data)->
+      location.reload()
 
   $('.chessboard__row__space a').draggable
     cursor: 'move',
