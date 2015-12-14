@@ -1,3 +1,12 @@
 
 // Main color palette
-$brand-primary: navy;
+$brand-primary: #8A6B3D;
+$brand-lite: #ECD8A3;
+
+// Navbar
+$navbar-border-radius: 0;
+$navbar-default-bg: $brand-primary;
+$navbar-default-link-color: $brand-lite;
+$navbar-default-toggle-border-color: $brand-lite;
+$navbar-default-toggle-icon-bar-bg: $brand-lite;
+$navbar-default-toggle-hover-bg: $brand-primary;
