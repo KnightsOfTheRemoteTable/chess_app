@@ -201,7 +201,7 @@ RSpec.describe King do
     let(:game) { create(:game) }
     let(:white_king) { King.with_color(:white).find_by(game: game) }
 
-    def setup_fools_mate(game)
+    def setup_fools_mate
       game.chess_pieces.find_by(position_x: 3, position_y: 2).move_to!(Coordinates.new(3, 3))
       game.chess_pieces.find_by(position_x: 2, position_y: 2).move_to!(Coordinates.new(2, 4))
       game.chess_pieces.find_by(position_x: 5, position_y: 8).move_to!(Coordinates.new(1, 4))
@@ -212,14 +212,23 @@ RSpec.describe King do
     end
 
     it 'is true for fools mate' do
-      setup_fools_mate(game)
+      setup_fools_mate
 
       expect(white_king.checkmate?).to eq true
     end
 
-    it 'is false when escape is possible'
+    it 'is false when escape is possible' do
+      setup_fools_mate
+      Queen.with_color(:white).destroy_all
 
-    it 'is false when capture is possible'
+      expect(white_king.checkmate?).to eq false
+    end
+
+    it 'is false when capture is possible' do
+      setup_fools_mate
+      create(:queen, color: :white, position_x: 2, position_y: 5, game: game)
+      expect(white_king.checkmate?).to eq false
+    end
 
     it 'is false when blocking is possible'
   end
