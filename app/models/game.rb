@@ -70,12 +70,10 @@ class Game < ActiveRecord::Base
   end
 
   def state_of_stalemate?(color)
-    potential_moves = load_potential_moves
-
     chess_pieces.with_color(color).each do |piece|
+      potential_moves = piece.load_potential_moves
       potential_moves.each { |move| return false if piece.valid_move?(move) && !(piece.move_puts_king_in_check?(move)) }
     end
-
     true
   end
 
@@ -97,17 +95,6 @@ class Game < ActiveRecord::Base
   end
 
   private
-
-  def load_potential_moves
-    potential_moves = []
-    1.upto(8) do |x|
-      1.upto(8) do |y|
-        potential_moves << Coordinates.new(x, y)
-      end
-    end
-
-    potential_moves
-  end
 
   def en_passant_coordinates
     return unless en_passant_position
