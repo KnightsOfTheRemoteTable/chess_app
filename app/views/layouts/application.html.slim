@@ -12,9 +12,9 @@ html
     = render 'layouts/header'
     / Required by Devise for notification purposes
     - if notice
-      p.alert.alert-success = notice
+      h4.alert.alert-success.text-center = notice
     - if alert
-      p.alert.alert-danger = alert
+      h4.alert.alert-danger.text-center = alert
 
     / Begin outer BS3 fluid container
     .container-fluid
