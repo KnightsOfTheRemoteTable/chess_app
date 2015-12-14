@@ -1,7 +1,7 @@
 / Each view is contained with the outer layout and should begin with a row
 .row
   .col-xs-12.col-md-8.col-md-offset-2
-    h1.text-primary Current Games
+    h1.text-primary.title.text-center Current Games
 
   .col-xs-12.col-md-8.col-md-offset-2
     table.table.table-striped
@@ -20,7 +20,10 @@
           td
             = game.created_at.strftime('%m-%d-%Y')
           td
-            = link_to 'Join', join_game_path(game), method: 'PUT' if game.white_player.nil? && current_user != game.black_player
+            - if game.white_player.nil? && current_user != game.black_player
+              = link_to 'Join', join_game_path(game), method: 'PUT'
+            - else
+              = '---'
   .col-xs-12.col-md-8.col-md-offset-2.text-center
     =link_to new_game_path, class: 'btn btn-lg btn-primary'
       | Create a new game
