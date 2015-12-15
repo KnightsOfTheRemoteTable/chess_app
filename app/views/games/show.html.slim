@@ -24,4 +24,4 @@
 
 .row.buttons
   .col-xs-12.text-center
-    = link_to 'Forfeit Game', forfeit_game_path(@game), class: 'btn btn-danger btn-lg', method: 'PUT' if @game.players.include?(current_user) && @game.winner.nil?
+    = link_to 'Forfeit Game', forfeit_game_path(@game), class: 'btn btn-danger btn-lg', method: 'PUT' if @game.players.count == 2 && @game.players.include?(current_user) && @game.winner.nil?
