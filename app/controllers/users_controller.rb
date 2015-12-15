@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @wins = Game.where(winner: @user).count
   end
 
   def update
