@@ -38,8 +38,7 @@ class King < ChessPiece
   def checkmate?
     return false unless game.check?
     return false if valid_move_available?
-    return false if can_block_checking_piece?
-    return false if can_capture_checking_piece?
+    return false if can_remove_check?
     true
   end
 
@@ -50,26 +49,19 @@ class King < ChessPiece
     diff_in_y(coordinates.y) <= Y_MOVE_FACTOR
   end
 
-  def can_capture_checking_piece?
-    return false if checking_pieces.length > 1
-
-    checking_piece_coordinates = checking_pieces[0].coordinates
-    game.chess_pieces.with_color(color).each do |piece|
-      return true if piece.valid_move?(checking_piece_coordinates) &&
-                     !piece.move_puts_king_in_check?(checking_piece_coordinates)
-    end
-
-    false
+  def path_of_check
+    checking_piece = checking_pieces.first
+    path = [checking_piece.coordinates]
+    return path if checking_piece.is_a?(Knight)
+    path + Move.new(piece: checking_piece, destination: coordinates).path
   end
 
-  def can_block_checking_piece?
+  def can_remove_check?
     return false if checking_pieces.length > 1
-    return false if checking_pieces.first.is_a?(Knight)
-
-    checking_piece_path = Move.new(piece: checking_pieces.first, destination: coordinates).path
+    potential_squares = path_of_check
 
     game.chess_pieces.with_color(color).each do |piece|
-      checking_piece_path.each do |position|
+      potential_squares.each do |position|
         return true if piece.valid_move?(position) && !piece.move_puts_king_in_check?(position)
       end
     end
