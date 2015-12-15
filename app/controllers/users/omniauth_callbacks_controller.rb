@@ -24,7 +24,7 @@ module Users
       sign_in user, event: :authentication
       set_flash_message(:notice, :success, kind: provider) if is_navigational_format?
       if user.username == user.uid
-        redirect_to user_username_path
+        redirect_to user_username_path(user)
       else
         redirect_to root_path
       end
