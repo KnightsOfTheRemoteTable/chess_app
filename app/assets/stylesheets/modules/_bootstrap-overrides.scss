@@ -1,3 +1,24 @@
+// Import primary font
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300italic,300,200italic,200,400italic,600,600italic,700,700italic);
 
 // Main color palette
-$brand-primary: navy;
+$brand-primary: #8A6B3D;
+$brand-lite: #ECD8A3;
+
+$state-success-text: $brand-primary;
+$state-success-bg: $brand-lite;
+
+// Primary font stack
+$font-family-sans-serif:  "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+// Navbar
+$navbar-border-radius: 0;
+$navbar-default-bg: $brand-primary;
+$navbar-default-link-color: $brand-lite;
+$navbar-default-toggle-border-color: $brand-lite;
+$navbar-default-toggle-icon-bar-bg: $brand-lite;
+$navbar-default-toggle-hover-bg: $brand-primary;
+
+// Buttons
+$btn-font-weight: 100;
+$btn-primary-color: $brand-lite;

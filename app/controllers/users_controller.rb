@@ -4,6 +4,11 @@ class UsersController < ApplicationController
   def username
   end
 
+  def show
+    @user = User.find(params[:id])
+    @wins = Game.where(winner: @user).count
+  end
+
   def update
     current_user.update(user_params)
     redirect_to root_path

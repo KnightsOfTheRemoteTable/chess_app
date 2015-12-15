@@ -1,11 +1,11 @@
 .row
   .col-xs-12.col-md-8.col-md-offset-2
-    h2  Log in
+    h2  Sign in
     = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       = f.input :email, required: false, autofocus: true
       = f.input :password, required: false
       = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
       .form-actions
-      = f.button :submit, "Log in"
+      = f.button :submit, 'Sign in', class: 'btn btn-lg btn-primary'
     br
     = render "devise/shared/links"
