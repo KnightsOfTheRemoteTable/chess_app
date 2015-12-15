@@ -10,6 +10,8 @@ class Game < ActiveRecord::Base
   enum current_player: [:current_player_is_black_player,
                         :current_player_is_white_player]
 
+  scope :active, -> { where(winner: nil) }
+
   after_create :populate_board!
 
   def forfeit_by!(player)
