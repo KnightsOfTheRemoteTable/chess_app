@@ -5,6 +5,7 @@ ChessApp::Application.routes.draw do
     get 'valid_moves', on: :member
   end
   get '/username', to: 'users#username'
+  resources :users, only: :show
   resource :user, only: :update
   resources :games, only: [:index, :new, :create, :show] do
     put 'forfeit', on: :member

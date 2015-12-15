@@ -22,9 +22,9 @@
           td
             = game.created_at.strftime('%m-%d-%Y')
           td
-            = game.black_player.username
+            = link_to game.black_player.username, user_path(game.black_player)
             br
-            = game.white_player.username unless game.white_player.nil?
+            = link_to game.white_player.username, user_path(game.white_player) unless game.white_player.nil?
           td
             - if game.white_player.nil? && current_user != game.black_player
               = link_to "Join #{game.black_player.username}", join_game_path(game), method: 'PUT'
