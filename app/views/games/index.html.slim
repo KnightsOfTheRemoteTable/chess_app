@@ -21,7 +21,7 @@
             = game.created_at.strftime('%m-%d-%Y')
           td
             - if game.white_player.nil? && current_user != game.black_player
-              = link_to 'Join', join_game_path(game), method: 'PUT'
+              = link_to "Join #{game.black_player.username}", join_game_path(game), method: 'PUT'
             - else
               = '---'
   .col-xs-12.col-md-8.col-md-offset-2.text-center
