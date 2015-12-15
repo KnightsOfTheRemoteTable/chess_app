@@ -112,7 +112,7 @@ RSpec.describe GamesController, type: :controller do
 
       put :forfeit, id: game
 
-      expect(response).to redirect_to game
+      expect(response).to redirect_to games_path
       expect(game.reload.winner).to eq white_player
     end
 

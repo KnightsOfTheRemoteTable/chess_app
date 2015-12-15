@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :authorize_player, only: :forfeit
 
   def index
-    @games = Game.all
+    @games = Game.where(winner: nil)
   end
 
   def new
@@ -37,7 +37,7 @@ class GamesController < ApplicationController
 
   def forfeit
     current_game.forfeit_by!(current_user)
-    redirect_to current_game, alert: 'You have forfeited the game'
+    redirect_to games_path, alert: 'You have forfeited the game'
   end
 
   private
