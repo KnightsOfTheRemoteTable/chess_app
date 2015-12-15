@@ -38,6 +38,7 @@ class King < ChessPiece
   def checkmate?
     return false unless game.check?
     return false if valid_move_available?
+    return false if can_block_checking_piece?
     return false if can_capture_checking_piece?
     true
   end
@@ -51,12 +52,27 @@ class King < ChessPiece
 
   def can_capture_checking_piece?
     return false if checking_pieces.length > 1
+
     checking_piece_coordinates = checking_pieces[0].coordinates
     game.chess_pieces.with_color(color).each do |piece|
       return true if piece.valid_move?(checking_piece_coordinates) &&
-                     !move_puts_king_in_check?(checking_piece_coordinates)
+                     !piece.move_puts_king_in_check?(checking_piece_coordinates)
     end
 
+    false
+  end
+
+  def can_block_checking_piece?
+    return false if checking_pieces.length > 1
+    return false if checking_pieces.first.is_a?(Knight)
+
+    checking_piece_path = Move.new(piece: checking_pieces.first, destination: coordinates).path
+
+    game.chess_pieces.with_color(color).each do |piece|
+      checking_piece_path.each do |position|
+        return true if piece.valid_move?(position) && !piece.move_puts_king_in_check?(position)
+      end
+    end
     false
   end
 

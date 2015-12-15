@@ -227,10 +227,17 @@ RSpec.describe King do
     it 'is false when capture is possible' do
       setup_fools_mate
       create(:queen, color: :white, position_x: 2, position_y: 5, game: game)
+
       expect(white_king.checkmate?).to eq false
     end
 
-    it 'is false when blocking is possible'
+    it 'is false when blocking is possible' do
+      setup_fools_mate
+      # Move the kingside rook to position where it can block the move
+      game.chess_pieces.find_by(position_x: 2, position_y: 1).move_to!(Coordinates.new(1, 3))
+
+      expect(white_king.checkmate?).to eq false
+    end
   end
 end
 
