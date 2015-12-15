@@ -66,6 +66,17 @@ class ChessPiece < ActiveRecord::Base
     moves
   end
 
+  def load_potential_moves
+    potential_moves = []
+    1.upto(8) do |x|
+      1.upto(8) do |y|
+        potential_moves << Coordinates.new(x, y)
+      end
+    end
+
+    potential_moves
+  end
+
   private
 
   def move_for(coordinates)

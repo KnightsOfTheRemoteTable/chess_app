@@ -69,6 +69,14 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def state_of_stalemate?(color)
+    chess_pieces.with_color(color).each do |piece|
+      potential_moves = piece.load_potential_moves
+      potential_moves.each { |move| return false if piece.valid_move?(move) && !(piece.move_puts_king_in_check?(move)) }
+    end
+    true
+  end
+
   def check?
     king_is_in_check?('black') || king_is_in_check?('white')
   end
