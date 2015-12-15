@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :authorize_player, only: :forfeit
 
   def index
-    @games = Game.where(winner: nil)
+    @games = Game.active
   end
 
   def new
