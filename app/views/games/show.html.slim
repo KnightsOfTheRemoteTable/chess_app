@@ -6,6 +6,8 @@
         = "It is black's turn. Black is being played by #{@game.black_player.username}."
       - elsif @game.white_player && @game.current_player_is_white_player?
         = "It is white's turn. White is being played by #{@game.white_player.username}."
+      -elsif @game.white_player.nil?
+        = "Waiting for another player. It will be white's turn when another player joins."
 
 .row
   .col-xs-12.col-md-8.col-md-offset-2
