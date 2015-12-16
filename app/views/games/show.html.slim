@@ -1,7 +1,7 @@
 / Each view is contained with the outer layout and should begin with a row
 .row
   .col-xs-12.col-md-8.col-md-offset-2
-    .text-center
+    .text-center.status
       - if @game.black_player && @game.current_player_is_black_player?
         = "It is black's turn. Black is being played by #{@game.black_player.username}."
       - elsif @game.white_player && @game.current_player_is_white_player?
