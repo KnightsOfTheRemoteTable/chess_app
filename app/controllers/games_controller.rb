@@ -3,7 +3,7 @@ class GamesController < ApplicationController
   before_action :authorize_player, only: :forfeit
 
   def index
-    @games = Game.active
+    @games = Game.active.order(created_at: :desc)
   end
 
   def new
