@@ -34,6 +34,6 @@ class User < ActiveRecord::Base
   end
 
   def wins_count
-    Game.where(winner: self).count
+    games.where(winner: self).count
   end
 end
