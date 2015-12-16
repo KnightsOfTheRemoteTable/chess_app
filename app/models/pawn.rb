@@ -9,7 +9,7 @@ class Pawn < ChessPiece
   end
 
   def within_movement_parameters?(coordinates)
-    vertical_move?(coordinates) || game.can_en_passant?(coordinates) || valid_capture?(coordinates)
+    vertical_move?(coordinates) || valid_capture?(coordinates)
   end
 
   def move_to!(coordinates)
