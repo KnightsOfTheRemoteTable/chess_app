@@ -13,7 +13,8 @@ $ ->
     userId = $(e.relatedTarget).data('playerid')
     url = '/users/' + userId
     $.get url, (response)->
-      $('.modal-body').html('<h4>' + response.name + ' has been registered since ' + response.playing_since + ' and has ' + response.total_wins + ' total wins.' + '</h4>')
+      html = '<img src=' + response.gravatar_url + '></img><h4>' + response.name + ' has been registered since ' + response.playing_since + ' and has ' + response.total_wins + ' total wins.' + '</h4>'
+      $('.modal-body').html(html)
 
   $('.chessboard__row__space a').draggable
     cursor: 'move',
