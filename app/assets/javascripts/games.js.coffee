@@ -8,6 +8,13 @@ $ ->
     channel.bind 'refresh_event', (data)->
       location.reload()
 
+  $('#myModal').on 'show.bs.modal', (e)->
+    $('.modal-body').html('<h4>Loading...</h4>')
+    userId = $(e.relatedTarget).data('playerid')
+    url = '/users/' + userId
+    $.get url, (response)->
+      $('.modal-body').html('<h4>' + response.name + ' has been registered since ' + response.playing_since + ' and has ' + response.total_wins + ' total wins.' + '</h4>')
+
   $('.chessboard__row__space a').draggable
     cursor: 'move',
     snap: '.chessboard__row__space',

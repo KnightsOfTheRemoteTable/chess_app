@@ -22,9 +22,11 @@
           td
             = game.created_at.strftime('%m-%d-%Y')
           td
-            = link_to game.black_player.username, user_path(game.black_player)
+            a data-toggle="modal" data-target="#myModal" data-playerid="#{game.black_player.id}" =game.black_player.username
             br
-            = link_to game.white_player.username, user_path(game.white_player) unless game.white_player.nil?
+            br
+            - if !game.white_player.nil?
+              a data-toggle="modal" data-target="#myModal" data-playerid="#{game.white_player.id}" =game.white_player.username
           td
             - if game.white_player.nil? && current_user != game.black_player
               = link_to "Join #{game.black_player.username}", join_game_path(game), method: 'PUT'
@@ -33,3 +35,15 @@
   .col-xs-12.col-md-8.col-md-offset-2.text-center
     =link_to new_game_path, class: 'btn btn-lg btn-primary'
       | Create a new game
+
+    /Modal
+    .modal.fade id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close type="button" data-dismiss="modal" aria-hidden="true" x
+            h4.modal-title id="myModalLabel" Player Overview
+          .modal-body
+            |test
+          .modal-footer
+            button.btn.btn-primary type="button" data-dismiss="modal" Close
