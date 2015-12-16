@@ -9,8 +9,9 @@ $ ->
       location.reload()
 
   $('#myModal').on 'show.bs.modal', (e)->
+    $('.modal-body').html('<h4>Loading...</h4>')
     userId = $(e.relatedTarget).data('playerid')
-    url = window.location.protocol + '//' + window.location.host + '/users/' + userId
+    url = '/users/' + userId
     $.get url, (response)->
       $('.modal-body').html('<h4>' + response.name + ' has been registered since ' + response.playing_since + ' and has ' + response.total_wins + ' total wins.' + '</h4>')
 
