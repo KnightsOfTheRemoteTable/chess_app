@@ -16,8 +16,6 @@ nav.navbar.navbar-default
           li
             = gravatar_for current_user
           li
-            = link_to current_user.username, "#"
-          li
             = link_to "Sign Out", destroy_user_session_path, method: :delete
         - else
           li
