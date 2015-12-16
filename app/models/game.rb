@@ -23,8 +23,16 @@ class Game < ActiveRecord::Base
     update!(winner: winner)
   end
 
+  def full
+    players.count == 2
+  end
+
   def players
     [white_player, black_player].compact
+  end
+
+  def includes_player?(player)
+    players.include?(player)
   end
 
   def populate_board!
