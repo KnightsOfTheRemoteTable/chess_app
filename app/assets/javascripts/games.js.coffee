@@ -10,7 +10,7 @@ $ ->
 
   $('#myModal').on 'show.bs.modal', (e)->
     userId = $(e.relatedTarget).data('playerid')
-    url = 'http://localhost:3000/users/' + userId
+    url = window.location.protocol + '//' + window.location.host + '/users/' + userId
     $.get url, (response)->
       $('.modal-body').html('<h4>' + response.name + ' has been registered since ' + response.playing_since + ' and has ' + response.total_wins + ' total wins.' + '</h4>')
 
