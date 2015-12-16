@@ -7,13 +7,17 @@
     table.table.table-striped
       tr
         th
-          | Game Name
+          h4.table-heading
+            | Game Name
         th
-          | Created On
+          h4.table-heading
+            | Created On
         th
-          | Current Players
+          h4.table-heading
+            | Current Players
         th
-          | Availability
+          h4.table-heading
+            | Availability
       - @games.each do |game|
         tr.game
           td
