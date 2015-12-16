@@ -15,4 +15,10 @@ module GamesHelper
     link_to image_tag("#{current_piece.color.downcase}_#{current_piece.type.downcase}.png"),
             piece_path(current_piece)
   end
+
+  def current_user_can_forfeit?(game)
+    return false unless game.winner.nil?
+    return false unless game.full?
+    game.includes_player?(current_user)
+  end
 end
