@@ -28,4 +28,12 @@ class User < ActiveRecord::Base
       player_id: id
     )
   end
+
+  def profile_data
+    { name: username, playing_since: created_at.strftime('%m-%d-%Y'), total_wins: wins }
+  end
+
+  def wins
+    Game.where(winner: self).count
+  end
 end
