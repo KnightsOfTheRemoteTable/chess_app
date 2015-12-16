@@ -30,10 +30,20 @@ class User < ActiveRecord::Base
   end
 
   def profile_data
-    { name: username, playing_since: created_at.strftime('%m-%d-%Y'), total_wins: wins_count }
+    {
+      name:          username,
+      gravatar_url:  gravatar_url,
+      playing_since: created_at.strftime('%m-%d-%Y'),
+      total_wins:    wins_count
+    }
   end
 
   def wins_count
     games.where(winner: self).count
+  end
+
+  def gravatar_url
+    gravatar_id = Digest::MD5.hexdigest(email.downcase)
+    "https://secure.gravatar.com/avatar/#{gravatar_id}?s=75"
   end
 end

@@ -20,10 +20,12 @@ RSpec.describe User do
   describe '#profile_data' do
     it 'returns a hash of relevant user data' do
       user = create(:user)
-      registration_date = user.created_at.strftime('%m-%d-%Y')
       username = user.username
+      gravatar_url = "https://secure.gravatar.com/avatar/#{Digest::MD5.hexdigest(user.email.downcase)}?s=75"
+      registration_date = user.created_at.strftime('%m-%d-%Y')
       wins_count = user.wins_count
-      data = { name: username, playing_since: registration_date, total_wins: wins_count }
+      data = { name: username, gravatar_url: gravatar_url, playing_since: registration_date, total_wins: wins_count }
+
       expect(user.profile_data).to eq data
     end
   end
