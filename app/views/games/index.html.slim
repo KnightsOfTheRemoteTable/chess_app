@@ -27,11 +27,13 @@
             br
             - if !game.white_player.nil?
               a data-toggle="modal" data-target="#myModal" data-playerid="#{game.white_player.id}" =game.white_player.username
+            - else
+              | ---
           td
             - if game.white_player.nil? && current_user != game.black_player
               = link_to "Join #{game.black_player.username}", join_game_path(game), method: 'PUT'
             - else
-              = '---'
+              | ---
   .col-xs-12.col-md-8.col-md-offset-2.text-center
     =link_to new_game_path, class: 'btn btn-lg btn-primary'
       | Create a new game
