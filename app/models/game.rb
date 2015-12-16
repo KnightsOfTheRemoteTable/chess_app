@@ -23,7 +23,7 @@ class Game < ActiveRecord::Base
     update!(winner: winner)
   end
 
-  def full
+  def full?
     players.count == 2
   end
 
