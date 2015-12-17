@@ -17,6 +17,11 @@ class Pawn < ChessPiece
     capture_en_passant(coordinates) if game.can_en_passant?(coordinates)
     super
     game.update(en_passant_position: "#{coordinates.x},#{backward_one(coordinates.y)}") if two_step_move
+    game.update_current_player!(opposite_color)
+  end
+
+  def promotable?
+    position_y == 8 || position_y == 1
   end
 
   private
