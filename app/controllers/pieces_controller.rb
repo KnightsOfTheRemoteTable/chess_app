@@ -56,7 +56,14 @@ class PiecesController < ApplicationController
   def attempt_move
     return unless moving_validly?
     selected_piece.move_to!(destination_coordinates)
+    check_game_over
     Pusher.trigger("channel-#{current_game.id}", 'refresh_event', message: '') unless Rails.env.test?
+  end
+
+  def check_game_over
+    return unless current_game.checkmate?
+    current_game.update(winner: current_user)
+    flash.notice = 'Game over. #{current_user.username} wins'
   end
 
   def moving_validly?

@@ -2,13 +2,7 @@ class King < ChessPiece
   X_MOVE_FACTOR = 1
   Y_MOVE_FACTOR = 1
 
-  BLACK_QUEENSIDE_CASTLE_TRAVERSED_SPACES = [Coordinates.new(3, 8), Coordinates.new(4, 8)]
-  BLACK_KINGSIDE_CASTLE_TRAVERSED_SPACES  = [Coordinates.new(6, 8), Coordinates.new(7, 8)]
-  WHITE_QUEENSIDE_CASTLE_TRAVERSED_SPACES = [Coordinates.new(3, 1), Coordinates.new(4, 1)]
-  WHITE_KINGSIDE_CASTLE_TRAVERSED_SPACES  = [Coordinates.new(6, 1), Coordinates.new(7, 1)]
-
-  CASTLING_KINGSIDE  = 8
-  CASTLING_QUEENSIDE = 1
+  CASTLING_MOVE_DISTANCE = 2
 
   def valid_move?(coordinates)
     return false if out_of_bounds?(coordinates)
@@ -22,17 +16,24 @@ class King < ChessPiece
     return false if moved?
     return false if obstructed?(rook.coordinates)
 
-    side = selected_castle_side(rook)
-    free_castling_spaces(side).each { |space| return false if king_capturable_at_space?(space) }
+    side = rook.kingside? ? :kingside : :queenside
+    free_castling_spaces(side).each { |space| return false if capturable_at_space?(space) }
 
     true
   end
 
   def castle!(rook)
-    black_castle_kingside!  if black_king_can_castle_kingside?(rook)
-    black_castle_queenside! if black_king_can_castle_queenside?(rook)
-    white_castle_kingside!  if white_king_can_castle_kingside?(rook)
-    white_castle_queenside! if white_king_can_castle_queenside?(rook)
+    return unless can_castle?(rook)
+
+    return castle_kingside!(rook) if rook.kingside?
+    castle_queenside!(rook)
+  end
+
+  def checkmate?
+    return false unless game.check?
+    return false if valid_move_available?
+    return false if can_remove_check?
+    true
   end
 
   private
@@ -42,55 +43,54 @@ class King < ChessPiece
     diff_in_y(coordinates.y) <= Y_MOVE_FACTOR
   end
 
-  def black_king_can_castle_kingside?(rook)
-    side = selected_castle_side(rook)
-    black_kingside?(side) && can_castle?(rook)
+  def path_of_check
+    checking_piece = checking_pieces.first
+    path = [checking_piece.coordinates]
+    return path if checking_piece.is_a?(Knight)
+    path + Move.new(piece: checking_piece, destination: coordinates).path
   end
 
-  def black_king_can_castle_queenside?(rook)
-    side = selected_castle_side(rook)
-    black_queenside?(side) && can_castle?(rook)
+  def can_remove_check?
+    return false if checking_pieces.length > 1
+    potential_squares = path_of_check
+
+    game.chess_pieces.with_color(color).each do |piece|
+      potential_squares.each do |position|
+        return true if piece.valid_move?(position) && !piece.move_puts_king_in_check?(position)
+      end
+    end
+    false
   end
 
-  def white_king_can_castle_kingside?(rook)
-    side = selected_castle_side(rook)
-    white_kingside?(side) && can_castle?(rook)
+  def checking_pieces
+    @checking_pieces ||= game.chess_pieces.with_color(opposite_color).select do |opponent|
+      opponent.valid_move?(coordinates)
+    end
   end
 
-  def white_king_can_castle_queenside?(rook)
-    side = selected_castle_side(rook)
-    white_queenside?(side) && can_castle?(rook)
+  def valid_move_available?
+    potential_moves.each do |position|
+      return true if valid_move?(position) && !(move_puts_king_in_check?(position))
+    end
+    false
   end
 
-  def selected_castle_side(rook)
-    return :kingside  if rook.position_x == CASTLING_KINGSIDE
-    return :queenside if rook.position_x == CASTLING_QUEENSIDE
+  def potential_moves
+    [-1, 0, 1].repeated_permutation(2)
+      .reject { |offset| offset == [0, 0] }
+      .map { |offset| Coordinates.new(position_x + offset[0], position_y + offset[1]) }
   end
 
   def free_castling_spaces(side)
-    return BLACK_KINGSIDE_CASTLE_TRAVERSED_SPACES  if black_kingside?(side)
-    return BLACK_QUEENSIDE_CASTLE_TRAVERSED_SPACES if black_queenside?(side)
-    return WHITE_KINGSIDE_CASTLE_TRAVERSED_SPACES  if white_kingside?(side)
-    return WHITE_QUEENSIDE_CASTLE_TRAVERSED_SPACES if white_queenside?(side)
+    if side == :kingside
+      destination_x = position_x + CASTLING_MOVE_DISTANCE
+    else
+      destination_x = position_x - CASTLING_MOVE_DISTANCE
+    end
+    Move.new(piece: self, destination: Coordinates.new(destination_x, position_y)).path + [coordinates]
   end
 
-  def black_kingside?(side)
-    black? && side == :kingside
-  end
-
-  def black_queenside?(side)
-    black? && side == :queenside
-  end
-
-  def white_kingside?(side)
-    white? && side == :kingside
-  end
-
-  def white_queenside?(side)
-    white? && side == :queenside
-  end
-
-  def king_capturable_at_space?(coordinates)
+  def capturable_at_space?(coordinates)
     game.chess_pieces.with_color(opposite_color).find_each do |opponent|
       return true if opponent.valid_move?(coordinates)
     end
@@ -98,27 +98,13 @@ class King < ChessPiece
     false
   end
 
-  def black_castle_kingside!
-    move_to!(Coordinates.new(7, 8))
-    black_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 8)
-    black_kingside_rook.move_to!(Coordinates.new(6, 8))
+  def castle_kingside!(rook)
+    move_to!(Coordinates.new(7, position_y))
+    rook.move_to!(Coordinates.new(6, position_y))
   end
 
-  def black_castle_queenside!
-    move_to!(Coordinates.new(3, 8))
-    black_queenside_rook = game.chess_pieces.find_by(position_x: 1, position_y: 8)
-    black_queenside_rook.move_to!(Coordinates.new(4, 8))
-  end
-
-  def white_castle_kingside!
-    move_to!(Coordinates.new(7, 1))
-    white_kingside_rook = game.chess_pieces.find_by(position_x: 8, position_y: 1)
-    white_kingside_rook.move_to!(Coordinates.new(6, 1))
-  end
-
-  def white_castle_queenside!
-    move_to!(Coordinates.new(3, 1))
-    white_queenside_rook = game.chess_pieces.find_by(position_x: 1, position_y: 1)
-    white_queenside_rook.move_to!(Coordinates.new(4, 1))
+  def castle_queenside!(rook)
+    move_to!(Coordinates.new(3, position_y))
+    rook.move_to!(Coordinates.new(4, position_y))
   end
 end
