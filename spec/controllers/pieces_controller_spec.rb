@@ -1,16 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe PiecesController, type: :controller do
-  describe 'GET pieces#show' do
-    before do
-      @black_player = create(:user)
-      @game = create(:game, black_player: @black_player)
-    end
+  let(:white_player) { create(:user) }
+  let(:black_player) { create(:user) }
+  let(:game) { create(:game, white_player: white_player, black_player: black_player) }
 
+  describe 'GET pieces#show' do
     it 'responds successfully with an HTTP 200 status code' do
-      sign_in @black_player
-      @game.update_current_player!('white')
-      piece_id = @game.chess_pieces.find_by(position_x: 1, position_y: 7)
+      sign_in black_player
+      game.update_current_player!('white')
+      piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 7)
       get :show, id: piece_id
 
       expect(response).to be_success
@@ -18,7 +17,7 @@ RSpec.describe PiecesController, type: :controller do
     end
 
     it 'redirects to login if not signed in' do
-      piece_id = @game.chess_pieces.first.id
+      piece_id = game.chess_pieces.first.id
       get :show, id: piece_id
 
       expect(response).to redirect_to new_user_session_path
@@ -26,9 +25,6 @@ RSpec.describe PiecesController, type: :controller do
   end
 
   describe 'PUT pieces#update' do
-    let(:white_player) { create(:user) }
-    let(:game) { create(:game, white_player: white_player) }
-
     it 'responds successfully with an HTTP 302 status code' do
       sign_in white_player
       piece_id = game.chess_pieces.find_by(position_x: 1, position_y: 2).id
@@ -65,8 +61,6 @@ RSpec.describe PiecesController, type: :controller do
   end
 
   describe 'GET pieces#valid_moves' do
-    let(:game) { create(:game) }
-
     it 'returns valid moves for the piece' do
       pawn = create(:game).chess_pieces.find_by(position_x: 1, position_y: 2)
       sign_in pawn.game.white_player
@@ -84,6 +78,19 @@ RSpec.describe PiecesController, type: :controller do
       put(:update, id: piece_id, piece: { position_x: 1, position_y: 6 })
 
       expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  describe 'PUT pieces#promote' do
+    it 'promotes the pawn to the specified piece' do
+      sign_in white_player
+      pawn = create(:pawn, position_x: 1, position_y: 8, color: :white, game: game)
+      game.current_player_is_white_player!
+
+      put :promote, id: pawn, type: 'Queen'
+
+      expect(Queen.find(pawn.id)).to be_a Queen
+      expect(game.reload.current_player_is_black_player?).to eq true
     end
   end
 end

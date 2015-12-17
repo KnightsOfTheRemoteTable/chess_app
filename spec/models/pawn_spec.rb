@@ -112,4 +112,14 @@ RSpec.describe Pawn do
       expect(pawn.promotable?).to eq true
     end
   end
+
+  describe '#promote_to!' do
+    it 'promotes the pawn to the specified type' do
+      pawn = build(:pawn, position_x: 1, position_y: 8)
+
+      pawn.promote_to!('Queen')
+
+      expect(pawn.type).to eq 'Queen'
+    end
+  end
 end

@@ -16,15 +16,24 @@ class Pawn < ChessPiece
     two_step_move = diff_in_y(coordinates.y) == FIRST_MOVE_FACTOR
     capture_en_passant(coordinates) if game.can_en_passant?(coordinates)
     super
-    game.update(en_passant_position: "#{coordinates.x},#{backward_one(coordinates.y)}") if two_step_move
-    game.update_current_player!(opposite_color)
+    update_en_passant(coordinates) if two_step_move
+    game.update_current_player!(opposite_color) if promotable?
   end
 
   def promotable?
     position_y == 8 || position_y == 1
   end
 
+  def promote_to!(type)
+    update(type: type)
+    game.update_current_player!(color)
+  end
+
   private
+
+  def update_en_passant(coordinates)
+    game.update(en_passant_position: "#{coordinates.x},#{backward_one(coordinates.y)}")
+  end
 
   def capture_en_passant(coordinates)
     game.chess_pieces.find_by(
