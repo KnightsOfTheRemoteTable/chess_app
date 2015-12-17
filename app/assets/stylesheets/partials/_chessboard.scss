@@ -42,6 +42,9 @@ $chessboard-border: #8A6B3D;
   }
 
   a {
+    position: relative;
+    left: 0;
+    top: 0;
     width: 100%;
   }
 }

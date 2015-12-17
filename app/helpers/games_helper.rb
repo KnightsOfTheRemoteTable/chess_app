@@ -13,7 +13,7 @@ module GamesHelper
     return unless current_piece
 
     link_to image_tag("#{current_piece.color.downcase}_#{current_piece.type.downcase}.png"),
-            piece_path(current_piece)
+            piece_path(current_piece), data: { id: current_piece.id }
   end
 
   def current_user_can_forfeit?(game)

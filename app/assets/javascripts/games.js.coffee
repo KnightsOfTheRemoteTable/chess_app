@@ -1,12 +1,16 @@
-
 $ ->
   gameId = $('.chessboard').data('channelid')
 
   if (gameId != undefined)
     pusher = new Pusher '9d04d520abd8261569ea', { encrypted: true }
     channel = pusher.subscribe gameId
-    channel.bind 'refresh_event', (data)->
-      location.reload()
+    channel.bind 'move', (data)->
+      piece = $("[data-id=#{data.piece_id}]")
+
+      if piece.css('top') == '0px' && piece.css('left') == '0px'
+        animateMove(piece, data.destination)
+      else
+        movePieceElement(piece, data.destination)
 
   $('#myModal').on 'show.bs.modal', (e)->
     $('.modal-body').html('<h4>Loading...</h4>')
@@ -43,8 +47,16 @@ $ ->
         piece:
           position_x: $target.data('x'),
           position_y: $target.data('y')
-      success: ->
-        piece.css(top: 0, left: 0)
-        $target.empty().append(piece.detach())
       error: (response)->
         ui.draggable.animate(top: 0, left: 0)
+
+movePieceElement = (piece, destination)->
+  piece.css(top: 0, left: 0)
+  destinationSquare = $("[data-x=#{destination.x}][data-y=#{destination.y}]")
+  destinationSquare.empty().append(piece.detach())
+
+animateMove = (piece, destination)->
+  topOffset = (destination.y - piece.parent().data('y')) * 72
+  leftOffset = (destination.x - piece.parent().data('x')) * 72
+  piece.animate top: topOffset, left: leftOffset, ->
+    movePieceElement(piece, destination)

@@ -57,7 +57,19 @@ class PiecesController < ApplicationController
     return unless moving_validly?
     selected_piece.move_to!(destination_coordinates)
     check_game_over
-    Pusher.trigger("channel-#{current_game.id}", 'refresh_event', message: '') unless Rails.env.test?
+    push_move unless Rails.env.test?
+  end
+
+  def push_move
+    Pusher.trigger(
+      "channel-#{current_game.id}",
+      'move',
+      piece_id: selected_piece.id,
+      destination: {
+        x: destination_coordinates.x,
+        y: destination_coordinates.y
+      }
+    )
   end
 
   def check_game_over
