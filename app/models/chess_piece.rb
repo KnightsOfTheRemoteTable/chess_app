@@ -77,6 +77,10 @@ class ChessPiece < ActiveRecord::Base
     potential_moves
   end
 
+  def promotable?
+    false
+  end
+
   private
 
   def move_for(coordinates)

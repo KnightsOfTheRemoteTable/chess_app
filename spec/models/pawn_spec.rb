@@ -98,4 +98,28 @@ RSpec.describe Pawn do
       expect(Pawn.find_by(id: pawn.id)).to be_nil
     end
   end
+
+  describe '#promotable?' do
+    it 'is false when not in rank 1 or 8' do
+      pawn = build(:pawn, position_x: 1, position_y: 4)
+
+      expect(pawn.promotable?).to eq false
+    end
+
+    it 'is true when promotion is available' do
+      pawn = build(:pawn, position_x: 1, position_y: 8)
+
+      expect(pawn.promotable?).to eq true
+    end
+  end
+
+  describe '#promote_to!' do
+    it 'promotes the pawn to the specified type' do
+      pawn = build(:pawn, position_x: 1, position_y: 8)
+
+      pawn.promote_to!('Queen')
+
+      expect(pawn.type).to eq 'Queen'
+    end
+  end
 end

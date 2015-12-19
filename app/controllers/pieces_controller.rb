@@ -23,6 +23,12 @@ class PiecesController < ApplicationController
     render json: selected_piece.valid_moves
   end
 
+  def promote
+    render(text: 'Piece is not promotable', status: :forbidden) && return unless selected_piece.promotable?
+    selected_piece.promote_to!(params[:type])
+    redirect_to current_game
+  end
+
   private
 
   def authorize_player

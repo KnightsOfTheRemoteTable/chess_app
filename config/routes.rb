@@ -2,7 +2,10 @@ ChessApp::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   root 'static_pages#index'
   resources :pieces, only: [:show, :update] do
-    get 'valid_moves', on: :member
+    member do
+      get 'valid_moves'
+      put 'promote'
+    end
   end
   resources :users, only: [:show, :update] do
     get '/username', to: 'users#username'
