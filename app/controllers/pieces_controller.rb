@@ -57,7 +57,7 @@ class PiecesController < ApplicationController
     return unless moving_validly?
     selected_piece.move_to!(destination_coordinates)
     check_game_over
-    push_move unless Rails.env.test?
+    push_move && push_status unless Rails.env.test?
   end
 
   def push_move
@@ -69,6 +69,16 @@ class PiecesController < ApplicationController
         x: destination_coordinates.x,
         y: destination_coordinates.y
       }
+    )
+  end
+
+  def push_status
+    color = selected_piece.opposite_color
+    Pusher.trigger(
+      "channel-#{current_game.id}",
+      'status',
+      message: "It is #{color}'s turn."\
+        "#{color.capitalize} is being played by #{current_game.send("#{color}_player").username}"
     )
   end
 
